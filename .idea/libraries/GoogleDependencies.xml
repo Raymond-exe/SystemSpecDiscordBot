@@ -1,0 +1,78 @@
+<component name="libraryTable">
+  <library name="GoogleDependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/animal-sniffer-annotations-1.18.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/annotations-4.1.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/api-common-1.9.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/auto-value-annotations-1.7.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/checker-compat-qual-2.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/commons-codec-1.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/commons-lang3-3.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/conscrypt-openjdk-uber-2.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/error_prone_annotations-2.3.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/failureaccess-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/firebase-admin-6.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/gax-1.56.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/gax-grpc-1.56.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/gax-httpjson-0.73.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-api-client-1.30.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-api-client-gson-1.30.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-api-services-storage-v1-rev20200326-1.30.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-auth-library-credentials-0.20.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-auth-library-oauth2-http-0.20.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-cloud-core-1.93.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-cloud-core-grpc-1.93.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-cloud-core-http-1.93.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-cloud-firestore-1.34.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-cloud-storage-1.108.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-http-client-1.35.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-http-client-appengine-1.34.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-http-client-gson-1.34.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-http-client-jackson2-1.34.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/google-oauth-client-1.30.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-alts-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-api-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-auth-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-context-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-core-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-grpclb-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-netty-shaded-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-protobuf-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-protobuf-lite-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/grpc-stub-1.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/gson-2.8.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/guava-26.0-android.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/httpclient-4.5.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/httpcore-4.4.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/j2objc-annotations-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/jackson-core-2.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/javax.annotation-api-1.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/jsr305-3.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/netty-buffer-4.1.50.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/netty-codec-4.1.50.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/netty-codec-http-4.1.50.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/netty-common-4.1.50.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/netty-handler-4.1.50.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/netty-resolver-4.1.50.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/netty-transport-4.1.50.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/opencensus-api-0.24.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/opencensus-contrib-grpc-util-0.24.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/opencensus-contrib-http-util-0.24.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/perfmark-api-0.19.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/proto-google-cloud-firestore-admin-v1-1.34.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/proto-google-cloud-firestore-v1-1.34.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/proto-google-cloud-firestore-v1beta1-0.87.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/proto-google-common-protos-1.18.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/proto-google-iam-v1-0.13.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/protobuf-java-3.11.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/protobuf-java-util-3.11.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/threetenbp-1.4.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../GoogleDependencies/api-common-1.9.2.jar!/" />
+    </SOURCES>
+  </library>
+</component>
