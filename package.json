@@ -1,23 +1,24 @@
 {
-	"name": "SystemSpecDiscordBot",
-	"version": "1.0.0",
-	"description": "",
-	"main": "DiscordBot.java",
-	"scripts": {
-		"start": "./src/discordBot/DiscordBot.java"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Raymond-exe/SystemSpecDiscordBot.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/Raymond-exe/SystemSpecDiscordBot/issues"
-	},
-	"homepage": "https://github.com/Raymond-exe/SystemSpecDiscordBot#readme",
-	"dependencies": {
-		
-	}
+  "name": "SystemSpecDiscordBot",
+  "version": "1.0.0",
+  "description": "A bot designed to determine whether or not users can play any game, given their PC specs.",
+  "main": "DiscordBot.java",
+  "scripts": {
+    "start": "./src/discordBot/DiscordBot.java"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raymond-exe/SystemSpecDiscordBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raymond-exe/SystemSpecDiscordBot/issues"
+  },
+  "homepage": "https://github.com/Raymond-exe/SystemSpecDiscordBot#readme",
+  "dependencies": {},
+  "directories": {
+    "lib": "lib"
+  }
 }
