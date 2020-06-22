@@ -19,5 +19,5 @@ All commands are assuming the server is using the default prefix `~`
 |~compare | [@user]   |Compares this user's PC specs to the given user's PC specs. If the given user's privacy setting is private, PC scores will be compared.|
 |~gameinfo| [game]    |Returns any publisher/development information relating to the given game.|
 |~gamespecs|[game]    |Returns the minimum specifications to play the given game.|
-|~feedback|           |Sends feedback to a private channel on the bot's development server.|
+|~feedback| [text]    |Sends feedback to a private channel on the bot's development server.|
 |~ping|               |Tests the bot's connection.|
