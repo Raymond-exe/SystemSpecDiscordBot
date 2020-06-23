@@ -1,18 +1,19 @@
-package records;
-
-import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Map;
+package raymond.systemspecbot.records;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
-import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
+import raymond.systemspecbot.discordbot.DiscordBot;
+import raymond.systemspecbot.pcparts.Cpu;
+import raymond.systemspecbot.pcparts.Gpu;
+import raymond.systemspecbot.pcparts.UserSpecs;
 
-import discordBot.DiscordBot;
-import pcParts.*;
+import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseController {
 
@@ -57,10 +58,10 @@ public class FirebaseController {
         if (debugPrintouts)
             System.out.println("[DEBUG] READ: A request for the guild prefix for " + guildId + " went out!");
 
-        try{
+        try {
             //If the requested guildId exists, return the prefix
             if (docRef.get().get().exists()) {
-                return (String)docRef.get().get().get("prefix");
+                return (String) docRef.get().get().get("prefix");
             }
             //if it doesn't exist, create a new guildPrefix entry and assign it the default prefix (~)
             else {
@@ -92,7 +93,8 @@ public class FirebaseController {
             if (docRef.get().get().exists()) {
                 docRef.set(newPrefix);
             }
-        } catch (Exception e) {}
+        } catch (Exception ignored) {
+        }
     }
 
     public static UserSpecs getUserSpecs(String userId) {
@@ -136,7 +138,7 @@ public class FirebaseController {
                 return getUserSpecs(userId); //TODO Fix! Bad Code >:(
             }
         } catch (Exception e) {
-            if(debugPrintouts) {
+            if (debugPrintouts) {
                 System.out.println("[DEBUG] An error has occured!");
                 e.printStackTrace();
             }

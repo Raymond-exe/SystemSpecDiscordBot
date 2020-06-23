@@ -1,15 +1,18 @@
-package discordBot;
+package raymond.systemspecbot.discordbot;
 
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import pcParts.*;
-import webAccess.*;
-import records.*;
-
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.User;
+import raymond.systemspecbot.pcparts.Cpu;
+import raymond.systemspecbot.pcparts.Gpu;
+import raymond.systemspecbot.pcparts.UserSpecs;
+import raymond.systemspecbot.records.Recordkeeper;
+import raymond.systemspecbot.webaccess.GameInfo;
+import raymond.systemspecbot.webaccess.Searcher;
+import raymond.systemspecbot.webaccess.StringTools;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -20,15 +23,13 @@ import java.util.Date;
 
 public class Commands extends ListenerAdapter {
 
+    private static final int CPU_INDEX = 0;
+    private static final int GPU_INDEX = 1;
+    private static final int RAM_INDEX = 2;
     private static String betaServers = "709528247230267473, 511968553021472781";
     private static String errorLogChannelId = "639894236183003157";
     private static String feedbackChannelId = "638183306642456577";
     private static String consoleChannelId = "711280957142990958";
-
-    private static final int CPU_INDEX = 0;
-    private static final int GPU_INDEX = 1;
-    private static final int RAM_INDEX = 2;
-
 
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot())
@@ -41,11 +42,11 @@ public class Commands extends ListenerAdapter {
             int endOfFirstArg = (message.contains(" ") ? message.indexOf(" ") : message.length());
 
 
-            if(message.length() < prefix.length() + 2)
+            if (message.length() < prefix.length() + 2)
                 return;
 
             //Checks if message starts with a mention to the bot
-            if(message.startsWith("<@!" + DiscordBot.getJda().getSelfUser().getId() + ">")) {
+            if (message.startsWith("<@!" + DiscordBot.getJda().getSelfUser().getId() + ">")) {
                 message = message.substring(message.indexOf(">") + 1).trim();
 
 
@@ -70,8 +71,7 @@ public class Commands extends ListenerAdapter {
                     event.getChannel().sendMessage("Sorry! " + DiscordBot.getJda().getSelfUser().getAsMention() + " is currently in beta and *not available in public servers*. Please message **@Ramen.exe#8147** to add your server to the beta testing list, thank you!").queue();
                     return;
                 }
-            }
-            else return;
+            } else return;
 
             switch (message) {
                 case "ping":
@@ -151,7 +151,6 @@ public class Commands extends ListenerAdapter {
     }
 
 
-
     /***** COMMAND METHODS *****/
 
     private void ping(GuildMessageReceivedEvent event) {
@@ -172,7 +171,7 @@ public class Commands extends ListenerAdapter {
         String link = "https://benchmarks.ul.com/compare/best-cpus?search=" + StringTools.cleanString(query.trim()).toLowerCase();
         for (int i = 0; i < link.length(); i++) {
             if (link.charAt(i) == ' ') {
-                link = link.substring(0, i) + "%20" + link.substring(i+1);
+                link = link.substring(0, i) + "%20" + link.substring(i + 1);
             }
         }
 
@@ -187,8 +186,8 @@ public class Commands extends ListenerAdapter {
             embed.setDescription("Maybe try another search term?");
             embed.setColor(Color.ORANGE);
         } else {
-            for (int i = 0; i < results.size(); i++) {
-                embed.addField(results.get(i).getName(), "Ranking: " + results.get(i).getRank(), false);
+            for (Cpu result : results) {
+                embed.addField(result.getName(), "Ranking: " + result.getRank(), false);
             }
         }
 
@@ -205,7 +204,7 @@ public class Commands extends ListenerAdapter {
         String link = "https://benchmarks.ul.com/compare/best-gpus?search=" + StringTools.cleanString(query.trim()).toLowerCase();
         for (int i = 0; i < link.length(); i++) {
             if (link.charAt(i) == ' ') {
-                link = link.substring(0, i) + "%20" + link.substring(i+1);
+                link = link.substring(0, i) + "%20" + link.substring(i + 1);
             }
         }
 
@@ -268,8 +267,8 @@ public class Commands extends ListenerAdapter {
             } //*/
 
             embed.setTitle("System requirement search results for " + query, Searcher.getGameSiteLink(query));
-            embed.setDescription(":stopwatch: **" + (tempArray.size() == 25 ? "25+" : tempArray.size()) + " search result" + (tempArray.size() == 1 ? "" : "s") + "** in " + (float)(System.currentTimeMillis() - deltaTime)/1000 + " seconds." + (tempArray.size() > searchResultLimit ? "\nHere are the top " + searchResultLimit + " results:": ""));
-            embed.setFooter("Type `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "gamespecs [GAME]` to see system requirements for the given game.");
+            embed.setDescription(":stopwatch: **" + (tempArray.size() == 25 ? "25+" : tempArray.size()) + " search result" + (tempArray.size() == 1 ? "" : "s") + "** in " + (float) (System.currentTimeMillis() - deltaTime) / 1000 + " seconds." + (tempArray.size() > searchResultLimit ? "\nHere are the top " + searchResultLimit + " results:" : ""));
+            embed.setFooter("Type `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "gamespecs [GAME]` to see system requirements for the given game.", null);
 
             for (int i = 0; i < tempArray.size() && i < searchResultLimit; i++) {
                 embed.addField((tempArray.get(i).substring(0, tempArray.get(i).lastIndexOf("("))), tempArray.get(i).substring(tempArray.get(i).lastIndexOf("(") + 1, tempArray.get(i).lastIndexOf(")")), false);
@@ -294,11 +293,11 @@ public class Commands extends ListenerAdapter {
                     .setImage(gameInfo.getImageUrl())
                     .setThumbnail(DiscordBot.getJda().getSelfUser().getAvatarUrl())
                     .setTitle("System Requirements for " + gameInfo.getTitle(), gameInfo.getWebsite())
-                    .setFooter("Type \"" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "gameinfo\" to see information on this title.")
+                    .setFooter("Type \"" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "gameinfo\" to see information on this title.", null)
                     .setColor(Color.WHITE);
 
             String temp;
-            String[] titles = new String[] {"CPU - Central Processing Unit", "RAM - Random Access Memory", "GPU - Graphics Processing Unit", "OS - Operating System", "Storage space needed"};
+            String[] titles = new String[]{"CPU - Central Processing Unit", "RAM - Random Access Memory", "GPU - Graphics Processing Unit", "OS - Operating System", "Storage space needed"};
             for (int i = 0; i < minSpecs.size(); i++) {
                 temp = StringTools.removeHtmlTags(minSpecs.get(i));
 
@@ -344,7 +343,7 @@ public class Commands extends ListenerAdapter {
                     .setImage(gameInfo.getImageUrl())
                     .setThumbnail(DiscordBot.getJda().getSelfUser().getAvatarUrl())
                     .setTitle(gameInfo.getTitle(), gameInfo.getWebsite())
-                    .setFooter("Type \"" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "gamespecs\" to see system requirements for this game.")
+                    .setFooter("Type \"" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "gamespecs\" to see system requirements for this game.", null)
                     .setColor(Color.WHITE);
 
             String temp;
@@ -411,7 +410,7 @@ public class Commands extends ListenerAdapter {
                 .addField("GPU - Graphics Processing Unit", "**" + userSpecs.getUserGpu().getName() + "** Rank: " + userSpecs.getUserGpu().getRank(), false)
                 .addField("RAM - Random Access Memory", "**" + userSpecs.getUserRam() + "** GB", false)
                 .addField("Overall PC Score", "**" + userSpecs.getPcScore() + "** (" + getPcRank(userSpecs.getPcScore()) + ")", false)
-                .setFooter("Privacy setting: " + (userSpecs.getPrivacy() ? "Private" : "Public"));
+                .setFooter("Privacy setting: " + (userSpecs.getPrivacy() ? "Private" : "Public"), null);
 
         if (!userSpecs.getPcDescription().equals("null")) {
             embed.setDescription(userSpecs.getPcDescription());
@@ -432,7 +431,7 @@ public class Commands extends ListenerAdapter {
 
 
         //declare the targetUser
-        if(messageArgs[1].startsWith("<@!") && messageArgs[1].endsWith(">")) {
+        if (messageArgs[1].startsWith("<@!") && messageArgs[1].endsWith(">")) {
             targetUser = DiscordBot.getJda().getUserById(messageArgs[1].substring(3, messageArgs[1].indexOf(">")));
         } else {
             ArrayList<User> userList = new ArrayList<>(DiscordBot.getJda().getUsersByName(messageArgs[1], true));
@@ -452,7 +451,7 @@ public class Commands extends ListenerAdapter {
         String message;
         UserSpecs user = Recordkeeper.getSpecsByUserId(event.getAuthor().getId());
 
-        if(messageArgs.length < 3) {
+        if (messageArgs.length < 3) {
             event.getChannel().sendMessage("Usage: `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "setspecs [CPU/GPU/RAM] [VALUE]`").queue();
             return;
         }
@@ -461,7 +460,7 @@ public class Commands extends ListenerAdapter {
             case "cpu":
                 ArrayList<Cpu> cpuResults = Searcher.searchCpu(getArgsAfter(1, messageArgs, false), 25);
 
-                if(cpuResults.isEmpty()) {
+                if (cpuResults.isEmpty()) {
                     message = "Sorry, there were no CPU search results for " + getArgsAfter(1, messageArgs, false);
                 } else {
                     user.setUserCpu(cpuResults.get(0));
@@ -473,7 +472,7 @@ public class Commands extends ListenerAdapter {
             case "gpu":
                 ArrayList<Gpu> gpuResults = Searcher.searchGpu(getArgsAfter(1, messageArgs, false), 25);
 
-                if(gpuResults.isEmpty()) {
+                if (gpuResults.isEmpty()) {
                     message = "Sorry, there were no GPU search results for " + getArgsAfter(1, messageArgs, false);
                 } else {
                     user.setUserGpu(gpuResults.get(0));
@@ -487,7 +486,9 @@ public class Commands extends ListenerAdapter {
 
                 try {
                     ram = Integer.parseInt(messageArgs[2].trim());
-                    if (ram < 2) { ram = 2; }
+                    if (ram < 2) {
+                        ram = 2;
+                    }
 
                     user.setUserRam(ram);
                     Recordkeeper.addUserSpecs(user);
@@ -532,7 +533,7 @@ public class Commands extends ListenerAdapter {
 
 
         //declare the targetUser
-        if(messageArgs[1].startsWith("<@!") && messageArgs[1].endsWith(">")) {
+        if (messageArgs[1].startsWith("<@!") && messageArgs[1].endsWith(">")) {
             targetUser = DiscordBot.getJda().getUserById(messageArgs[1].substring(3, messageArgs[1].indexOf(">")));
         } else {
             ArrayList<User> userList = new ArrayList<>(DiscordBot.getJda().getUsersByName(messageArgs[1], true));
@@ -545,13 +546,13 @@ public class Commands extends ListenerAdapter {
         }
 
         UserSpecs targetSpecs = Recordkeeper.getSpecsByUserId(targetUser.getId());
-        if(targetSpecs.getPrivacy()) {
+        if (targetSpecs.getPrivacy()) {
             EmbedBuilder embed = new EmbedBuilder()
                     .setTitle((targetUser.getId().equals("168376512272269313") ? "Kabrir" : targetUser.getName()) + "'s PC specs")
                     .setDescription((targetUser.getId().equals("168376512272269313") ? "Kabrir" : targetUser.getName()) + " has set their privacy settings to private.\nYou can only view their PC score.")
                     .setThumbnail(targetUser.getAvatarUrl())
                     .addField("Overall PC Score", "**" + targetSpecs.getPcScore() + "** (" + getPcRank(targetSpecs.getPcScore()) + ")", false)
-                    .setFooter("Privacy setting: " + (targetSpecs.getPrivacy() ? "Private" : "Public"));
+                    .setFooter("Privacy setting: " + (targetSpecs.getPrivacy() ? "Private" : "Public"), null);
 
             if (!targetSpecs.getPcDescription().equals("null")) {
                 embed.setDescription(targetSpecs.getPcDescription());
@@ -570,7 +571,7 @@ public class Commands extends ListenerAdapter {
         String prefix = Recordkeeper.getGuildPrefix(event.getGuild().getId());
         String affirm = "on|true|private", deny = "off|false|public";
 
-        if(affirm.contains(messageArgs[1].toLowerCase().trim())) {
+        if (affirm.contains(messageArgs[1].toLowerCase().trim())) {
             //if the argument is found in the string "affirm", the argument is affirmative
             user.setPrivacy(true);
             System.out.println("true!");
@@ -592,7 +593,7 @@ public class Commands extends ListenerAdapter {
         //event.getChannel().sendMessage("`~setprefix` is not supported while the bot is in beta. Thank you!").queue();
 
         //TODO find a way to specify ADMINS ONLY
-        if(!authorHasAdminPrivileges(event)) {
+        if (!authorHasAdminPrivileges(event)) {
             event.getChannel().sendMessage("Sorry, you must have server management permissions to change the prefix!").queue();
             return;
         }
@@ -600,7 +601,7 @@ public class Commands extends ListenerAdapter {
         String prefix = event.getMessage().getContentRaw();
         prefix = prefix.substring(prefix.indexOf("setprefix") + 9).trim();
 
-        if(prefix.contains("@")) {
+        if (prefix.contains("@")) {
             event.getChannel().sendMessage("Sorry, prefixes can't include mentions!").queue();
             return;
         }
@@ -609,7 +610,7 @@ public class Commands extends ListenerAdapter {
 
         boolean success = Recordkeeper.getGuildPrefix(event.getGuild().getId()).equals(prefix);
 
-        event.getChannel().sendMessage(success ? "Successfully set " + event.getGuild().getName() + "'s prefix to " + prefix: "An error occured, use `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "feedback` to tell us what happened.").queue(); //*/
+        event.getChannel().sendMessage(success ? "Successfully set " + event.getGuild().getName() + "'s prefix to " + prefix : "An error occured, use `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "feedback` to tell us what happened.").queue(); //*/
     }
 
     private void feedback(GuildMessageReceivedEvent event) {
@@ -623,17 +624,16 @@ public class Commands extends ListenerAdapter {
     }
 
 
-
     /*****OTHER METHODS *****/
 
     private String getArgsAfter(int n, String[] array, boolean commas) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
 
         for (int i = n + 1; i < array.length; i++) {
-            output += array[i] + (commas? ", " : " ");
+            output.append(array[i]).append(commas ? ", " : " ");
         }
 
-        return output;
+        return output.toString();
     }
 
     public void sendToConsole(String message) {
@@ -654,11 +654,11 @@ public class Commands extends ListenerAdapter {
 
         if (num < 2500) {
             pcRank = "POOR";
-        } else if (num >= 2500 && num < 5000) {
+        } else if (num < 5000) {
             pcRank = "OKAY";
-        } else if (num >= 5000 && num < 10000) {
+        } else if (num < 10000) {
             pcRank = "GOOD";
-        } else if (num >= 10000 && num < 15000) {
+        } else if (num < 15000) {
             pcRank = "SOLID";
         } else if (num > 15000) {
             pcRank = "*OVERKILL*";
@@ -690,7 +690,12 @@ public class Commands extends ListenerAdapter {
             deltaTime = System.currentTimeMillis();
         }
         boolean temp = true;
-        for (boolean bool : specsMeetReqs) { if (!bool) { temp = false; } } //if all of specsMeetReqs = true, temp = true
+        for (boolean bool : specsMeetReqs) {
+            if (!bool) {
+                temp = false;
+                break;
+            }
+        } //if all of specsMeetReqs = true, temp = true
         if (debugPrintouts) {
             System.out.println("All specs true: " + temp + " " + (System.currentTimeMillis() - deltaTime));
             deltaTime = System.currentTimeMillis();
@@ -713,7 +718,7 @@ public class Commands extends ListenerAdapter {
 
     private boolean authorHasAdminPrivileges(GuildMessageReceivedEvent event) {
         //if the author is the guild owner, then he obviously has admin privilages
-        if(event.getGuild().getOwnerId().equals(event.getAuthor().getId()))
+        if (event.getGuild().getOwnerId().equals(event.getAuthor().getId()))
             return true;
 
         return event.getGuild().getMember(event.getAuthor()).hasPermission(Permission.MANAGE_SERVER);
