@@ -1,4 +1,4 @@
-package webAccess;
+package raymond.systemspecbot.webaccess;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -14,9 +14,9 @@ public class WebFetch {
     {
         if (debugPrintouts) { System.out.print("[DEBUG - WebFetch] Connection request sent to " + site + "..."); }
         String content = null;
-        URLConnection connection = null;
+        URLConnection connection;
         try {
-            connection =  new URL(site).openConnection();
+            connection = new URL(site).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());
             scanner.useDelimiter("\\Z");
             content = scanner.next();

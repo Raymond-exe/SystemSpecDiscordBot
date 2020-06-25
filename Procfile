@@ -1,1 +1,1 @@
-worker: node ./src/discordBot/DiscordBot.java
+worker: java -jar build/libs/SystemSpecDiscordBot-1.0-SNAPSHOT.jar

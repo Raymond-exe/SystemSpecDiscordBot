@@ -1,10 +1,10 @@
-package records;
-import discordBot.DiscordBot;
-import pcParts.*;
+package raymond.systemspecbot.records;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import raymond.systemspecbot.discordbot.DiscordBot;
+import raymond.systemspecbot.pcparts.UserSpecs;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.HashMap;
 
 
@@ -29,7 +29,7 @@ public class Recordkeeper {
 
     public static UserSpecs getSpecsByUserId(String userId) {
 
-        if(userSpecsMap.containsKey(userId)) {
+        if (userSpecsMap.containsKey(userId)) {
             return userSpecsMap.get(userId);
         } else {
             userSpecsMap.put(userId, FirebaseController.getUserSpecs(userId));
@@ -77,7 +77,7 @@ public class Recordkeeper {
             return "";
         }
 
-        if(guildPrefixes.containsKey(guildId)) {
+        if (guildPrefixes.containsKey(guildId)) {
             return guildPrefixes.get(guildId);
         } else {
             String prefix = FirebaseController.getGuildPrefix(guildId);
@@ -110,13 +110,13 @@ public class Recordkeeper {
     }
 
     public static String readFile(String filename) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
 
             String line = reader.readLine();
             while (line != null) {
-                output += line + "\n";
+                output.append(line).append("\n");
                 line = reader.readLine();
             }
 
@@ -124,7 +124,7 @@ public class Recordkeeper {
             System.out.println("Unable to find file \"" + filename + "\"");
         }
 
-        return output;
+        return output.toString();
     }
 
     /*

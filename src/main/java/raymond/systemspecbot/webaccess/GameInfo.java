@@ -1,17 +1,24 @@
-package webAccess;
+package raymond.systemspecbot.webaccess;
+
+import raymond.systemspecbot.pcparts.Cpu;
+import raymond.systemspecbot.pcparts.Gpu;
 
 import java.util.ArrayList;
-import pcParts.Gpu;
-import pcParts.Cpu;
 
 public class GameInfo {
 
     public static final int MIN_SYS_REQS = 0, REC_SYS_REQS = 1;
     private String website, html;
 
-    public GameInfo (String site) {
+    public GameInfo(String site) {
         website = site;
         html = WebFetch.fetch(site);
+    }
+
+    public static void main(String[] args) {
+        //System.out.println("Hello World!");
+        GameInfo demo = new GameInfo(Searcher.getSearchResult("Halo"));
+        //System.out.println(demo.getImageUrl());
     }
 
     public String getWebsite() {
@@ -29,7 +36,7 @@ public class GameInfo {
     }
 
     public ArrayList<String> getInfo() {
-        ArrayList<String> output = new ArrayList<String>();
+        ArrayList<String> output = new ArrayList<>();
         String htmlTemp = html.substring(html.indexOf(">", html.indexOf("game_head_title")) + 1, html.indexOf("</div></div></div>", html.indexOf("game_head_title")) + 6);
 
         output.add(htmlTemp.substring(0, htmlTemp.indexOf("</div>"))); //Adds the title of the game to output;
@@ -49,9 +56,11 @@ public class GameInfo {
         return output;
     }
 
+    //**********SPECS**********\\
+
     public ArrayList<String> getSpecs(int requirements) {
         String[] headers = {"CPU:", "RAM:", "GPU:", "OS:", "Store:"};
-        ArrayList<String> output = new ArrayList<String>();
+        ArrayList<String> output = new ArrayList<>();
         String tempInfo;
         int startIndex, endIndex, lastIndex = 0;
 
@@ -74,14 +83,12 @@ public class GameInfo {
         } else //returns recommended system requirements
             if (requirements == REC_SYS_REQS) {
 
-        } else {
-            return null;
-        } //*/
+            } else {
+                return null;
+            } //*/
 
         return output;
     }
-
-    //**********SPECS**********\\
 
     public int getRamInGb(int requirements) {
         String str = getSpecs(requirements).get(1).toLowerCase();
@@ -113,7 +120,6 @@ public class GameInfo {
     public int getRamInGb() {
         return getRamInGb(0);
     }
-
 
     public Gpu getGpu(int requirements) {
         String gpu = StringTools.cleanString(getSpecs(requirements).get(2).trim().toLowerCase());
@@ -165,20 +171,17 @@ public class GameInfo {
         return getGpu(0);
     }
 
-
     public Cpu getCpu(int requirements) {
         String str = getSpecs(requirements).get(0).trim().toLowerCase();
         String[] intelCpus = {"i9", "i7", "i5", "i3", "core 2", "pentium", "xeon"};
 
-        /*
-        for (int i = 0; i < intelCpus.length; i++) {
-            if (str.contains(intelCpus[i])) {
-                if (str.charAt(str.indexOf(intelCpus[i]) + intelCpus[i].length()) == '-')
-                    return Searcher.searchCpu(str.substring(str.indexOf(intelCpus[i]), str.indexOf(" ", str.indexOf(intelCpus[i]))), 1).get(0);
+        for (String cpus : intelCpus) {
+            if (str.contains(cpus)) {
+                if (str.charAt(str.indexOf(cpus) + cpus.length()) == '-')
+                    return Searcher.searchCpu(str.substring(str.indexOf(cpus), str.indexOf(" ", str.indexOf(cpus))), 1).get(0);
 
 
-
-                return Searcher.searchCpu(intelCpus[i], 1).get(0);
+                return Searcher.searchCpu(cpus, 1).get(0);
             }
         } //*/
 
@@ -192,11 +195,5 @@ public class GameInfo {
     public Cpu getCpu() {
         return getCpu(0);
     } //*/
-
-    public static void main(String[] args) {
-        //System.out.println("Hello World!");
-        GameInfo demo = new GameInfo(Searcher.getSearchResult("Halo"));
-        //System.out.println(demo.getImageUrl());
-    }
 
 }

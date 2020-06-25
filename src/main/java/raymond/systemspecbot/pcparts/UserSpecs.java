@@ -1,4 +1,4 @@
-package pcParts;
+package raymond.systemspecbot.pcparts;
 
 
 public class UserSpecs {
@@ -37,14 +37,14 @@ public class UserSpecs {
     public UserSpecs(String id, Object obj) {
         userId = id;
         if (obj instanceof Cpu) {
-            userCpu = (Cpu)obj;
+            userCpu = (Cpu) obj;
         } else if (obj instanceof Gpu) {
-            userGpu = (Gpu)obj;
+            userGpu = (Gpu) obj;
         } else if (obj instanceof Integer) {
-            userRam = (int)obj;
-            if (userRam < 2) { userRam = 2; }
-        } else {
-            return;
+            userRam = (int) obj;
+            if (userRam < 2) {
+                userRam = 2;
+            }
         }
     }
 
@@ -72,32 +72,27 @@ public class UserSpecs {
         }
     }
 
+    //"GETTER" METHODS
+    public String getUserId() {
+        return userId;
+    }
+
+    public Cpu getUserCpu() {
+        return userCpu;
+    }
 
     //"SETTER" METHODS
-    public void setUserCpu(Cpu c) { userCpu = c; }
-
-    public void setUserGpu(Gpu g) { userGpu = g; }
-
-    public void setUserRam(int ram) {
-        if (ram < 2)
-            ram = 2;
-        userRam = ram;
+    public void setUserCpu(Cpu c) {
+        userCpu = c;
     }
 
-    public void setPrivacy(boolean bool) {
-        System.out.println("Privacy updated to " + bool);
-        specsPrivacy = bool;
+    public Gpu getUserGpu() {
+        return userGpu;
     }
 
-    public void setPcDescription(String str) { pcDescription = str.trim(); }
-
-
-    //"GETTER" METHODS
-    public String getUserId() { return userId; }
-
-    public Cpu getUserCpu() { return userCpu; }
-
-    public Gpu getUserGpu() { return userGpu; }
+    public void setUserGpu(Gpu g) {
+        userGpu = g;
+    }
 
     public int getUserRam() {
         if (userRam < 2) {
@@ -106,15 +101,34 @@ public class UserSpecs {
         return userRam;
     }
 
-    public String getPcDescription() { return pcDescription; }
+    public void setUserRam(int ram) {
+        if (ram < 2)
+            ram = 2;
+        userRam = ram;
+    }
 
-    public boolean getPrivacy() { return specsPrivacy; }
+    public String getPcDescription() {
+        return pcDescription;
+    }
+
+    public void setPcDescription(String str) {
+        pcDescription = str.trim();
+    }
+
+    public boolean getPrivacy() {
+        return specsPrivacy;
+    }
+
+    public void setPrivacy(boolean bool) {
+        System.out.println("Privacy updated to " + bool);
+        specsPrivacy = bool;
+    }
 
     /*
     public int getPcScore() {
         int output = (getUserCpu().getRank() + getUserGpu().getRank()) / 2;
 
-        output += Math.log(getUserRam())/Math.log(2) * 1000;
+        output += Math.log(getUserRam()) / Math.log(2) * 1000;
 
         return output;
     } //*/
@@ -129,7 +143,7 @@ public class UserSpecs {
         output += "<cpu>" + getUserCpu() + "</cpu>"; //adds user's CPU to output
         output += "<gpu>" + getUserGpu() + "</gpu>"; //adds user's GPU to output
         output += "<ram>" + getUserRam() + "</ram>"; //adds user's RAM to output
-        output += "<privacy>" + ( getPrivacy() ? 1 : 0 ) + "</privacy>"; //defines whether or not these specs are private
+        output += "<privacy>" + (getPrivacy() ? 1 : 0) + "</privacy>"; //defines whether or not these specs are private
 
         output += "</specs>";
 

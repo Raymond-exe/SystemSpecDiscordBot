@@ -1,4 +1,4 @@
-package pcParts;
+package raymond.systemspecbot.pcparts;
 
 public class Gpu {
 
