@@ -3,37 +3,39 @@ package pcParts;
 public class SearchResult {
 
     private String name;
-    private int rank;
-    private double popularity;
+    private double[] value;
 
-    public SearchResult(String n, int r, double p) {
+    /*
+    public SearchResult(String n, double dOne, double dTwo, double dThree) {
         name = n;
-        rank = r;
-        popularity = p;
-    }
+
+        value = new double[3];
+        value[0] = dOne;
+        value[1] = dTwo;
+        value[2] = dThree;
+    } //*/
 
     //only accepts html from "<td>" to "</td>"
     public SearchResult(String html) {
-        //assigning name
-        html = html.substring(html.indexOf("href"));
-        name = html.substring((html.indexOf(">") + 1), html.indexOf("</a>"));
 
-        //assigning rank
-        html = html.substring(html.indexOf("bar-score"));
-        rank = Integer.parseInt(html.substring(html.indexOf(">") + 1, html.indexOf("<")).trim());
+        value = new double[3];
 
-        //*
-        //assigning popularity
-        html = html.substring(html.lastIndexOf("bar-score"));
-        popularity = Double.parseDouble(html.substring(html.indexOf(">") + 1, html.indexOf("<")));
-        //*/
+        if(html.contains("<h2>Clock Speeds</h2>")) {
+            html = html.substring(html.indexOf("<h2>Clock Speeds</h2>"), html.indexOf("</section>", html.indexOf("<h2>Clock Speeds</h2>")));
+            value[0] = Double.parseDouble(html.substring(html.indexOf("<dd>", html.indexOf("<dt>Base Clock</dt>") + 4), html.indexOf("MHz")).trim());
+            value[1] = Double.parseDouble(html.substring(html.indexOf("<dd>", html.indexOf("<dt>Boost Clock</dt>") + 4), html.indexOf("MHz")).trim());
+            value[2] = Double.parseDouble(html.substring(html.indexOf("<dd>", html.indexOf("<dt>Memory Clock</dt>") + 4), html.indexOf("MHz")).trim());
+        } else if (html.contains("<h1>Performance</h1>")) {
+            html = html.substring(html.indexOf("<h1>Performance</h1>"), html.indexOf("</section>", html.indexOf("<h1>Performance</h1>")));
+            value[0] = Double.parseDouble(html.substring(html.indexOf("<td>", html.indexOf("<th>Frequency:</th>")), html.indexOf("GHz", html.indexOf("<th>Frequency:</th>"))).trim());
+            value[0] = Double.parseDouble(html.substring(html.indexOf("<td>", html.indexOf("<th>Turbo Clock:</th>")), html.indexOf("GHz", html.indexOf("<th>Turbo Clock:</th>"))).trim());
+            value[0] = Double.parseDouble(html.substring(html.indexOf("<td>", html.indexOf("<th>Base Clock:</th>")), html.indexOf("MHz", html.indexOf("<th>Base Clock:</th>"))).trim());
+        }
     }
 
     public String getName() { return name; }
-    public int getRank() { return rank; }
-    public double getPopularity() { return popularity; }
 
-    public Cpu getCpu() { return new Cpu(name, rank); }
-    public Gpu getGpu() { return new Gpu(name, rank); }
+    public Cpu getCpu() { return new Cpu(name, value[0], value[1], value[2]); }
+    public Gpu getGpu() { return new Gpu(name, value[0], value[1], value[2]); }
 
 }

@@ -2,15 +2,14 @@ package webAccess;
 
 import pcParts.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Searcher {
 
     private static String gamesSearchURL = "https://gamesystemrequirements.com/"; //search?q=
-    private static String specSearchURL = "https://benchmarks.ul.com/";
-    private static String gpuSearch = "compare/best-gpus?search=";
-    private static String cpuSearch = "compare/best-cpus?search=";
+    private static String specSearchURL = "https://duckduckgo.com/";
+    private static String gpuSearch = "+site:techpowerup.com/gpu-specs/";
+    private static String cpuSearch = "+site:techpowerup.com/cpu-specs/";
 
     //Used for searching for both GPUs and CPUs
     private static ArrayList<SearchResult> searchSpecs(String spec, String query) {
@@ -26,18 +25,21 @@ public class Searcher {
 
         query = StringTools.cleanString(query.trim());
 
+        //replaces all spaces with "+"
         for (int i = 0; i < query.length(); i++) {
             if (query.charAt(i) == ' ')
-                query = query.substring(0, i) + "%20" + query.substring(i + 1);
+                query = query.substring(0, i) + "+" + query.substring(i + 1);
         }
 
-        html = WebFetch.fetch(specSearchURL + searchModifier + query);
-        html = html.substring(html.indexOf("<tbody>"));
+        html = WebFetch.fetch(specSearchURL + query + searchModifier);
 
-        while (html.contains("<tr>")) {
-            output.add(new SearchResult(html.substring(html.indexOf("<tr>"), html.indexOf("</tr>"))));
+        if (html.contains("It looks like there aren't any great matches for your search</div>"))
+            return new ArrayList<>();
 
-            html = html.substring(html.indexOf("</tr>") + 5);
+        while (html.contains("https://www.techpowerup.com/")) {
+            output.add(new SearchResult(html.substring(html.indexOf("https://www.techpowerup.com/"), html.indexOf("\"", html.indexOf("https://www.techpowerup.com/")))));
+
+            html = html.substring(html.indexOf("https://www.techpowerup.com/") + 28);
         }
 
 
@@ -48,18 +50,10 @@ public class Searcher {
     public static ArrayList<Gpu> searchGpu(String query, int size) {
         ArrayList<SearchResult> results = searchSpecs("GPU", query.toLowerCase());
         ArrayList<Gpu> output = new ArrayList<>();
-        int index = 0;
 
         for (int i = 0; i < results.size() && i < size; i++) {
             output.add((results.get(i).getGpu()));
-
-            if (output.get(i).getName().length() < results.get(index).getName().length()) {
-                index = i;
-            }
         }
-
-        if (!output.isEmpty())
-            output.add(0, output.remove(index));
 
         return output;
     }
@@ -68,18 +62,10 @@ public class Searcher {
     public static ArrayList<Cpu> searchCpu(String query, int size) {
         ArrayList<SearchResult> results = searchSpecs("CPU", query.toLowerCase());
         ArrayList<Cpu> output = new ArrayList<>();
-        int index = 0;
 
         for (int i = 0; i < results.size() && i < size; i++) {
-            output.add(results.get(i).getCpu());
-
-            if (output.get(i).getName().length() < results.get(index).getName().length()) {
-                index = i;
-            }
+            output.add((results.get(i).getCpu()));
         }
-
-        if (!output.isEmpty())
-            output.add(0, output.remove(index));
 
         return output;
     }
@@ -178,12 +164,6 @@ public class Searcher {
     public static void main(String[] args) {
 
         System.out.println(searchCpu("Intel Core i5", 10));
-
-        /*
-        ArrayList<String> array = searchFor("Sword");
-        System.out.println(array.toString());
-        System.out.println("Number of Results: " + array.size());
-        //*/
     }
 
 }

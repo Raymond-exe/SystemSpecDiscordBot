@@ -110,13 +110,14 @@ public class UserSpecs {
 
     public boolean getPrivacy() { return specsPrivacy; }
 
+    /*
     public int getPcScore() {
         int output = (getUserCpu().getRank() + getUserGpu().getRank()) / 2;
 
         output += Math.log(getUserRam())/Math.log(2) * 1000;
 
         return output;
-    }
+    } //*/
 
     //toString looks like this:
     // <specs><user>USERID</user><cpu>CPU</cpu><gpu>GPU</gpu><ram>RAM</ram></specs>

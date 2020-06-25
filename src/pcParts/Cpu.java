@@ -3,39 +3,54 @@ package pcParts;
 public class Cpu {
 
     private String name;
-    private int rank;
+    private double freqInGHz;  //GHz
+    private double turboClock; //GHz
+    private double baseClock;  //MHz
 
-    public Cpu(String n, int r) {
+    public Cpu(String n, double freq, double turbo, double base) {
         name = n;
-        rank = r;
+        freqInGHz = freq;
+        turboClock = turbo;
+        baseClock = base;
     }
 
     public Cpu(String rawText) {
 
-        if(rawText.contains("[") && rawText.contains("]")) {
-            name = rawText.substring(rawText.indexOf('[') + 1, rawText.indexOf(':')).trim();
-            rank = Integer.parseInt(rawText.substring(rawText.indexOf(':') + 1, rawText.indexOf(']')).trim());
-        } else if (rawText.contains("{") && rawText.contains("}")) {
-            name = rawText.substring(rawText.indexOf("{name=") + 6, rawText.indexOf(", rank=")).trim();
-            rank = Integer.parseInt(rawText.substring(rawText.indexOf(", rank=") + 7, rawText.indexOf('}')).trim());
+        if (rawText.contains("{") && rawText.contains("}")) {
+            name = rawText.substring(rawText.indexOf("{name=") + 6, rawText.indexOf(", freqInGHz=")).trim();
+            freqInGHz = Double.parseDouble(rawText.substring(rawText.indexOf("freqInGHz=") + 10, rawText.indexOf(", turboClock=")).trim());
+            turboClock = Double.parseDouble(rawText.substring(rawText.indexOf("turboClock=") + 11, rawText.indexOf(", baseClock=")).trim());
+            baseClock = Double.parseDouble(rawText.substring(rawText.indexOf("baseClock=") + 10, rawText.indexOf("}")).trim());
         } else {
-            name = rawText.substring(0, rawText.indexOf(":")).trim();
-            rank = Integer.parseInt(rawText.substring(rawText.indexOf(":") + 1).trim());
+            System.out.println("[DEBUG - Cpu] Unaccepted parameter: " + rawText);
         }
 
     }
 
     public String getName() { return name; }
-    public int getRank() { return rank; }
+    public double getFreqInGHz() { return freqInGHz; }
+    public double getTurboClock() { return turboClock; }
+    public double getBaseClock() { return baseClock; }
 
-    public boolean isBetterThan(Cpu other) { return (rank > other.getRank()); }
+    public boolean isBetterThan(Cpu other) {
+        int counter = 0;
 
-    public boolean isWorseThan(Cpu other) {
-        return !isBetterThan(other);
+        if (freqInGHz > other.getFreqInGHz())
+            counter++;
+        if (turboClock > other.getTurboClock())
+            counter++;
+        if(baseClock > other.getBaseClock())
+            counter++;
+
+        return counter >= 2;
     }
 
     public String toString() {
-        return "[" + name + ": " + rank + "] ";
+        return "{name=" + name
+                + ", freqInGHz=" + freqInGHz
+                + ", turboClock=" + turboClock
+                + ", baseClock=" + baseClock
+                + "}";
     }
 
 }
