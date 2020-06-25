@@ -1,192 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b69df-1fb5-444a-a316-cdfc3c0a637d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="f12b69df-1fb5-444a-a316-cdfc3c0a637d" name="Default Changelist" comment="Migrate to Gradle">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CanIPlayDiscordBot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CanIPlayDiscordBot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CanIPlayDiscordBot/records/GuildPrefixes.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/discordBot/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/discordBot/Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/discordBot/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/discordBot/DiscordBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/discordBot/PlaygroundTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/discordBot/PlaygroundTester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pcParts/Cpu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcParts/Cpu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pcParts/Gpu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcParts/Gpu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pcParts/HexConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pcParts/UserSpecs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcParts/UserSpecs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CanIPlayDiscordBot.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/discordBot/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/discordbot/Commands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/discordBot/DiscordBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/discordbot/DiscordBot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/discordBot/PlaygroundTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/discordbot/PlaygroundTester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcParts/Cpu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/pcparts/Cpu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcParts/Gpu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/pcparts/Gpu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcParts/HexConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/pcparts/HexConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcParts/SearchResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/pcparts/SearchResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcParts/UserSpecs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/pcparts/UserSpecs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/records/FirebaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/records/FirebaseController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/records/GuildPrefixes.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/records/Recordkeeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/records/Recordkeeper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webAccess/GameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webAccess/GameInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webAccess/Searcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/webAccess/Searcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/records/Recordkeeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/records/Recordkeeper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/records/UserSpecs.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webAccess/GameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/webaccess/GameInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webAccess/Searcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/webaccess/Searcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webAccess/StringTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/webaccess/StringTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webAccess/WebFetch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/raymond/systemspecbot/webaccess/WebFetch.java" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DefaultGradleProjectSettings">
-    <option name="isMigrated" value="true" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/discordBot/Commands.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="438" column="77" lean-forward="true" selection-start-line="438" selection-start-column="77" selection-end-line="438" selection-end-column="77" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1491#2125#1" />
-                <element signature="e#1606#2111#0" />
-                <element signature="e#4673#5589#0" />
-                <element signature="method#ping#0;class#Commands#0" />
-                <element signature="method#rules#0;class#Commands#0" />
-                <element signature="method#cpuSearch#0;class#Commands#0" />
-                <element signature="method#gpuSearch#0;class#Commands#0" />
-                <element signature="method#search#0;class#Commands#0" />
-                <element signature="method#gamespecs#0;class#Commands#0" />
-                <element signature="method#gameinfo#0;class#Commands#0" />
-                <element signature="method#info#0;class#Commands#0" />
-                <element signature="method#help#0;class#Commands#0" />
-                <element signature="method#resetspecs#0;class#Commands#0" />
-                <element signature="e#19053#19103#1" />
-                <element signature="e#19404#19405#0" expanded="true" />
-                <element signature="e#20941#21000#1" />
-                <element signature="method#setspecs#0;class#Commands#0" />
-                <element signature="method#setprivacy#0;class#Commands#0" />
-                <element signature="method#setprefix#0;class#Commands#0" />
-                <element signature="method#feedback#0;class#Commands#0" />
-                <element signature="method#getArgsAfter#0;class#Commands#0" />
-                <element signature="method#sendToConsole#0;class#Commands#0" />
-                <element signature="method#authorHasAdminPrivileges#0;class#Commands#0" />
-                <element signature="e#30741#31751#0" />
-                <element signature="method#compareSpecs#0;class#Commands#0" />
-                <element signature="method#splitMessage#0;class#Commands#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pcParts/UserSpecs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-517">
-              <caret line="34" column="10" lean-forward="true" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
-              <folding>
-                <element signature="method#getUserRam#0;class#UserSpecs#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/records/Recordkeeper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getSpecsByUserId#0;class#Recordkeeper#0" />
-                <element signature="method#addUserSpecs#0;class#Recordkeeper#0" />
-                <element signature="method#readFile#0;class#Recordkeeper#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pcParts/Gpu.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/webAccess/Searcher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="117" column="9" lean-forward="true" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#5916#5917#0" expanded="true" />
-                <element signature="e#5964#5965#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/webAccess/GameInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="145" column="40" selection-start-line="145" selection-start-column="40" selection-end-line="145" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getInfo#0;class#GameInfo#0" />
-                <element signature="method#getRamInGb#0;class#GameInfo#0" />
-                <element signature="method#getGpu#0;class#GameInfo#0" />
-                <element signature="method#getCpu#0;class#GameInfo#0" />
-                <element signature="e#5859#5860#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/webAccess/WebFetch.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="21" column="23" lean-forward="true" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/records/FirebaseController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="188" column="41" selection-start-line="188" selection-start-column="41" selection-end-line="188" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#connect#0;class#FirebaseController#0" />
-                <element signature="method#getGuildPrefix#0;class#FirebaseController#0" />
-                <element signature="method#getUserSpecs#0;class#FirebaseController#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/discordBot/PlaygroundTester.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/discordBot/DiscordBot.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="25" column="34" lean-forward="true" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SystemSpecDiscordBot" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SystemSpecDiscordBot" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SystemSpecDiscordBot" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SystemSpecDiscordBot" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -195,140 +102,28 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>System.</find>
-      <find>Syst</find>
-      <find>SYstem.out</find>
-      <find>System.out</find>
-      <find>638183306642456577</find>
-      <find>query</find>
-      <find>getGp</find>
-      <find>user</find>
-      <find>gameinfo</find>
-      <find>str</find>
-      <find>getPre</find>
-      <find>setpre</find>
-      <find>userSpecs</find>
-      <find>.txt</find>
-      <find>getAr</find>
-      <find>system.out</find>
-      <find>Sys</find>
-      <find>myspecs</find>
-      <find>getsp</find>
-      <find>color</find>
-      <find>setPriv</find>
-      <find>Main</find>
-      <find>guildPre</find>
-      <find>null</find>
-      <find>prefix</find>
-      <find>getAuthor</find>
-      <find>System</find>
-      <find>isEmp</find>
-      <find>messageAr</find>
-      <find>gta</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/src/testing/Database.kt" />
-        <option value="$PROJECT_DIR$/src/testing/WebFetch.java" />
-        <option value="$PROJECT_DIR$/src/webAccess/HexConverter.java" />
-        <option value="$PROJECT_DIR$/src/webAccess/WebFetch.java" />
-        <option value="$PROJECT_DIR$/src/pcParts/SearchResult.java" />
-        <option value="$PROJECT_DIR$/src/webAccess/BinaryTranslator.java" />
-        <option value="$PROJECT_DIR$/src/webAccess/StringTools.java" />
-        <option value="$PROJECT_DIR$/src/records/GuildPrefixes.txt" />
-        <option value="$PROJECT_DIR$/src/pcParts/HexConverter.java" />
-        <option value="$PROJECT_DIR$/src/records/UserSpecs.txt" />
-        <option value="$PROJECT_DIR$/.idea/libraries/JDA_4_0_0_54_withDependencies.xml" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/src/records/FirebaseConnector.java" />
-        <option value="$PROJECT_DIR$/src/discordBot/Main.java" />
-        <option value="$PROJECT_DIR$/src/pcParts/Cpu.java" />
-        <option value="$PROJECT_DIR$/src/pcParts/Gpu.java" />
-        <option value="$PROJECT_DIR$/src/webAccess/Searcher.java" />
-        <option value="$PROJECT_DIR$/src/records/Recordkeeper.java" />
-        <option value="$PROJECT_DIR$/src/records/FirebaseController.java" />
-        <option value="$PROJECT_DIR$/src/discordBot/PlaygroundTester.java" />
-        <option value="$PROJECT_DIR$/src/discordBot/DiscordBot.java" />
-        <option value="$PROJECT_DIR$/src/webAccess/GameInfo.java" />
-        <option value="$PROJECT_DIR$/src/pcParts/UserSpecs.java" />
-        <option value="$PROJECT_DIR$/src/discordBot/Commands.java" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="184" />
-    <option name="y" value="-12" />
-    <option name="width" value="1400" />
-    <option name="height" value="1000" />
-  </component>
+  <component name="ProjectId" id="1dhCJMsVQhNTN38yQDHWmYyfEPJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SystemSpecDiscordBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemSpecDiscordBot" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemSpecDiscordBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemSpecDiscordBot" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemSpecDiscordBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemSpecDiscordBot" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="discordBot" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemSpecDiscordBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemSpecDiscordBot" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pcParts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemSpecDiscordBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemSpecDiscordBot" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="records" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemSpecDiscordBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemSpecDiscordBot" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="webAccess" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../GoogleDependencies/threetenbp-1.4.4.jar!/" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.5689655" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.intentionPowerPack" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -336,25 +131,13 @@
       <command value="System.out.println('#');" />
     </option>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Application.DiscordBot">
+  <component name="RunManager" selected="Gradle.SystemSpecDiscordBot [build]">
     <configuration name="DiscordBot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="discordBot.DiscordBot" />
+      <option name="MAIN_CLASS_NAME" value="raymond.systemspecbot.discordBot.DiscordBot" />
       <module name="CanIPlayDiscordBot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="discordBot.*" />
+          <option name="PATTERN" value="raymond.systemspecbot.discordbot.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -363,24 +146,11 @@
       </method>
     </configuration>
     <configuration name="FirebaseController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="records.FirebaseController" />
+      <option name="MAIN_CLASS_NAME" value="raymond.systemspecbot.records.FirebaseController" />
       <module name="CanIPlayDiscordBot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="records.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="discordBot.Main" />
-      <module name="CanIPlayDiscordBot" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="discordBot.*" />
+          <option name="PATTERN" value="raymond.systemspecbot.records.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -389,11 +159,11 @@
       </method>
     </configuration>
     <configuration name="PlaygroundTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="discordBot.PlaygroundTester" />
+      <option name="MAIN_CLASS_NAME" value="raymond.systemspecbot.discordBot.PlaygroundTester" />
       <module name="CanIPlayDiscordBot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="discordBot.*" />
+          <option name="PATTERN" value="raymond.systemspecbot.discordbot.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -401,33 +171,105 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Recordkeeper" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="records.Recordkeeper" />
-      <module name="CanIPlayDiscordBot" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="records.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+    <configuration name="SystemSpecDiscordBot [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SystemSpecDiscordBot [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SystemSpecDiscordBot" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="SystemSpecDiscordBot" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.PlaygroundTester" />
-      <item itemvalue="Application.Recordkeeper" />
       <item itemvalue="Application.FirebaseController" />
       <item itemvalue="Application.DiscordBot" />
+      <item itemvalue="Gradle.SystemSpecDiscordBot [build]" />
+      <item itemvalue="Gradle.SystemSpecDiscordBot [jar]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.SystemSpecDiscordBot [jar]" />
+        <item itemvalue="Gradle.SystemSpecDiscordBot [build]" />
         <item itemvalue="Application.DiscordBot" />
         <item itemvalue="Application.PlaygroundTester" />
         <item itemvalue="Application.FirebaseController" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Recordkeeper" />
       </list>
     </recent_temporary>
   </component>
@@ -441,6 +283,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571960945398</updated>
+      <workItem from="1592867870023" duration="2424000" />
     </task>
     <servers />
   </component>
@@ -453,404 +296,61 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2196162" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.32917964" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5479744" weight="0.41225338" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.3997923" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4989339" weight="0.2751817" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49946696" weight="0.32917964" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.4520256" side_tool="true" visible="true" weight="0.41225338" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49946696" weight="0.32917964" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.48027718" weight="0.32917964" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32995737" />
-    </layout>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Migrate to Gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Migrate to Gradle" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="666" y="365" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1592869827216">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="666" y="365" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.30.1920.1050@0.30.1920.1050" timestamp="1592869827216" />
+    <state x="331" y="310" key="FileChooserDialogImpl" timestamp="1592869408230">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="331" y="310" key="FileChooserDialogImpl/0.30.1920.1050@0.30.1920.1050" timestamp="1592869408230" />
+    <state width="1026" height="48" key="GridCell.Tab.0.bottom" timestamp="1592870122061">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state width="1026" height="48" key="GridCell.Tab.0.bottom/0.30.1920.1050@0.30.1920.1050" timestamp="1592870122061" />
+    <state width="1026" height="48" key="GridCell.Tab.0.center" timestamp="1592870122061">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state width="1026" height="48" key="GridCell.Tab.0.center/0.30.1920.1050@0.30.1920.1050" timestamp="1592870122061" />
+    <state width="1026" height="48" key="GridCell.Tab.0.left" timestamp="1592870122061">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state width="1026" height="48" key="GridCell.Tab.0.left/0.30.1920.1050@0.30.1920.1050" timestamp="1592870122061" />
+    <state width="1026" height="48" key="GridCell.Tab.0.right" timestamp="1592870122061">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state width="1026" height="48" key="GridCell.Tab.0.right/0.30.1920.1050@0.30.1920.1050" timestamp="1592870122061" />
+    <state x="31" y="229" width="1610" height="851" key="SettingsEditor" timestamp="1592869848220">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="31" y="229" width="1610" height="851" key="SettingsEditor/0.30.1920.1050@0.30.1920.1050" timestamp="1592869848220" />
+    <state x="146" y="261" width="672" height="678" key="search.everywhere.popup" timestamp="1592870015645">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="146" y="261" width="672" height="678" key="search.everywhere.popup/0.30.1920.1050@0.30.1920.1050" timestamp="1592870015645" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SystemSpecDiscordBot$WebFetch.ic" NAME="WebFetch Coverage Results" MODIFIED="1575083121841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>testing.*</FILTER>
     </SUITE>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main.java" />
-    <entry file="file://$PROJECT_DIR$/src/testing/Database.kt" />
-    <entry file="file://$PROJECT_DIR$/src/testing/WebFetch.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-12.0.1/lib/src.zip!/java.base/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3689">
-          <caret line="242" column="18" selection-start-line="242" selection-start-column="18" selection-end-line="242" selection-end-column="18" />
-          <folding>
-            <element signature="e#10105#10106#0" expanded="true" />
-            <element signature="e#10188#10189#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webAccess/BinaryTranslator.java" />
-    <entry file="file://$USER_HOME$/Downloads/ascii_dungeon/Ascii-Dungeon/Scorekeeper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-12.0.1/lib/src.zip!/java.base/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="1882" column="8" selection-start-line="1882" selection-start-column="8" selection-end-line="1882" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Downloads/Dr Java/JDA-4.0.0_54-withDependencies.jar!/net/dv8tion/jda/api/hooks/ListenerAdapter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2761">
-          <caret line="57" column="16" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webAccess/HexConverter.java" />
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-12.0.1/lib/src.zip!/java.net.http/module-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-162">
-          <folding>
-            <element signature="e#0#356#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/kotlinc.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/libraries/slf4j_simple_1_6_1.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor>
-            <caret column="22" selection-start-column="22" selection-end-column="22" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Downloads/firebase-admin-6.13.0.jar!/com/google/firebase/FirebaseOptions.class" />
-    <entry file="file://$PROJECT_DIR$/.idea/libraries/JDA_4_0_0_54_withDependencies.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$USER_HOME$/Downloads/google-cloud-firestore-1.35.0.jar!/com/google/cloud/firestore/DocumentReference.class" />
-    <entry file="file://$PROJECT_DIR$/src/records/FirebaseConnector.java" />
-    <entry file="file://$PROJECT_DIR$/.idea/libraries/GoogleDependencies.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../GoogleDependencies/google-api-client-1.30.9.jar!/com/google/api/client/googleapis/util/Utils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="58" lean-forward="true" selection-start-line="10" selection-start-column="58" selection-end-line="10" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitattributes">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CanIPlayDiscordBot.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pcParts/HexConverter.java" />
-    <entry file="file://$PROJECT_DIR$/src/records/GuildPrefixes.txt" />
-    <entry file="file://$PROJECT_DIR$/src/webAccess/StringTools.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="92" column="54" selection-start-line="92" selection-start-column="54" selection-end-line="92" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#removeHtmlTags#0;class#StringTools#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pcParts/SearchResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/records/UserSpecs.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pcParts/Cpu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="23" column="9" lean-forward="true" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
-          <folding>
-            <element signature="e#1200#1201#0" expanded="true" />
-            <element signature="e#1286#1287#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pcParts/Gpu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/discordBot/PlaygroundTester.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/discordBot/DiscordBot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="25" column="34" lean-forward="true" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webAccess/WebFetch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="21" column="23" lean-forward="true" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/records/FirebaseController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="188" column="41" selection-start-line="188" selection-start-column="41" selection-end-line="188" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#connect#0;class#FirebaseController#0" />
-            <element signature="method#getGuildPrefix#0;class#FirebaseController#0" />
-            <element signature="method#getUserSpecs#0;class#FirebaseController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webAccess/GameInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="145" column="40" selection-start-line="145" selection-start-column="40" selection-end-line="145" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getInfo#0;class#GameInfo#0" />
-            <element signature="method#getRamInGb#0;class#GameInfo#0" />
-            <element signature="method#getGpu#0;class#GameInfo#0" />
-            <element signature="method#getCpu#0;class#GameInfo#0" />
-            <element signature="e#5859#5860#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/records/Recordkeeper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getSpecsByUserId#0;class#Recordkeeper#0" />
-            <element signature="method#addUserSpecs#0;class#Recordkeeper#0" />
-            <element signature="method#readFile#0;class#Recordkeeper#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pcParts/UserSpecs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-517">
-          <caret line="34" column="10" lean-forward="true" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
-          <folding>
-            <element signature="method#getUserRam#0;class#UserSpecs#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webAccess/Searcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="117" column="9" lean-forward="true" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5916#5917#0" expanded="true" />
-            <element signature="e#5964#5965#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/discordBot/Commands.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="438" column="77" lean-forward="true" selection-start-line="438" selection-start-column="77" selection-end-line="438" selection-end-column="77" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1491#2125#1" />
-            <element signature="e#1606#2111#0" />
-            <element signature="e#4673#5589#0" />
-            <element signature="method#ping#0;class#Commands#0" />
-            <element signature="method#rules#0;class#Commands#0" />
-            <element signature="method#cpuSearch#0;class#Commands#0" />
-            <element signature="method#gpuSearch#0;class#Commands#0" />
-            <element signature="method#search#0;class#Commands#0" />
-            <element signature="method#gamespecs#0;class#Commands#0" />
-            <element signature="method#gameinfo#0;class#Commands#0" />
-            <element signature="method#info#0;class#Commands#0" />
-            <element signature="method#help#0;class#Commands#0" />
-            <element signature="method#resetspecs#0;class#Commands#0" />
-            <element signature="e#19053#19103#1" />
-            <element signature="e#19404#19405#0" expanded="true" />
-            <element signature="e#20941#21000#1" />
-            <element signature="method#setspecs#0;class#Commands#0" />
-            <element signature="method#setprivacy#0;class#Commands#0" />
-            <element signature="method#setprefix#0;class#Commands#0" />
-            <element signature="method#feedback#0;class#Commands#0" />
-            <element signature="method#getArgsAfter#0;class#Commands#0" />
-            <element signature="method#sendToConsole#0;class#Commands#0" />
-            <element signature="method#authorHasAdminPrivileges#0;class#Commands#0" />
-            <element signature="e#30741#31751#0" />
-            <element signature="method#compareSpecs#0;class#Commands#0" />
-            <element signature="method#splitMessage#0;class#Commands#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>12</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>SystemSpecDiscordBot</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>GoogleDependencies</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

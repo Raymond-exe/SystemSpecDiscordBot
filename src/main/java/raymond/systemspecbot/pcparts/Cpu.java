@@ -1,18 +1,18 @@
-package pcParts;
+package raymond.systemspecbot.pcparts;
 
-public class Gpu {
+public class Cpu {
 
     private String name;
     private int rank;
 
-    public Gpu(String n, int r) {
+    public Cpu(String n, int r) {
         name = n;
         rank = r;
     }
 
-    public Gpu(String rawText) {
+    public Cpu(String rawText) {
 
-        if(rawText.contains("[") && rawText.contains("]")) {
+        if (rawText.contains("[") && rawText.contains("]")) {
             name = rawText.substring(rawText.indexOf('[') + 1, rawText.indexOf(':')).trim();
             rank = Integer.parseInt(rawText.substring(rawText.indexOf(':') + 1, rawText.indexOf(']')).trim());
         } else if (rawText.contains("{") && rawText.contains("}")) {
@@ -22,18 +22,27 @@ public class Gpu {
             name = rawText.substring(0, rawText.indexOf(":")).trim();
             rank = Integer.parseInt(rawText.substring(rawText.indexOf(":") + 1).trim());
         }
+
     }
 
-    public String getName() { return name; }
-    public int getRank() { return rank; }
+    public String getName() {
+        return name;
+    }
 
-    public boolean isBetterThan(Gpu other) {
+    public int getRank() {
+        return rank;
+    }
+
+    public boolean isBetterThan(Cpu other) {
         return (rank > other.getRank());
     }
 
-    public boolean isWorseThan(Gpu other) { return !isBetterThan(other); }
+    public boolean isWorseThan(Cpu other) {
+        return !isBetterThan(other);
+    }
 
     public String toString() {
         return "[" + name + ": " + rank + "] ";
     }
+
 }

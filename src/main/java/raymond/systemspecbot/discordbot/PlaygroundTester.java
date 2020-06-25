@@ -1,8 +1,4 @@
-package discordBot;
-
-import pcParts.*;
-import records.*;
-import webAccess.*;
+package raymond.systemspecbot.discordbot;
 
 public class PlaygroundTester {
 
