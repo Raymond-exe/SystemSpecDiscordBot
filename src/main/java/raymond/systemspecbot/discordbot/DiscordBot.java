@@ -1,11 +1,10 @@
-package discordBot;
-
-import records.FirebaseController;
-import records.Recordkeeper;
+package raymond.systemspecbot.discordbot;
 
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import raymond.systemspecbot.records.FirebaseController;
+import raymond.systemspecbot.records.Recordkeeper;
 
 import javax.security.auth.login.LoginException;
 
@@ -26,6 +25,8 @@ public class DiscordBot {
         jda.addEventListener(cmd);
     }
 
-    public static JDA getJda() { return jda; }
+    public static JDA getJda() {
+        return jda;
+    }
 
 }

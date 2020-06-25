@@ -1,8 +1,9 @@
-package webAccess;
+package raymond.systemspecbot.webaccess;
 
-import pcParts.*;
+import raymond.systemspecbot.pcparts.Cpu;
+import raymond.systemspecbot.pcparts.Gpu;
+import raymond.systemspecbot.pcparts.SearchResult;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Searcher {
@@ -97,7 +98,7 @@ public class Searcher {
 
     //Used for games search
     public static ArrayList<String> searchFor(String originalQuery) {
-        ArrayList<String> output = new ArrayList<String>();
+        ArrayList<String> output = new ArrayList<>();
         String html;
         String query = originalQuery.trim();
 
@@ -113,7 +114,7 @@ public class Searcher {
         }
         if (html.indexOf("<td class='tbl5'>", html.indexOf("<td class='tbl5'>Game</td>") + 6) != -1) {
             html = html.substring(html.indexOf("<td class='tbl5'>Game</td>") + 31, html.indexOf("<td class='tbl5'>", html.indexOf("<td class='tbl5'>Game</td>") + 6));
-        } else if (html.contains("<td class='tbl5'>Game</td>") && html.indexOf("</tbody>", html.indexOf("<td class='tbl5'>Game</td>") + 6) != -1){
+        } else if (html.contains("<td class='tbl5'>Game</td>") && html.indexOf("</tbody>", html.indexOf("<td class='tbl5'>Game</td>") + 6) != -1) {
             html = html.substring(html.indexOf("<td class='tbl5'>Game</td>") + 31, html.indexOf("</tbody>", html.indexOf("<td class='tbl5'>Game</td>") + 6));
         }
         //*
@@ -140,7 +141,7 @@ public class Searcher {
         boolean foundExactMatch = false;
         for (int i = 0; i < output.size(); i++) {
             entryTitle = StringTools.cleanString(output.get(i).substring(0, output.get(i).indexOf("(")).trim()).toLowerCase();
-            if(StringTools.cleanString(originalQuery.trim().toLowerCase()).equals(entryTitle)) {
+            if (StringTools.cleanString(originalQuery.trim().toLowerCase()).equals(entryTitle)) {
                 output.add(0, output.remove(i));
                 foundExactMatch = true;
                 break;

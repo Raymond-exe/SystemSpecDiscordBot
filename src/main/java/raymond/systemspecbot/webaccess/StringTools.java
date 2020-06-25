@@ -1,8 +1,7 @@
-package webAccess;
+package raymond.systemspecbot.webaccess;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 
 public class StringTools {
 
@@ -57,7 +56,7 @@ public class StringTools {
         boolean makeNewLine = false;
 
         for (int i = 0; i < inputStr.length() - 1; i++) {
-            if (inputStr.substring(i, i + 2).equals("</"))
+            if (inputStr.startsWith("</", i))
                 makeNewLine = true;
             if (inputStr.charAt(i) == '>' && makeNewLine) {
                 inputStr = inputStr.substring(0, i + 1) + "\n" + inputStr.substring(i + 1);

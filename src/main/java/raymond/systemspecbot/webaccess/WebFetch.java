@@ -1,4 +1,4 @@
-package webAccess;
+package raymond.systemspecbot.webaccess;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -9,14 +9,14 @@ public class WebFetch {
     public static String fetch(String site) //returns HTML of a given site as plaintext
     {
         String content = null;
-        URLConnection connection = null;
+        URLConnection connection;
         try {
-            connection =  new URL(site).openConnection();
+            connection = new URL(site).openConnection();
             Scanner scanner = new Scanner(connection.getInputStream());
             scanner.useDelimiter("\\Z");
             content = scanner.next();
             scanner.close();
-        }catch ( Exception ex ) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return content;

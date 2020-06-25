@@ -1,4 +1,4 @@
-package pcParts;
+package raymond.systemspecbot.pcparts;
 
 public class SearchResult {
 
@@ -29,11 +29,24 @@ public class SearchResult {
         //*/
     }
 
-    public String getName() { return name; }
-    public int getRank() { return rank; }
-    public double getPopularity() { return popularity; }
+    public String getName() {
+        return name;
+    }
 
-    public Cpu getCpu() { return new Cpu(name, rank); }
-    public Gpu getGpu() { return new Gpu(name, rank); }
+    public int getRank() {
+        return rank;
+    }
+
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public Cpu getCpu() {
+        return new Cpu(name, rank);
+    }
+
+    public Gpu getGpu() {
+        return new Gpu(name, rank);
+    }
 
 }
