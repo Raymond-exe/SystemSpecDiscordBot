@@ -22,6 +22,9 @@ dependencies {
     // JDA
     compile "net.dv8tion:JDA:4.1.1_101"
 
+    // JSoup
+    compile 'org.jsoup:jsoup:1.13.1'
+
     // Google Firebase
     implementation 'com.google.firebase:firebase-admin:6.14.0'
 
@@ -29,13 +32,13 @@ dependencies {
 
 
 application {
-    mainClassName = 'raymond.systemspecbot.discordbot.DiscordBot'
+    mainClassName = 'DiscordBot'
 }
 
 jar {
     manifest {
         attributes(
-                'Main-Class': 'raymond.systemspecbot.discordbot.DiscordBot'
+                'Main-Class': 'DiscordBot'
         )
     }
     from {
