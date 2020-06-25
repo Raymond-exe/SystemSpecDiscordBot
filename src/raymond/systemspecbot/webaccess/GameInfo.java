@@ -75,6 +75,11 @@ public class GameInfo {
                 tempInfo = html.substring(startIndex, endIndex);
                 output.add(tempInfo.substring(tempInfo.indexOf(">") + 1).trim());
             }
+
+            if(html.contains("<b>DX:</b>")) {
+                String directXVersion = html.substring(html.indexOf("<b>DX:</b>"), html.indexOf("</div></div>", html.indexOf("<b>DX:</b>")));
+            }
+
         } else //returns recommended system requirements
             if (requirements == REC_SYS_REQS) {
 
@@ -120,18 +125,36 @@ public class GameInfo {
         String gpu = StringTools.cleanString(getSpecs(requirements).get(2).trim().toLowerCase());
         ArrayList<Gpu> searchResults;
 
-        if (gpu.contains("gtx")) {
+        //check for any references to directX
+        /*
+        if(gpu.contains("directx")) {
+            int dxVersion = 0;
+            if (gpu.contains("directx 9")) {
+                dxVersion = 9;
+            } else if (gpu.contains("directx 10")) {
+                dxVersion = 10;
+            } else if (gpu.contains("directx 11")) {
+                dxVersion = 11;
+            } else if (gpu.contains("directx 12")) {
+                dxVersion = 12;
+            }
+
+            return new Gpu("DirectX version", dxVersion);
+        } //*/
+
+        if (gpu.contains("gtx") && gpu.indexOf(" ", gpu.indexOf("gtx")) != -1) {
             gpu = gpu.substring(gpu.indexOf("gtx"), gpu.indexOf(" ", gpu.indexOf("gtx") + 4));
         } else if (gpu.contains("rtx")) {
             gpu = gpu.substring(gpu.indexOf("rtx"), gpu.indexOf(" ", gpu.indexOf("rtx") + 4));
         } else if (gpu.contains("radeon") && gpu.indexOf(" ", gpu.indexOf("radeon")) != -1) {
             System.out.println(gpu);
-            gpu = gpu.substring(gpu.indexOf("radeon", gpu.indexOf(" ", gpu.indexOf("radeon") + 7)));
+            gpu = gpu.substring(gpu.indexOf("radeon"), gpu.indexOf(" ", gpu.indexOf("radeon") + 7));
         }
 
         //System.out.println("\n gameInfo background: " + gpu);
 
         gpu = " " + gpu;
+        /*
         while (!gpu.isEmpty() && gpu.contains(" ")) {
             searchResults = Searcher.searchGpu(gpu, 1);
 
@@ -139,9 +162,9 @@ public class GameInfo {
                 gpu = gpu.substring(0, gpu.lastIndexOf(" "));
             } else
                 return searchResults.get(0); //(int)Math.round(searchResults.size()/2.0)
-        }
+        } //*/
 
-        return new Gpu("Unspecified", -1);
+        return new Gpu("Unknown", 0, 0, 0);
     }
 
     public Gpu getGpu() {
@@ -160,13 +183,13 @@ public class GameInfo {
 
                 return Searcher.searchCpu(cpus, 1).get(0);
             }
-        }
+        } //*/
 
         //reaching this point means a matching intel cpu could not be found, resorting to amd
         String[] amdCpus = {"ryzen 9", "ryzen 7", "ryzen 5", "ryzen 3"};
         String[] amdIndicators = {"threadripper", "fx"}; // possible implementation? not specific enough BUT is the most specific if modifiers are added
 
-        return new Cpu("Unspecified", -1);
+        return new Cpu("Unknown", 0, 0, 0);
     }
 
     public Cpu getCpu() {

@@ -25,7 +25,7 @@ public class FirebaseController {
     public static void connect() {
 
         if (debugPrintouts)
-            System.out.println("[DEBUG] Connecting to Firestore Database...");
+            System.out.println("[DEBUG - FirebaseController] Connecting to Firestore Database...");
 
         try {
             FileInputStream serviceAccount =
@@ -40,13 +40,13 @@ public class FirebaseController {
             db = FirestoreClient.getFirestore();
 
             if (debugPrintouts)
-                System.out.println("[DEBUG] Successfully connected to Firestore Database!");
+                System.out.println("[DEBUG - FirebaseController] Successfully connected to Firestore Database!");
 
         } catch (Exception e) {
             e.printStackTrace();
 
             if (debugPrintouts)
-                System.out.println("[DEBUG] Failed to connect to Firestore Database");
+                System.out.println("[DEBUG - FirebaseController] Failed to connect to Firestore Database");
         }
     }
     //*/
@@ -56,7 +56,7 @@ public class FirebaseController {
         DocumentReference docRef = db.collection("guildPrefixes").document(guildId.trim());
 
         if (debugPrintouts)
-            System.out.println("[DEBUG] READ: A request for the guild prefix for " + guildId + " went out!");
+            System.out.println("[DEBUG - FirebaseController] READ: A request for the guild prefix for " + guildId + " went out!");
 
         try {
             //If the requested guildId exists, return the prefix
@@ -84,7 +84,7 @@ public class FirebaseController {
         newPrefix.put("serverName", DiscordBot.getJda().getGuildById(guildId).getName());
 
         if (debugPrintouts) {
-            System.out.println("[DEBUG] WRITE: A request was sent to change the guildPrefix for guild " + guildId + " to " + prefix);
+            System.out.println("[DEBUG - FirebaseController] WRITE: A request was sent to change the guildPrefix for guild " + guildId + " to " + prefix);
         }
 
         DocumentReference docRef = db.collection("guildPrefixes").document(guildId.trim());
@@ -101,7 +101,7 @@ public class FirebaseController {
         DocumentReference docRef = db.collection("userSpecs").document(userId.trim());
 
         if (debugPrintouts) {
-            System.out.println("[DEBUG] READ: A request went out for the UserSpecs of user #" + userId);
+            System.out.println("[DEBUG - FirebaseController] READ: A request went out for the UserSpecs of user #" + userId);
         }
 
         try {
@@ -119,9 +119,9 @@ public class FirebaseController {
                 parseToUserSpecs += "</specs>";
 
                 if (debugPrintouts) {
-                    System.out.println("[DEBUG] User #" + userId + "'s UserSpecs were found!");
-                    System.out.println("[DEBUG] " + specsMap);
-                    System.out.println("[DEBUG] Output: " + parseToUserSpecs);
+                    System.out.println("[DEBUG - FirebaseController] User #" + userId + "'s UserSpecs were found!");
+                    System.out.println("[DEBUG - FirebaseController] " + specsMap);
+                    System.out.println("[DEBUG - FirebaseController] Output: " + parseToUserSpecs);
                 }
 
                 return new UserSpecs(parseToUserSpecs);
@@ -130,7 +130,7 @@ public class FirebaseController {
 
                 //UserSpecs for the userId weren't found
                 if (debugPrintouts)
-                    System.out.println("[DEBUG] No UserSpecs found for user #" + userId);
+                    System.out.println("[DEBUG - FirebaseController] No UserSpecs found for user #" + userId);
 
                 HashMap<String, Object> newSpecs = Recordkeeper.getUserSpecsTemplate(userId);
                 docRef.set(newSpecs);
@@ -138,8 +138,8 @@ public class FirebaseController {
                 return getUserSpecs(userId); //TODO Fix! Bad Code >:(
             }
         } catch (Exception e) {
-            if (debugPrintouts) {
-                System.out.println("[DEBUG] An error has occured!");
+            if(debugPrintouts) {
+                System.out.println("[DEBUG - FirebaseController] An error has occured!");
                 e.printStackTrace();
             }
             return null;
@@ -154,7 +154,7 @@ public class FirebaseController {
             if (!docRef.get().get().exists()) {
                 //UserSpecs for the userId didn't already exist
                 if (debugPrintouts)
-                    System.out.println("[DEBUG] No UserSpecs found for user #" + userId);
+                    System.out.println("[DEBUG - FirebaseController] No UserSpecs found for user #" + userId);
 
                 HashMap<String, Object> newSpecs = Recordkeeper.getUserSpecsTemplate(userId);
                 docRef.set(newSpecs);
@@ -182,7 +182,7 @@ public class FirebaseController {
 
         } else {
             if (debugPrintouts) {
-                System.out.println("[DEBUG] setUserSpecs was run with an unaccepted object!");
+                System.out.println("[DEBUG - FirebaseController] setUserSpecs was run with an unaccepted object!");
             }
             return;
         }

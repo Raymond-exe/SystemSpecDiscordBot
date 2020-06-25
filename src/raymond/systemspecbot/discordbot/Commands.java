@@ -220,7 +220,7 @@ public class Commands extends ListenerAdapter {
             embed.setColor(Color.ORANGE);
         } else {
             for (Gpu entry : results) {
-                embed.addField(entry.getName(), "Ranking: " + entry.getRank(), false);
+                embed.addField(entry.getName(), "Base Clock: " + entry.getBaseClock() + " MHz", false);
             }
         }
 
@@ -384,7 +384,7 @@ public class Commands extends ListenerAdapter {
     }
 
     private void resetspecs(GuildMessageReceivedEvent event) {
-        UserSpecs user = new UserSpecs(event.getAuthor().getId(), new Cpu("No Cpu", 0), new Gpu("No Gpu", 0), 0);
+        UserSpecs user = new UserSpecs(event.getAuthor().getId(), new Cpu("No Cpu", 0.0, 0.0, 0.0), new Gpu("No Gpu", 0.0, 0.0, 0.0), 0);
         String message;
 
         if (Recordkeeper.addUserSpecs(user)) {
@@ -406,13 +406,13 @@ public class Commands extends ListenerAdapter {
                 .setTitle((user.getId().equals("168376512272269313") ? "Kabrir" : user.getName()) + "'s PC specs")
                 .setDescription("use `" + Recordkeeper.getGuildPrefix(user.getId()) + "setspecs` to modify your PC specs.")
                 .setThumbnail(user.getAvatarUrl())
-                .addField("CPU - Central Processing Unit", "**" + userSpecs.getUserCpu().getName() + "** Rank: " + userSpecs.getUserCpu().getRank(), false)
-                .addField("GPU - Graphics Processing Unit", "**" + userSpecs.getUserGpu().getName() + "** Rank: " + userSpecs.getUserGpu().getRank(), false)
+                .addField("CPU - Central Processing Unit", "**" + userSpecs.getUserCpu().getName() + "** Frequency: " + userSpecs.getUserCpu().getFreqInGHz() + " GHz", false)
+                .addField("GPU - Graphics Processing Unit", "**" + userSpecs.getUserGpu().getName() + "** Base Clock: " + userSpecs.getUserGpu().getBaseClock() + " MHz", false)
                 .addField("RAM - Random Access Memory", "**" + userSpecs.getUserRam() + "** GB", false)
-                .addField("Overall PC Score", "**" + userSpecs.getPcScore() + "** (" + getPcRank(userSpecs.getPcScore()) + ")", false)
+                //.addField("Overall PC Score", "**" + userSpecs.getPcScore() + "** (" + getPcRank(userSpecs.getPcScore()) + ")", false)
                 .setFooter("Privacy setting: " + (userSpecs.getPrivacy() ? "Private" : "Public"), null);
 
-        if (!userSpecs.getPcDescription().equals("null")) {
+                if (!userSpecs.getPcDescription().equals("null")) {
             embed.setDescription(userSpecs.getPcDescription());
         }
 
@@ -551,12 +551,12 @@ public class Commands extends ListenerAdapter {
                     .setTitle((targetUser.getId().equals("168376512272269313") ? "Kabrir" : targetUser.getName()) + "'s PC specs")
                     .setDescription((targetUser.getId().equals("168376512272269313") ? "Kabrir" : targetUser.getName()) + " has set their privacy settings to private.\nYou can only view their PC score.")
                     .setThumbnail(targetUser.getAvatarUrl())
-                    .addField("Overall PC Score", "**" + targetSpecs.getPcScore() + "** (" + getPcRank(targetSpecs.getPcScore()) + ")", false)
+                    //.addField("Overall PC Score", "**" + targetSpecs.getPcScore() + "** (" + getPcRank(targetSpecs.getPcScore()) + ")", false)
                     .setFooter("Privacy setting: " + (targetSpecs.getPrivacy() ? "Private" : "Public"), null);
 
             if (!targetSpecs.getPcDescription().equals("null")) {
                 embed.setDescription(targetSpecs.getPcDescription());
-            }
+              }
 
             event.getChannel().sendMessage(embed.build()).queue();
             return;
