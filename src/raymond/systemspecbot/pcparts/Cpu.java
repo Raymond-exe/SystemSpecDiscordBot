@@ -5,22 +5,31 @@ public class Cpu {
     private String name;
     private double freqInGHz;  //GHz
     private double turboClock; //GHz
-    private double baseClock;  //MHz
+    private int coreCount;
+    private int threadCount;
 
-    public Cpu(String n, double freq, double turbo, double base) {
+    public Cpu(String n, double freq, double turbo, int cores, int threads) {
         name = n;
         freqInGHz = freq;
         turboClock = turbo;
-        baseClock = base;
+        coreCount = cores;
+        threadCount = threads;
     }
 
     public Cpu(String rawText) {
 
         if (rawText.contains("{") && rawText.contains("}")) {
-            name = rawText.substring(rawText.indexOf("{name=") + 6, rawText.indexOf(", freqInGHz=")).trim();
-            freqInGHz = Double.parseDouble(rawText.substring(rawText.indexOf("freqInGHz=") + 10, rawText.indexOf(", turboClock=")).trim());
-            turboClock = Double.parseDouble(rawText.substring(rawText.indexOf("turboClock=") + 11, rawText.indexOf(", baseClock=")).trim());
-            baseClock = Double.parseDouble(rawText.substring(rawText.indexOf("baseClock=") + 10, rawText.indexOf("}")).trim());
+            name = rawText.substring(rawText.indexOf("name=") + 5, rawText.indexOf(", ", rawText.indexOf("name="))).trim();
+            freqInGHz = Double.parseDouble(rawText.substring(rawText.indexOf("freqInGHz=") + 10, rawText.indexOf(", ", rawText.indexOf("freqInGHz="))).trim());
+            turboClock = Double.parseDouble(rawText.substring(rawText.indexOf("turboClock=") + 11, rawText.indexOf(", ", rawText.indexOf("turboClock="))).trim());
+            coreCount = Integer.parseInt(rawText.substring(rawText.indexOf("coreCount=") + 10, rawText.indexOf("}", rawText.indexOf("coreCount="))).trim());
+            threadCount = Integer.parseInt(rawText.substring(rawText.indexOf("threadCount=") + 12, rawText.indexOf(", ", rawText.indexOf("threadCount="))).trim());
+        } else if (rawText.equalsIgnoreCase("[No Cpu: 0]")) {
+            name = "null";
+            freqInGHz = 0;
+            turboClock = 0;
+            coreCount = 0;
+            threadCount = 0;
         } else {
             System.out.println("[DEBUG - Cpu] Unaccepted parameter: " + rawText);
         }
@@ -30,7 +39,8 @@ public class Cpu {
     public String getName() { return name; }
     public double getFreqInGHz() { return freqInGHz; }
     public double getTurboClock() { return turboClock; }
-    public double getBaseClock() { return baseClock; }
+    public int getCoreCount() { return coreCount; }
+    public int getThreadCount() { return threadCount; }
 
     public boolean isBetterThan(Cpu other) {
         int counter = 0;
@@ -39,17 +49,20 @@ public class Cpu {
             counter++;
         if (turboClock > other.getTurboClock())
             counter++;
-        if(baseClock > other.getBaseClock())
+        if(coreCount > other.getCoreCount())
+            counter++;
+        if(threadCount > other.getThreadCount())
             counter++;
 
-        return counter >= 2;
+        return counter >= 3;
     }
 
     public String toString() {
         return "{name=" + name
                 + ", freqInGHz=" + freqInGHz
                 + ", turboClock=" + turboClock
-                + ", baseClock=" + baseClock
+                + ", coreCount=" + coreCount
+                + ", threadCount=" + threadCount
                 + "}";
     }
 

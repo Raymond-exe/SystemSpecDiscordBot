@@ -133,6 +133,20 @@ public class UserSpecs {
         return output;
     } //*/
 
+    public Boolean[] isBetterThan(UserSpecs other) {
+        //Order is CPU, GPU, RAM
+        Boolean[] output = new Boolean[3];
+
+        output[0] = userCpu.isBetterThan(other.getUserCpu());
+        output[1] = userGpu.isBetterThan(other.getUserGpu());
+
+        if(userRam != other.getUserRam()) {
+            output[2] = userRam > other.getUserRam();
+        }
+
+        return output;
+    }
+
     //toString looks like this:
     // <specs><user>USERID</user><cpu>CPU</cpu><gpu>GPU</gpu><ram>RAM</ram></specs>
     public String toString() {

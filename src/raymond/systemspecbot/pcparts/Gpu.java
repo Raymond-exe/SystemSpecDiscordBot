@@ -32,10 +32,17 @@ public class Gpu {
     public Gpu(String rawText) {
 
         if (rawText.contains("{") && rawText.contains("}")) {
-            name = rawText.substring(rawText.indexOf("{name=") + 6, rawText.indexOf(", freqInGHz=")).trim();
-            baseClock = Double.parseDouble(rawText.substring(rawText.indexOf("baseClock=") + 10, rawText.indexOf(", boostClock=")).trim());
-            boostClock = Double.parseDouble(rawText.substring(rawText.indexOf("boostClock=") + 11, rawText.indexOf(", memClock=")).trim());
-            memClock = Double.parseDouble(rawText.substring(rawText.indexOf("memClock=") + 9, rawText.indexOf("}")).trim());
+            name = rawText.substring(rawText.indexOf("name=") + 5, rawText.indexOf("}")).trim();
+            baseClock = Double.parseDouble(rawText.substring(rawText.indexOf("baseClock=") + 10, rawText.indexOf(", ", rawText.indexOf("baseClock="))).trim());
+            boostClock = Double.parseDouble(rawText.substring(rawText.indexOf("boostClock=") + 11, rawText.indexOf(", ", rawText.indexOf("boostClock="))).trim());
+            memClock = Double.parseDouble(rawText.substring(rawText.indexOf("memClock=") + 9, rawText.indexOf(", ", rawText.indexOf("memClock="))).trim());
+            dxVersion = Integer.parseInt(rawText.substring(rawText.indexOf("dxVersion=") + 10, rawText.indexOf(", ", rawText.indexOf("dxVersion="))).trim());
+        } else if (rawText.equalsIgnoreCase("[No Gpu: 0]")) {
+            name = "null";
+            baseClock = 0;
+            boostClock = 0;
+            memClock = 0;
+            dxVersion = 0;
         } else {
             System.out.println("[DEBUG - Gpu] Unaccepted parameter: " + rawText);
         }
@@ -45,6 +52,7 @@ public class Gpu {
     public double getBaseClock() { return baseClock; }
     public double getBoostClock() { return boostClock; }
     public double getMemClock() { return memClock; }
+    public int getDxVersion() { return  dxVersion; }
 
     public boolean isBetterThan(Gpu other) {
         int counter = 0;

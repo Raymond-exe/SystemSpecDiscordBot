@@ -1,5 +1,7 @@
 package raymond.systemspecbot.webaccess;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 
@@ -9,16 +11,12 @@ public class GameInfo {
 
     public static final int MIN_SYS_REQS = 0, REC_SYS_REQS = 1;
     private String website, html;
+    private Document doc;
 
     public GameInfo(String site) {
         website = site;
-        html = WebFetch.fetch(site);
-    }
-
-    public static void main(String[] args) {
-        //System.out.println("Hello World!");
-        GameInfo demo = new GameInfo(Searcher.getSearchResult("Halo"));
-        //System.out.println(demo.getImageUrl());
+        doc = WebFetch.fetch(site);
+        html = doc.outerHtml();
     }
 
     public String getWebsite() {
@@ -37,12 +35,11 @@ public class GameInfo {
 
     public ArrayList<String> getInfo() {
         ArrayList<String> output = new ArrayList<>();
-        String htmlTemp = html.substring(html.indexOf(">", html.indexOf("game_head_title")) + 1, html.indexOf("</div></div></div>", html.indexOf("game_head_title")) + 6);
 
-        output.add(htmlTemp.substring(0, htmlTemp.indexOf("</div>"))); //Adds the title of the game to output;
-        while (htmlTemp.contains("game_head_details_row") && htmlTemp.contains("</div>")) {
-            htmlTemp = htmlTemp.substring(htmlTemp.indexOf("game_head_details_row") + 23);
-            output.add(htmlTemp.substring(0, htmlTemp.indexOf("</div>")).trim());
+        output.add(doc.getElementsByClass("game_head_title").text().trim()); //adds title to output ArrayList
+
+        for(Element element : doc.getElementsByClass("game_head_details_row")) {
+            output.add(element.text().trim());
         }
 
         return output;
@@ -51,7 +48,7 @@ public class GameInfo {
     public String getImageUrl() {
         String output;
 
-        output = html.substring(html.indexOf("game_head_cover") + 27, html.indexOf("alt=", html.indexOf("game_head_cover")) - 2);
+        output = html.substring(html.indexOf("<img src=", html.indexOf("game_head_cover")) + 10, html.indexOf("alt=", html.indexOf("game_head_cover")) - 2);
 
         return output;
     }
@@ -69,23 +66,26 @@ public class GameInfo {
         if (requirements == MIN_SYS_REQS) {
             //for loop parsing through html to find CPU, RAM, GPU, OS, Storage, and Network requirements
             for (int i = 0; i < headers.length + (html.contains("<b>Store:</b>") ? 0 : -1); i++) {
-                startIndex = html.indexOf("<b>" + headers[i] + "</b>", lastIndex) + 17;
+                startIndex = html.indexOf("table-cell\">", html.indexOf("<b>" + headers[i] + "</b>", lastIndex) + 12) + 17;
                 endIndex = html.indexOf("<", startIndex + 15);
                 lastIndex = endIndex;
                 tempInfo = html.substring(startIndex, endIndex);
                 output.add(tempInfo.substring(tempInfo.indexOf(">") + 1).trim());
             }
 
+            /*
             if(html.contains("<b>DX:</b>")) {
                 String directXVersion = html.substring(html.indexOf("<b>DX:</b>"), html.indexOf("</div></div>", html.indexOf("<b>DX:</b>")));
-            }
-
-        } else //returns recommended system requirements
-            if (requirements == REC_SYS_REQS) {
-
-            } else {
-                return null;
             } //*/
+
+
+        } else if (requirements == REC_SYS_REQS) {
+            //returns recommended system requirements
+
+
+        } else {
+            return null;
+        } //*/
 
         return output;
     }
@@ -175,6 +175,7 @@ public class GameInfo {
         String str = getSpecs(requirements).get(0).trim().toLowerCase();
         String[] intelCpus = {"i9", "i7", "i5", "i3", "core 2", "pentium", "xeon"};
 
+        /*
         for (String cpus : intelCpus) {
             if (str.contains(cpus)) {
                 if (str.charAt(str.indexOf(cpus) + cpus.length()) == '-')
@@ -182,14 +183,13 @@ public class GameInfo {
 
 
                 return Searcher.searchCpu(cpus, 1).get(0);
-            }
-        } //*/
+            } //*/
 
         //reaching this point means a matching intel cpu could not be found, resorting to amd
         String[] amdCpus = {"ryzen 9", "ryzen 7", "ryzen 5", "ryzen 3"};
         String[] amdIndicators = {"threadripper", "fx"}; // possible implementation? not specific enough BUT is the most specific if modifiers are added
 
-        return new Cpu("Unknown", 0, 0, 0);
+        return new Cpu("Unknown", 0, 0, 0, 0);
     }
 
     public Cpu getCpu() {

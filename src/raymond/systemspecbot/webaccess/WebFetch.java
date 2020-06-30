@@ -4,30 +4,31 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 public class WebFetch {
 
     private static boolean debugPrintouts = true;
 
-    public static String fetch(String site) //returns HTML of a given site as plaintext
-    {
+    public static Document fetch(String site) {
         if (debugPrintouts) { System.out.print("[DEBUG - WebFetch] Connection request sent to " + site + "..."); }
-        String content = null;
-        URLConnection connection;
+
         try {
-            connection = new URL(site).openConnection();
-            Scanner scanner = new Scanner(connection.getInputStream());
-            scanner.useDelimiter("\\Z");
-            content = scanner.next();
-            scanner.close();
+            Document doc = Jsoup.connect(site).userAgent("Mozilla/5.0").get();
             if (debugPrintouts) { System.out.println(" Connection successful!"); }
-        }catch ( Exception ex ) {
+            return doc;
+
+        } catch (Exception e) {
             if (debugPrintouts) { System.out.println(" Connection failed."); }
-            ex.printStackTrace();
+            e.printStackTrace();
         }
-        return content;
-    } //some mystic voodoo code I found on stack overflow
+
+        return null;
+    }
 
     public static void main(String[] args) {
-        System.out.println("\n\n\n" + StringTools.format(fetch("https://duckduckgo.com/hello%20World")));
+        System.out.println("\n\n\n" + StringTools.format(fetch("https://duckduckgo.com/hello%20World").outerHtml()));
     }
 }
