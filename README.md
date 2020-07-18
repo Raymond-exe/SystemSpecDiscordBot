@@ -21,3 +21,14 @@ All commands are assuming the server is using the default prefix `~`
 |~gamespecs|[game]    |Returns the minimum specifications to play the given game.|
 |~feedback| [text]    |Sends feedback to a private channel on the bot's development server.|
 |~ping|               |Tests the bot's connection.|
+
+
+----------
+
+# Branches
+Version management details
+| Branch | Use |
+|---|---|
+|[master](https://github.com/Raymond-exe/SystemSpecDiscordBot/tree/master) | Latest stable build, fewest bugs in newest features. |
+|[development](https://github.com/Raymond-exe/SystemSpecDiscordBot/tree/development) | Latest build in general, used to test and polish features. |
+|[deployed](https://github.com/Raymond-exe/SystemSpecDiscordBot/tree/deployed) | Currently running build, run using Heroku. |

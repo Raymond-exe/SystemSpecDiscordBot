@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'raymond'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    // Logging for JDA
+    compile "org.slf4j:slf4j-api:2.0.0-alpha1"
+    compile "org.apache.logging.log4j:log4j-core:2.13.3"
+    compile "org.apache.logging.log4j:log4j-api:2.13.3"
+
+    // JDA
+    compile "net.dv8tion:JDA:4.1.1_101"
+
+    // JSoup
+    compile 'org.jsoup:jsoup:1.13.1'
+
+    // Google Firebase
+    implementation 'com.google.firebase:firebase-admin:6.14.0'
+
+}
+
+
+application {
+    mainClassName = 'DiscordBot'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'DiscordBot'
+        )
+    }
+    from {
+        configurations
+                .compile
+                .findAll {
+                    !it.name.endsWith('pom')
+                }
+                .collect {
+                    it.isDirectory() ? it : zipTree(it)
+                }
+    }
+}
