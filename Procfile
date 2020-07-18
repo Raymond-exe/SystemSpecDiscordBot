@@ -1,1 +1,1 @@
-worker: java -jar build/libs/SystemSpecDiscordBot-1.0-SNAPSHOT
+worker: java -jar build/libs/SystemSpecDiscordBot-1.0-SNAPSHOT.jar
