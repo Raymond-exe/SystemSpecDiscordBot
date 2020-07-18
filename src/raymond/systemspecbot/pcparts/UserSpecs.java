@@ -24,16 +24,6 @@ public class UserSpecs {
         pcDescription = desc;
     }
 
-    //ONLY FOR TEMPORARY USE AS WE TEST USER COMPARISON FEATURE
-    /*
-    public UserSpecs() {
-        userId = "null";
-        userCpu = new Cpu("Unspecified CPU", (int)(Math.random() * 10000));
-        userGpu = new Gpu("Unspecified GPU", (int)(Math.random() * 10000));
-        userRam = (int)Math.pow(2, (int)(Math.random()*5));
-        specsPrivacy = true;
-    } //*/
-
     public UserSpecs(String id, Object obj) {
         userId = id;
         if (obj instanceof Cpu) {
@@ -124,14 +114,19 @@ public class UserSpecs {
         specsPrivacy = bool;
     }
 
-    /*
-    public int getPcScore() {
-        int output = (getUserCpu().getRank() + getUserGpu().getRank()) / 2;
+    public Boolean[] isBetterThan(UserSpecs other) {
+        //Order is CPU, GPU, RAM
+        Boolean[] output = new Boolean[3];
 
-        output += Math.log(getUserRam()) / Math.log(2) * 1000;
+        output[0] = userCpu.isBetterThan(other.getUserCpu());
+        output[1] = userGpu.isBetterThan(other.getUserGpu());
+
+        if(userRam != other.getUserRam()) {
+            output[2] = userRam > other.getUserRam();
+        }
 
         return output;
-    } //*/
+    }
 
     //toString looks like this:
     // <specs><user>USERID</user><cpu>CPU</cpu><gpu>GPU</gpu><ram>RAM</ram></specs>

@@ -11,11 +11,14 @@ import javax.security.auth.login.LoginException;
 public class DiscordBot {
 
     private static JDA jda;
+    public static boolean debugPrintouts = true;
     //public static String prefix = "~";
 
 
     public static void main(String[] args) throws LoginException {
-        String discordToken = Recordkeeper.readFile("C:\\Users\\Raymond\\Documents\\discordBotToken-CanIPlay.txt").trim();
+        EnvironmentManager.instantiate();
+
+        String discordToken = EnvironmentManager.get("SPECBOT_DISCORD_TOKEN");
         jda = new JDABuilder(AccountType.BOT).setToken(discordToken).build();
 
         FirebaseController.connect();

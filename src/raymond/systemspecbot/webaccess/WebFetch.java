@@ -4,30 +4,30 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import raymond.systemspecbot.discordbot.DiscordBot;
+
 public class WebFetch {
 
-    private static boolean debugPrintouts = true;
+    public static Document fetch(String site) {
+        if (DiscordBot.debugPrintouts) { System.out.print("[DEBUG - WebFetch] Connection request sent to " + site + "..."); }
 
-    public static String fetch(String site) //returns HTML of a given site as plaintext
-    {
-        if (debugPrintouts) { System.out.print("[DEBUG - WebFetch] Connection request sent to " + site + "..."); }
-        String content = null;
-        URLConnection connection;
         try {
-            connection = new URL(site).openConnection();
-            Scanner scanner = new Scanner(connection.getInputStream());
-            scanner.useDelimiter("\\Z");
-            content = scanner.next();
-            scanner.close();
-            if (debugPrintouts) { System.out.println(" Connection successful!"); }
-        }catch ( Exception ex ) {
-            if (debugPrintouts) { System.out.println(" Connection failed."); }
-            ex.printStackTrace();
+            Document doc = Jsoup.connect(site).userAgent("Mozilla/5.0").get();
+            if (DiscordBot.debugPrintouts) { System.out.println(" Connection successful!"); }
+            return doc;
+
+        } catch (Exception e) {
+            if (DiscordBot.debugPrintouts) { System.out.println(" Connection failed."); }
+            e.printStackTrace();
         }
-        return content;
-    } //some mystic voodoo code I found on stack overflow
+
+        return null;
+    }
 
     public static void main(String[] args) {
-        System.out.println("\n\n\n" + StringTools.format(fetch("https://duckduckgo.com/hello%20World")));
+        System.out.println("\n\n\n" + StringTools.format(fetch("https://duckduckgo.com/hello%20World").outerHtml()));
     }
 }

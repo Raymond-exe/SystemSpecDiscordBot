@@ -1,25 +1,33 @@
 package raymond.systemspecbot.webaccess;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import raymond.systemspecbot.discordbot.DiscordBot;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
-import raymond.systemspecbot.pcparts.SearchResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Searcher {
 
-    private static String gamesSearchURL = "https://gamesystemrequirements.com/"; //search?q=
-    private static String specSearchURL = "https://duckduckgo.com/";
-    private static String gpuSearch = "+site:techpowerup.com/gpu-specs/";
-    private static String cpuSearch = "+site:techpowerup.com/cpu-specs/";
+    private static String gamesSearchURL = "https://store.steampowered.com/"; //search?q=
+    private static String steamURL = "https://store.steampowered.com/"; //search?q=
+    private static String specSearchURL = "https://www.google.com/search?&q=";
+    private static String gpuSearch = "+%2Bsite%3Atechpowerup.com%2Fgpu-specs%2F";
+    private static String cpuSearch = "+%2Bsite%3Atechpowerup.com%2Fcpu-specs%2F";
 
     //Used for searching for both GPUs and CPUs
-    private static ArrayList<SearchResult> searchSpecs(String spec, String query) {
+    public static ArrayList<SearchResult> searchSpecs(String spec, String query) {
         ArrayList<SearchResult> output = new ArrayList<>();
-        String html, searchModifier;
+        String searchModifier, attributeValue;
+        Document doc;
         if (spec.equalsIgnoreCase("cpu")) {
             searchModifier = cpuSearch;
+            attributeValue = "https://www.techpowerup.com/cpu-specs/";
         } else if (spec.equalsIgnoreCase("gpu")) {
+            attributeValue = "https://www.techpowerup.com/gpu-specs/";
             searchModifier = gpuSearch;
         } else {
             return null;
@@ -30,49 +38,128 @@ public class Searcher {
         //replaces all spaces with "+"
         for (int i = 0; i < query.length(); i++) {
             if (query.charAt(i) == ' ')
-                query = query.substring(0, i) + "+" + query.substring(i + 1);
+                query = query.substring(0, i) + "%20" + query.substring(i + 1);
         }
 
-        html = WebFetch.fetch(specSearchURL + query + searchModifier);
+        doc = WebFetch.fetch(specSearchURL + query + searchModifier);
 
-        if (html.contains("It looks like there aren't any great matches for your search</div>"))
+        if (doc.outerHtml().contains("It looks like there aren't any great matches for your search</div>")) {
+            System.out.println("No results for " + query + " found.");
             return new ArrayList<>();
+        }
+        //System.out.println("Search entries found!");
 
-        while (html.contains("https://www.techpowerup.com/")) {
-            output.add(new SearchResult(html.substring(html.indexOf("https://www.techpowerup.com/"), html.indexOf("\"", html.indexOf("https://www.techpowerup.com/")))));
+        Elements titleElements = doc.getElementsByTag("h3");
+        Elements linkElements = doc.getElementsByAttributeValueContaining("href", attributeValue);
 
-            html = html.substring(html.indexOf("https://www.techpowerup.com/") + 28);
+        String title, link;
+        for (int i = 0; i < titleElements.size() && i < linkElements.size(); i++) {
+            title = titleElements.get(i).text();
+
+            try {
+                title = title.substring(0, title.indexOf("Specs")).trim();
+                link = linkElements.get(i).attr("href");
+                link = link.substring(link.indexOf("https://"), link.indexOf("&", link.indexOf("https://")));
+                output.add(new SearchResult(title, link));
+            } catch (Exception e) {
+                link = linkElements.get(i).attr("href");
+                link = link.substring(link.indexOf("https://"), link.indexOf("&", link.indexOf("https://")));
+                System.out.println("[DEBUG - Searcher] Failed to add the following link: " + link);
+            }
         }
 
+        //searches for and removes duplicates
+        for (int i = 0; i < output.size(); i++) {
+            for (int j = i; j < output.size(); j++) {
+                if (i != j && output.get(i).getLink().equals(output.get(j).getLink())) {
+                    output.remove(j);
+                    j--;
+                }
+            }
+        }
 
         return output;
     }
 
-    //Used for searching for GPUs
-    public static ArrayList<Gpu> searchGpu(String query, int size) {
-        ArrayList<SearchResult> results = searchSpecs("GPU", query.toLowerCase());
-        ArrayList<Gpu> output = new ArrayList<>();
+    public static ArrayList<SearchResult> looseSearch(String spec, String query) {
 
-        for (int i = 0; i < results.size() && i < size; i++) {
-            output.add((results.get(i).getGpu()));
+        //fixing "spec" str
+        //will return null if spec is not recognized
+        switch (spec.toLowerCase()) {
+            case "cpu":
+            case "gpu":
+                break;
+            case "processor":
+                spec = "cpu";
+                break;
+            case "graphic":
+            case "graphics":
+            case "graphics card":
+                spec = "gpu";
+                break;
+            default:
+                System.out.println("Rejected argument: \"" + spec + "\" was not recognized as cpu/gpu.");
+                return null;
         }
 
-        return output;
-    }
+        ArrayList<String> queryArgs = new ArrayList<>(Arrays.asList(query.split(" "))); //cpuToParse as a ArrayList, seperated by spaces
 
-    //Used for searching for CPUs
-    public static ArrayList<Cpu> searchCpu(String query, int size) {
-        ArrayList<SearchResult> results = searchSpecs("CPU", query.toLowerCase());
-        ArrayList<Cpu> output = new ArrayList<>();
+        String[] cpuIndicators = {"i3", "i5", "i7", "i9", "ryzen", "core", "pentium", "celeron", "fx", "intel", "amd"}; //common brands or GPU types to be used as markers for where a search term begins
+        String[] gpuIndicators = {"gtx", "rtx", "rx", "vega", "geforce", "radeon"}; //common brands or GPU types to be used as markers for where a search term begins
 
-        for (int i = 0; i < results.size() && i < size; i++) {
-            output.add((results.get(i).getCpu()));
+        String searchTerm = ""; //the final phrase used for search
+        int index = -1; //the index of the start of the searchTerm found in cpuArgs
+
+        //checks to see if query contains any matches with indicators
+        if(spec.equalsIgnoreCase("cpu")) {
+            for(String cpu : cpuIndicators) {
+                if(queryArgs.contains(cpu)) {
+                    index = queryArgs.indexOf(cpu);
+                    break;
+                }
+            }
+        } else if(spec.equalsIgnoreCase("gpu")) {
+            for(String gpu : gpuIndicators) {
+                if(queryArgs.contains(gpu)) {
+                    index = queryArgs.indexOf(gpu);
+                    break;
+                }
+            }
         }
 
-        return output;
+        //if index was never changed, then cpuArgs DID NOT contain any matches with cpuIndicators
+        if (index == -1 && DiscordBot.debugPrintouts) {
+            System.out.println("[DEBUG - Searcher] No indicators found in " + query);
+            return new ArrayList<>(); //returns an empty arraylist
+        }
+
+        //extends searchTerm to the next 4 entries in cpuArgs, or until end of cpuArgs
+        for(int i = 0; i < 4; i++) {
+            if(index+i < queryArgs.size()) {
+                searchTerm += (i == 0 ? "" : " ") + queryArgs.get(index+i);
+            }
+        }
+
+        searchTerm += " ";
+
+        while(searchTerm.contains(" ")) {
+            searchTerm = searchTerm.substring(0, searchTerm.lastIndexOf(" "));
+            ArrayList<SearchResult> searchResults = searchSpecs(spec, searchTerm);
+
+            //if no results found, continue
+            if(searchResults == null || searchResults.isEmpty()) {
+                continue;
+            }
+
+            return searchResults;
+        }
+
+        System.out.println("Could not find any GPUs for " + query);
+        return new ArrayList<>(); //returns an empty arraylist
+
     }
 
-    public static String getGameSiteLink(String query) {
+    public static String getGameSiteLink(String query, String site) {
         query = query.trim();
 
         for (int i = 0; i < query.length(); i++) {
@@ -80,70 +167,38 @@ public class Searcher {
                 query = query.substring(0, i) + "+" + query.substring(i + 1);
         }
 
-        return gamesSearchURL + "search?q=" + query;
+        switch (site.toLowerCase()) {
+            case "steam":
+                return steamURL + "search?q=" + query;
+            default:
+                return gamesSearchURL + "search?q=" + query;
+        }
     }
 
     //Used for games search
     public static ArrayList<String> searchFor(String originalQuery) {
         ArrayList<String> output = new ArrayList<>();
-        String html;
         String query = originalQuery.trim();
+        Document doc;
 
-        for (int i = 0; i < query.length(); i++) {
-            if (query.charAt(i) == ' ')
-                query = query.substring(0, i) + "+" + query.substring(i + 1);
+        //replaces all spaces with '+'
+        while(query.contains(" ")) {
+            query = query.substring(0, query.indexOf(" ")) + "+" + query.substring(query.indexOf(" ")).trim();
         }
 
-        html = WebFetch.fetch(gamesSearchURL + "search?q=" + query);
-        if (html.indexOf("<td class='tbl5'>", html.indexOf("<td class='tbl5'>Game</td>")) == -1) {
-            output.add(null);
-            return output;
-        }
-        if (html.indexOf("<td class='tbl5'>", html.indexOf("<td class='tbl5'>Game</td>") + 6) != -1) {
-            html = html.substring(html.indexOf("<td class='tbl5'>Game</td>") + 31, html.indexOf("<td class='tbl5'>", html.indexOf("<td class='tbl5'>Game</td>") + 6));
-        } else if (html.contains("<td class='tbl5'>Game</td>") && html.indexOf("</tbody>", html.indexOf("<td class='tbl5'>Game</td>") + 6) != -1) {
-            html = html.substring(html.indexOf("<td class='tbl5'>Game</td>") + 31, html.indexOf("</tbody>", html.indexOf("<td class='tbl5'>Game</td>") + 6));
-        }
-        //*
-
-        String temp;
-
-        while (html.contains("</tr>")) {
-            temp = html.substring(html.indexOf("'>", html.indexOf("<a href='") + 9) + 2, html.indexOf("</a>")) + " ("
-                    + gamesSearchURL + html.substring(html.indexOf("<a href='") + 9, html.indexOf("'>", html.indexOf("<a href='") + 9)) + ")";
-
-            output.add(temp);
-            html = html.substring(html.indexOf("</tr>") + 5);
-        } //*/
-
-        for (int i = 0; i < output.size(); i++) {
-
-            if (output.get(i).contains("&#")) {
-                output.set(i, StringTools.fixString(output.get(i)));
-            }
+        try {
+            doc = WebFetch.fetch(steamURL + "search/?term=" + query + "&category1=998");
+        } catch (Exception ex) {
+            System.out.println("Unable to connect to " + steamURL + "search/?term=" + query + "&category1=998");
+            ex.printStackTrace();
+            return null;
         }
 
-        //before returning, try to find an exact match. if one is found, set it as the top result.
-        String entryTitle;
-        boolean foundExactMatch = false;
-        for (int i = 0; i < output.size(); i++) {
-            entryTitle = StringTools.cleanString(output.get(i).substring(0, output.get(i).indexOf("(")).trim()).toLowerCase();
-            if (StringTools.cleanString(originalQuery.trim().toLowerCase()).equals(entryTitle)) {
-                output.add(0, output.remove(i));
-                foundExactMatch = true;
-                break;
-            }
-        }
-
-        //if not exact match is found, put whatever contains the query at the top
-        if (!foundExactMatch) {
-            for (String str : output) {
-                if (str.toLowerCase().contains(originalQuery.toLowerCase())) {
-                    output.remove(str);
-                    output.add(0, str);
-                    break;
-                }
-            }
+        String title, link;
+        for (Element element : doc.getElementsByAttributeValueContaining("class", "search_result_row ds_collapse_flag")) {
+            title = element.select("span.title").first().text();
+            link = element.attr("href");
+            output.add(title + "[!(" + link + ")!]");
         }
 
         return output;
@@ -165,7 +220,7 @@ public class Searcher {
 
     public static void main(String[] args) {
 
-        System.out.println(searchCpu("Intel Core i5", 10));
+        searchFor("Halo Master Chief Collection");
     }
 
 }
