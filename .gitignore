@@ -120,8 +120,10 @@ fabric.properties
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# lib folder
+lib/*
+
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
