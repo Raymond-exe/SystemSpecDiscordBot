@@ -11,6 +11,7 @@ import javax.security.auth.login.LoginException;
 public class DiscordBot {
 
     private static JDA jda;
+    public static boolean debugPrintouts = true;
     //public static String prefix = "~";
 
 

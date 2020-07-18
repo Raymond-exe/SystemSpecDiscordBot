@@ -8,6 +8,10 @@ public class Cpu {
     private int coreCount;
     private int threadCount;
 
+    public static Cpu getCpuDefault() {
+        return new Cpu("No CPU", 0, 0, 0, 0);
+    }
+
     public Cpu(String n, double freq, double turbo, int cores, int threads) {
         name = n;
         freqInGHz = freq;
@@ -45,13 +49,13 @@ public class Cpu {
     public boolean isBetterThan(Cpu other) {
         int counter = 0;
 
-        if (freqInGHz > other.getFreqInGHz())
+        if (freqInGHz >= other.getFreqInGHz())
             counter++;
-        if (turboClock > other.getTurboClock())
+        if (turboClock >= other.getTurboClock())
             counter++;
-        if(coreCount > other.getCoreCount())
+        if(coreCount >= other.getCoreCount())
             counter++;
-        if(threadCount > other.getThreadCount())
+        if(threadCount >= other.getThreadCount())
             counter++;
 
         return counter >= 3;

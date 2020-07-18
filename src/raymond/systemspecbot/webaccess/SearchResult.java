@@ -1,12 +1,11 @@
 package raymond.systemspecbot.webaccess;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 
+//represents CPU/GPUs as results of a search
 public class SearchResult {
 
     private String name;
@@ -57,7 +56,7 @@ public class SearchResult {
 
 
         try {
-            Document doc = Jsoup.connect(link).get();
+            Document doc = WebFetch.fetch(link);
 
             Elements titles = doc.getElementsByTag("th");
             Elements values = doc.getElementsByTag("td");
@@ -131,7 +130,7 @@ public class SearchResult {
 
 
         try {
-            Document doc = Jsoup.connect(link).get();
+            Document doc = WebFetch.fetch(link);
 
             Elements titles = doc.getElementsByTag("dt");
             Elements values = doc.getElementsByTag("dd");
@@ -157,39 +156,51 @@ public class SearchResult {
             } //*/
 
             //Assigning the frequency
-            tempArgs = values.get(baseIndex).text().split(" ");
-            for (int i = 0; i < tempArgs.length; i++) {
-                try {
-                    base = Double.parseDouble(tempArgs[i].trim());
-                    break;
-                } catch (Exception e) {}
+            if(baseIndex != -1) {
+                tempArgs = values.get(baseIndex).text().split(" ");
+                for (int i = 0; i < tempArgs.length; i++) {
+                    try {
+                        base = Double.parseDouble(tempArgs[i].trim());
+                        break;
+                    } catch (Exception e) {
+                    }
+                }
             }
 
             //Assigning the turbo clock
-            tempArgs = values.get(boostIndex).text().split(" ");
-            for (int i = 0; i < tempArgs.length; i++) {
-                try {
-                    boost = Double.parseDouble(tempArgs[i].trim());
-                    break;
-                } catch (Exception e) {}
+            if(boostIndex != -1) {
+                tempArgs = values.get(boostIndex).text().split(" ");
+                for (int i = 0; i < tempArgs.length; i++) {
+                    try {
+                        boost = Double.parseDouble(tempArgs[i].trim());
+                        break;
+                    } catch (Exception e) {
+                    }
+                }
             }
 
             //Assigning the core count
-            tempArgs = values.get(memIndex).text().split(" ");
-            for (int i = 0; i < tempArgs.length; i++) {
-                try {
-                    mem = Double.parseDouble(tempArgs[i].trim());
-                    break;
-                } catch (Exception e) {}
+            if(memIndex != -1) {
+                tempArgs = values.get(memIndex).text().split(" ");
+                for (int i = 0; i < tempArgs.length; i++) {
+                    try {
+                        mem = Double.parseDouble(tempArgs[i].trim());
+                        break;
+                    } catch (Exception e) {
+                    }
+                }
             }
 
-            //Assigning the thread count
-            tempArgs = values.get(dxIndex).text().split(" ");
-            for (int i = 0; i < tempArgs.length; i++) {
-                try {
-                    dx = Integer.parseInt(tempArgs[i].trim());
-                    break;
-                } catch (Exception e) {}
+            //Assigning the DirectX index
+            if(dxIndex != -1) {
+                tempArgs = values.get(dxIndex).text().split(" ");
+                for (int i = 0; i < tempArgs.length; i++) {
+                    try {
+                        dx = Integer.parseInt(tempArgs[i].trim());
+                        break;
+                    } catch (Exception e) {
+                    }
+                }
             }
 
             return new Gpu(name, base, boost, mem, dx);

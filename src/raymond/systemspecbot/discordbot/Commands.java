@@ -10,13 +10,16 @@ import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 import raymond.systemspecbot.pcparts.UserSpecs;
 import raymond.systemspecbot.records.Recordkeeper;
-import raymond.systemspecbot.webaccess.GameInfo;
+import raymond.systemspecbot.webaccess.SteamGame;
 import raymond.systemspecbot.webaccess.SearchResult;
 import raymond.systemspecbot.webaccess.Searcher;
 import raymond.systemspecbot.webaccess.StringTools;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -27,7 +30,7 @@ public class Commands extends ListenerAdapter {
     private static final int CPU_INDEX = 0;
     private static final int GPU_INDEX = 1;
     private static final int RAM_INDEX = 2;
-    private static String betaServers = "511968553021472781";
+    private static String betaServers = "511968553021472781, 478770676937785355";
     private static String errorLogChannelId = "639894236183003157";
     private static String feedbackChannelId = "638183306642456577";
     private static String consoleChannelId = "711280957142990958";
@@ -74,7 +77,7 @@ public class Commands extends ListenerAdapter {
                 }
             } else return;
 
-            switch (message) {
+            switch (message.toLowerCase()) {
                 case "ping":
                 case "pong":
                     ping(event);
@@ -114,9 +117,11 @@ public class Commands extends ListenerAdapter {
                 case "getspecs":
                     getspecs(event);
                     break;
+                case "privacy":
                 case "setprivacy":
                     setprivacy(event);
                     break;
+                case "prefix":
                 case "setprefix":
                     setprefix(event);
                     break;
@@ -156,6 +161,13 @@ public class Commands extends ListenerAdapter {
 
     private void ping(GuildMessageReceivedEvent event) {
         event.getChannel().sendMessage(":ping_pong: **" + (event.getMessage().getContentRaw().contains("pong") ? "Ping" : "Pong") + "!**").queue();
+
+        if(event.getAuthor().getId().equals("226113023775997952") && event.getMessage().getContentRaw().toLowerCase().contains("ping")) {
+            OffsetDateTime currentTime = new Date(System.currentTimeMillis()).toInstant().atOffset(ZoneOffset.UTC);
+            OffsetDateTime timeSent = event.getMessage().getTimeCreated();
+
+            event.getChannel().sendMessage("**" + Math.abs((currentTime.getNano() - timeSent.getNano()) / 1000000) + "** ms").queue();
+        }
     }
 
     private void rules(GuildMessageReceivedEvent event) {
@@ -243,24 +255,15 @@ public class Commands extends ListenerAdapter {
             int searchResultLimit = 10;
             ArrayList<String> tempArray = new ArrayList<>(Arrays.asList(StringTools.toStringArray(Searcher.searchFor(query).toArray())));
 
-            //*
-            for (int i = 0; i < tempArray.size(); i++) {
-                if (tempArray.get(i).toLowerCase().contains("forgotten password")
-                        || tempArray.get(i).toLowerCase().contains("lostpassword")
-                        || tempArray.get(i).contains("img src")) {
-                    tempArray.remove(i--); //remove index i, AND THEN decrease i
-                }
-            } //*/
-
-            embed.setTitle("System requirement search results for " + query, Searcher.getGameSiteLink(query));
-            embed.setDescription(":stopwatch: **" + (tempArray.size() == 25 ? "25+" : tempArray.size()) + " search result" + (tempArray.size() == 1 ? "" : "s") + "** in " + (float) (System.currentTimeMillis() - deltaTime) / 1000 + " seconds." + (tempArray.size() > searchResultLimit ? "\nHere are the top " + searchResultLimit + " results:" : ""));
+            embed.setTitle("System requirement search results for " + query, Searcher.getGameSiteLink(query, "steam"));
+            embed.setDescription(":stopwatch: **" + (tempArray.size() >= 25 ? "25+" : tempArray.size()) + " search result" + (tempArray.size() == 1 ? "" : "s") + "** in " + (float) (System.currentTimeMillis() - deltaTime) / 1000 + " seconds." + (tempArray.size() > searchResultLimit ? "\nHere are the top " + searchResultLimit + " results:" : ""));
             //embed.setFooter("Type `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "gamespecs [GAME]` to see system requirements for the given game.", null);
 
             String title, link, prefix = Recordkeeper.getGuildPrefix(event.getGuild().getId());
             for (int i = 0; i < tempArray.size() && i < searchResultLimit; i++) {
-                title = tempArray.get(i).substring(0, tempArray.get(i).lastIndexOf("(")).trim();
-                link = tempArray.get(i).substring(tempArray.get(i).lastIndexOf("(") + 1, tempArray.get(i).lastIndexOf(")"));
-                embed.addField(title, "[View specs](" + link + ") or use *" + prefix + "gameinfo " + title + "*", false);
+                title = StringTools.cleanString(tempArray.get(i).substring(0, tempArray.get(i).lastIndexOf("[!(")).trim());
+                link = tempArray.get(i).substring(tempArray.get(i).lastIndexOf("[!(") + 3, tempArray.get(i).lastIndexOf(")!]"));
+                embed.addField(title, "[View page](" + link + ") or use *" + prefix + "gameinfo " + title + "*", false);
             }
         } catch (Exception e) {
             embed.setTitle(":warning: No games titled `" + query.trim() + "` were found.");
@@ -273,8 +276,14 @@ public class Commands extends ListenerAdapter {
 
     private void gamespecs(GuildMessageReceivedEvent event) {
         String[] messageArgs = event.getMessage().getContentRaw().split(" ");
-        GameInfo gameInfo = new GameInfo(Searcher.getSearchResult(getArgsAfter(0, messageArgs, false)));
-        ArrayList<String> minSpecs = gameInfo.getSpecs(0);
+        SteamGame gameInfo = new SteamGame(Searcher.getSearchResult(getArgsAfter(0, messageArgs, false)));
+        ArrayList<String> minSpecs;
+        try {
+            minSpecs = gameInfo.getSpecs(0);
+        } catch (Exception ex) {
+            event.getChannel().sendMessage("I can't access any info for age-restricted games. Sorry!").queue();
+            return;
+        }
         //ArrayList<String> recSpecs = gameInfo.getSpecs(1);
 
 
@@ -288,12 +297,14 @@ public class Commands extends ListenerAdapter {
                     .setColor(Color.WHITE);
 
             String temp;
-            String[] titles = new String[]{"CPU - Central Processing Unit", "RAM - Random Access Memory", "GPU - Graphics Processing Unit", "OS - Operating System", "Storage space needed"};
+            String[] titles = new String[]{"CPU - Central Processing Unit", "GPU - Graphics Processing Unit", "RAM - Random Access Memory", "OS - Operating System", "Storage space needed"};
             for (int i = 0; i < minSpecs.size(); i++) {
                 //temp = StringTools.removeHtmlTags(minSpecs.get(i));
 
                 temp = minSpecs.get(i);
-                //temp = StringTools.fixString(temp);
+
+                //System.out.println("Field title: " + titles[i]);
+                //System.out.println("Field: " + temp);
 
                 embed.addField(titles[i], temp, false);
             }
@@ -328,7 +339,7 @@ public class Commands extends ListenerAdapter {
 
     private void gameinfo(GuildMessageReceivedEvent event) {
         String[] messageArgs = event.getMessage().getContentRaw().split(" ");
-        GameInfo gameInfo = new GameInfo(Searcher.getSearchResult(getArgsAfter(0, messageArgs, false)));
+        SteamGame gameInfo = new SteamGame(Searcher.getSearchResult(getArgsAfter(0, messageArgs, false)));
 
         try {
             String[] result = StringTools.toStringArray(gameInfo.getInfo().toArray());
@@ -393,7 +404,7 @@ public class Commands extends ListenerAdapter {
 
                 embed
                         .setTitle(gpu.getName() + " Performance Info", results.get(0).getLink())
-                        .setDescription("Use `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "setspecs cpu " + gpu.getName() + "`\n to set this as your system CPU.")
+                        .setDescription("Use `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "setspecs gpu " + gpu.getName() + "`\n to set this as your system GPU.")
                         .setThumbnail(DiscordBot.getJda().getSelfUser().getAvatarUrl())
                         .addField("Base clock speed", gpu.getBaseClock() + " MHz", false)
                         .addField("Boosted clock speed", gpu.getBoostClock() + " MHz", false)
@@ -426,6 +437,7 @@ public class Commands extends ListenerAdapter {
                 .addField(prefix + "info [CPU/GPU] [query]", "Returns performance information on the given hardware.", false)
                 .addField(prefix + "setspecs [GPU/CPU/RAM] [value]", "Allows users to enter their system specifications.", false)
                 .addField(prefix + "myspecs", "Displays *your* system specifications.", false)
+                .addField(prefix + "resetspecs [CPU/GPU/RAM]", "Resets your system specs if specified.", false)
                 .addField(prefix + "getspecs [@user]", "Displays *another user's* system specifications (only if they disable user privacy).", false)
                 .addField(prefix + "setprivacy [ON/OFF/TRUE/FALSE]", "Determines whether or not other users can view your system specifications. (On/True) will leave your hardware private.", false)
                 .addField(prefix + "compare [@user]", "Compares your PC specs against another user's PC.", false)
@@ -438,15 +450,59 @@ public class Commands extends ListenerAdapter {
     }
 
     private void resetspecs(GuildMessageReceivedEvent event) {
-        UserSpecs user = new UserSpecs(event.getAuthor().getId(), new Cpu("No Cpu", 0.0, 0.0, 0, 0), new Gpu("No Gpu", 0.0, 0.0, 0.0), 0);
+        if(event.getMessage().getContentRaw().contains(" ")) {
+            //if command has 1 or more arguments
+            reset(event);
+            return;
+        }
+
+        UserSpecs user = new UserSpecs(event.getAuthor().getId(), Cpu.getCpuDefault(), Gpu.getGpuDefault(), 0);
         String message;
 
         if (Recordkeeper.addUserSpecs(user)) {
-            message = "Successfully reset your System specs.";
+            message = "Successfully reset all System specs.";
         } else
             message = "An error occurred. If you know what happened, please use " + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "feedback` to let us know what happened.";
 
         event.getChannel().sendMessage(message).queue();
+    }
+
+    private void reset(GuildMessageReceivedEvent event) {
+        if(!event.getMessage().getContentRaw().trim().contains(" ")) {
+            //if there are no args given, then do the general "resetspecs" command
+            resetspecs(event);
+            return;
+        }
+
+        String[] messageArgs = event.getMessage().getContentRaw().split(" ");
+        String response;
+
+        switch (messageArgs[1].toLowerCase()) {
+            case "cpu":
+            case "processor":
+                Recordkeeper.getSpecsByUserId(event.getAuthor().getId()).setUserCpu(Cpu.getCpuDefault());
+                response = "Successfully reset your PC's CPU";
+                break;
+            case "gpu":
+            case "graphics":
+                Recordkeeper.getSpecsByUserId(event.getAuthor().getId()).setUserGpu(Gpu.getGpuDefault());
+                response = "Successfully reset your PC's GPU";
+                break;
+            case "ram":
+                Recordkeeper.getSpecsByUserId(event.getAuthor().getId()).setUserRam(2);
+                response = "Successfully reset your PC's RAM in GB (2GB by default)";
+                break;
+            case "desc":
+            case "description":
+                Recordkeeper.getSpecsByUserId(event.getAuthor().getId()).setPcDescription("null");
+                response = "Successfully reset your PC's description field.";
+                break;
+            default:
+                response = "Usage: `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "reset [CPU/GPU/RAM]`";
+                break;
+        }
+
+
     }
 
     private void myspecs(GuildMessageReceivedEvent event) {
@@ -770,8 +826,8 @@ public class Commands extends ListenerAdapter {
         sendToConsole("New feedback, check the #caniplay-feedback channel.");
         DiscordBot.getJda().getTextChannelById(feedbackChannelId).sendMessage(event.getAuthor().getAsTag() + "'s feedback: ```" + getArgsAfter(0, messageArgs, false) + "```").queue();
 
-        event.getChannel().sendMessage("Thank you! Your feedback has been recorded.");
-        event.getChannel().sendMessage("If you're reporting a bug, make sure you mention the word \"bug\" in your response, so it can be filed separately.");
+        event.getChannel().sendMessage("Thank you! Your feedback has been recorded.").queue();
+        event.getChannel().sendMessage("If you're reporting a bug, make sure you mention the word \"bug\" in your response, so it can be filed separately.").queue();
     }
 
 
@@ -821,26 +877,15 @@ public class Commands extends ListenerAdapter {
     } //*/
 
     private void canUserPlay(GuildMessageReceivedEvent event, String message) {
-        boolean debugPrintouts = true;
         long deltaTime = System.currentTimeMillis();
-        event.getChannel().sendMessage("`THIS FEATURE IS STILL IN BETA. RESPONSE MAY BE DELAYED AND SOME REQUIRED GAME SPECS PRESENTED MAYBE INCORRECT.`").queue();
+        event.getChannel().sendMessage("`THIS FEATURE IS STILL IN BETA. PLEASE ALLOW ~5 SECONDS FOR A RESPONSE, SOME REPORTED GAME SPECS PRESENTED MAYBE INCORRECT.`").queue();
 
-        GameInfo game = new GameInfo(Searcher.getSearchResult(message));
-        if (debugPrintouts) {
-            //System.out.println("GameInfo: " + game + " " + (System.currentTimeMillis() - deltaTime));
-            deltaTime = System.currentTimeMillis();
+        SteamGame game = new SteamGame(Searcher.getSearchResult(message));
+        if (DiscordBot.debugPrintouts) {
+            System.out.println("[DEBUG - Commands] Can User Play: " + game.getTitle());
         }
-        UserSpecs user = Recordkeeper.getSpecsByUserId(event.getAuthor().getId());
-        if (debugPrintouts) {
-            //System.out.println("UserSpecs: " + user + " " + (System.currentTimeMillis() - deltaTime));
-            deltaTime = System.currentTimeMillis();
-        }
+        UserSpecs user = Recordkeeper.getSpecsByUserId(event.getAuthor().getId()); //gets the user's specs from the database
         boolean[] specsMeetReqs = compareSpecs(game, user); //returns which of the users specs meet the requirements to play the game
-
-        if (debugPrintouts) {
-            //System.out.println("SpecsMeetReqs: " + specsMeetReqs + " " + (System.currentTimeMillis() - deltaTime));
-            deltaTime = System.currentTimeMillis();
-        }
         boolean temp = true;
         for (boolean bool : specsMeetReqs) {
             if (!bool) {
@@ -848,12 +893,6 @@ public class Commands extends ListenerAdapter {
                 break;
             }
         } //if all of specsMeetReqs = true, temp = true
-
-
-        if (debugPrintouts) {
-            System.out.println("All specs true: " + temp + " " + (System.currentTimeMillis() - deltaTime));
-            deltaTime = System.currentTimeMillis();
-        }
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setImage(game.getImageUrl())
@@ -864,8 +903,8 @@ public class Commands extends ListenerAdapter {
                 .addField("GPU - Graphics Processing Unit", "Your GPU " + (specsMeetReqs[GPU_INDEX] ? "meets" : "**does not** meet") + " the minimum requirement **(__" + user.getUserGpu().getName() + "__ vs. __" + game.getGpu().getName() + "__)**", false)
                 .addField("RAM - Random Access Memory", "Your RAM " + (specsMeetReqs[RAM_INDEX] ? "meets" : "**does not** meet") + " the minimum requirement (**" + user.getUserRam() + "** GB vs. **" + (game.getRamInGb() == -1 ? "<1" : game.getRamInGb()) + "** GB)", false);
 
-        if (debugPrintouts) {
-            System.out.println("Message sent: " + (System.currentTimeMillis() - deltaTime));
+        if (DiscordBot.debugPrintouts) {
+            System.out.println("[DEBUG - Commands] Message sent: " + (System.currentTimeMillis() - deltaTime) + " MS");
         }
         event.getChannel().sendMessage(embed.build()).queue();
     }
@@ -901,7 +940,7 @@ public class Commands extends ListenerAdapter {
         return false; //*/
     }
 
-    private boolean[] compareSpecs(GameInfo gameInfo, UserSpecs user) {
+    private boolean[] compareSpecs(SteamGame gameInfo, UserSpecs user) {
         boolean[] output = new boolean[3];
 
         output[CPU_INDEX] = user.getUserCpu().isBetterThan(gameInfo.getCpu());
@@ -909,17 +948,6 @@ public class Commands extends ListenerAdapter {
         output[RAM_INDEX] = user.getUserRam() >= gameInfo.getRamInGb();
 
         //System.out.println(output[0] + ", " + output[1] + ", " + output[2]);
-
-        return output;
-    }
-
-    private ArrayList<String> splitMessage(String inputStr) {
-        ArrayList<String> output = new ArrayList<>();
-
-        do { //so long as "inputStr" is too long to send
-            output.add(inputStr.substring(0, inputStr.lastIndexOf("\n", 1999)));
-            inputStr = inputStr.substring(inputStr.lastIndexOf("\n", 1999) + 1);
-        } while (inputStr.contains("\n"));
 
         return output;
     }

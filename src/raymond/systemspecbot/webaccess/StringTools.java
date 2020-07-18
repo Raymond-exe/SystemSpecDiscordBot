@@ -10,7 +10,7 @@ public class StringTools {
         char index;
         for (int i = 0; i < text.length(); i++) {
             index = text.charAt(i);
-            if (index != '\n' && !(index >= '0' && index <= '9') && !(index >= 'a' && index <= 'z') && !(index >= 'A' && index <= 'Z') && index != ' ') {
+            if (index != '\n' && !(index >= '0' && index <= '9') && !(index >= 'a' && index <= 'z') && !(index >= 'A' && index <= 'Z') && index != ' ' && index != ':' && index != '-') {
                 text = text.substring(0, i) + text.substring(i + 1);
                 i--;
             }
@@ -32,20 +32,12 @@ public class StringTools {
     }
 
     public static String removeHtmlTags(String html) {
-        int openIndexLocation = html.length();
-        int closeIndexLocation;
 
-        while (html.contains("<")) {
-            for (int i = 0; i < html.length(); i++) {
-                if (html.charAt(i) == '<') {
-                    openIndexLocation = i;
-                } else if (html.charAt(i) == '>') {
-                    closeIndexLocation = i;
-                    if (openIndexLocation < closeIndexLocation) {
-                        html = html.substring(0, openIndexLocation) + html.substring(closeIndexLocation + 1);
-                    }
-                }
-            }
+        while(html.contains("<") && html.contains(">")) {
+            if(html.indexOf(">") > html.indexOf("<")) {
+                html = html.substring(0, html.indexOf("<")) + html.substring(html.indexOf(">") + 1);
+            } else
+                break;
         }
 
         return html;

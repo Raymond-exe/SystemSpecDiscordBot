@@ -8,6 +8,10 @@ public class Gpu {
     private double memClock;   //MHz
     private int dxVersion;
 
+    public static Gpu getGpuDefault() {
+        return new Gpu("No GPU", 0, 0, 0);
+    }
+
     public Gpu(String n, double base, double boost, double mem) {
         name = n;
         baseClock = base;
@@ -57,11 +61,11 @@ public class Gpu {
     public boolean isBetterThan(Gpu other) {
         int counter = 0;
 
-        if (baseClock > other.getBaseClock())
+        if (baseClock >= other.getBaseClock())
             counter++;
-        if (boostClock > other.getBoostClock())
+        if (boostClock >= other.getBoostClock())
             counter++;
-        if(memClock > other.getMemClock())
+        if(memClock >= other.getMemClock())
             counter++;
 
         return counter >= 2;

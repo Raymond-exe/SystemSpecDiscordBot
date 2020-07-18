@@ -45,7 +45,7 @@ public class Recordkeeper {
             }
         }
 
-        addUserSpecs(new UserSpecs(userId, new Cpu("No CPU", 0), new Gpu("No GPU", 0), 0));
+        addUserSpecs(new UserSpecs(userId, Cpu.getCpuDefault(), Gpu.getGpuDefault);
 
         return getSpecsByUserId(userId); //*/
     }
