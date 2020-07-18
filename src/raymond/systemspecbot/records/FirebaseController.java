@@ -23,7 +23,7 @@ public class FirebaseController {
 
     private static Firestore db;
 
-    //*
+
     public static void connect() {
 
         if (DiscordBot.debugPrintouts)
@@ -69,7 +69,6 @@ public class FirebaseController {
                 System.out.println("[DEBUG - FirebaseController] Failed to connect to Firestore Database");
         }
     }
-    //*/
 
     public static String getGuildPrefix(String guildId) {
         //request the guildPrefix with the matching guildId

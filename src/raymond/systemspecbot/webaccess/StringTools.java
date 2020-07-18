@@ -59,27 +59,6 @@ public class StringTools {
         return inputStr;
     }
 
-    /*
-    public static String buildString(Object[] array){
-        String output = "";
-
-        for (int i = 0; i < array.length; i++) {
-            output += array[i] + "\n";
-        }
-
-        return output;
-    } //*/
-
-    /*
-    public static ArrayList<String> toStringArrayList(ArrayList<Object> objArray) {
-        ArrayList<String> output = new ArrayList<String>();
-
-        for (Object obj : objArray)
-            output.add((String) obj);
-
-        return output;
-    } //*/
-
     public static String[] toStringArray(Object[] objArray) {
         String[] output = new String[objArray.length];
 

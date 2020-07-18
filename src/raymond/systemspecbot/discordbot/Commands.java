@@ -284,11 +284,9 @@ public class Commands extends ListenerAdapter {
             event.getChannel().sendMessage("I can't access any info for age-restricted games. Sorry!").queue();
             return;
         }
-        //ArrayList<String> recSpecs = gameInfo.getSpecs(1);
 
 
         try {
-            //String[] result = StringTools.toStringArray(minSpecs.toArray());
             EmbedBuilder embed = new EmbedBuilder()
                     .setImage(gameInfo.getImageUrl())
                     .setThumbnail(DiscordBot.getJda().getSelfUser().getAvatarUrl())
@@ -299,42 +297,18 @@ public class Commands extends ListenerAdapter {
             String temp;
             String[] titles = new String[]{"CPU - Central Processing Unit", "GPU - Graphics Processing Unit", "RAM - Random Access Memory", "OS - Operating System", "Storage space needed"};
             for (int i = 0; i < minSpecs.size(); i++) {
-                //temp = StringTools.removeHtmlTags(minSpecs.get(i));
 
                 temp = minSpecs.get(i);
 
-                //System.out.println("Field title: " + titles[i]);
-                //System.out.println("Field: " + temp);
 
                 embed.addField(titles[i], temp, false);
             }
             event.getChannel().sendMessage(embed.build()).queue();
 
-            //System.out.print("GPU: ");
-            //System.out.print(gameInfo.getGpu());
         } catch (Exception e) {
             event.getChannel().sendMessage("No search results for " + getArgsAfter(0, messageArgs, false).trim() + ", maybe try searching for another title?").queue();
             e.printStackTrace();
         }
-
-
-        /*
-        for(int i = 0; i < minSpecs.size(); i++) {
-            if (minSpecs.get(i).contains("display:table-cell")) {
-                String replacement = minSpecs.get(i).substring(minSpecs.lastIndexOf("display:table-cell") + 45);
-                minSpecs.set(i, replacement);
-            }
-        } //*/
-
-
-        //System.out.println(minSpecs.toString());
-        //event.getChannel().sendMessage(minSpecs.toString()).queue();
-
-        //TEST PURPOSES ONLY
-        /*
-        for (int i = 0; i < minSpecs.size(); i++)
-            event.getChannel().sendMessage(minSpecs.get(i)).queue();
-        //*/
     }
 
     private void gameinfo(GuildMessageReceivedEvent event) {

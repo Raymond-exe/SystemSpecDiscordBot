@@ -7,6 +7,7 @@ import raymond.systemspecbot.pcparts.Gpu;
 
 import java.util.ArrayList;
 
+//NOTE: Deprecated, may be re-implemented in the future
 public class GameInfo {
 
     public static final int MIN_SYS_REQS = 0, REC_SYS_REQS = 1;
@@ -53,7 +54,7 @@ public class GameInfo {
         return output;
     }
 
-    //**********SPECS**********\\
+    /**********SPECS**********/
 
     public ArrayList<String> getSpecs(int requirements) {
         String[] headers = {"CPU:", "RAM:", "GPU:", "OS:", "Store:"};
@@ -73,14 +74,8 @@ public class GameInfo {
                 output.add(tempInfo.substring(tempInfo.indexOf(">") + 1).trim());
             }
 
-            /*
-            if(html.contains("<b>DX:</b>")) {
-                String directXVersion = html.substring(html.indexOf("<b>DX:</b>"), html.indexOf("</div></div>", html.indexOf("<b>DX:</b>")));
-            } //*/
-
 
         } else if (requirements == REC_SYS_REQS) {
-            //returns recommended system requirements
 
 
         } else {

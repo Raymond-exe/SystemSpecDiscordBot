@@ -10,40 +10,12 @@ public class SearchResult {
 
     private String name;
     private String link;
-    //private double[] value;
 
-    /*
-    public SearchResult(String n, double dOne, double dTwo, double dThree) {
-        name = n;
-
-        value = new double[3];
-        value[0] = dOne;
-        value[1] = dTwo;
-        value[2] = dThree;
-    } //*/
 
     public SearchResult(String n, String l) {
         name = n;
         link = l;
     }
-
-    /*/only accepts html from "<td>" to "</td>"
-    public SearchResult(String html) {
-
-        value = new double[3];
-
-        if(html.contains("<h2>Clock Speeds</h2>")) {
-            html = html.substring(html.indexOf("<h2>Clock Speeds</h2>"), html.indexOf("</section>", html.indexOf("<h2>Clock Speeds</h2>")));
-            value[0] = Double.parseDouble(html.substring(html.indexOf("<dd>", html.indexOf("<dt>Base Clock</dt>") + 4), html.indexOf("MHz")).trim());
-            value[1] = Double.parseDouble(html.substring(html.indexOf("<dd>", html.indexOf("<dt>Boost Clock</dt>") + 4), html.indexOf("MHz")).trim());
-            value[2] = Double.parseDouble(html.substring(html.indexOf("<dd>", html.indexOf("<dt>Memory Clock</dt>") + 4), html.indexOf("MHz")).trim());
-        } else if (html.contains("<h1>Performance</h1>")) {
-            html = html.substring(html.indexOf("<h1>Performance</h1>"), html.indexOf("</section>", html.indexOf("<h1>Performance</h1>")));
-            value[0] = Double.parseDouble(html.substring(html.indexOf("<td>", html.indexOf("<th>Frequency:</th>")), html.indexOf("GHz", html.indexOf("<th>Frequency:</th>"))).trim());
-            value[0] = Double.parseDouble(html.substring(html.indexOf("<td>", html.indexOf("<th>Turbo Clock:</th>")), html.indexOf("GHz", html.indexOf("<th>Turbo Clock:</th>"))).trim());
-            value[0] = Double.parseDouble(html.substring(html.indexOf("<td>", html.indexOf("<th>Base Clock:</th>")), html.indexOf("MHz", html.indexOf("<th>Base Clock:</th>"))).trim());
-        }
-    } //*/
 
     public String getName() { return name; }
     public String getLink() { return link; }
@@ -61,7 +33,7 @@ public class SearchResult {
             Elements titles = doc.getElementsByTag("th");
             Elements values = doc.getElementsByTag("td");
 
-            //*
+
             for(int i = 0; i < titles.size(); i++) {
                 switch (titles.get(i).text().trim()) {
                     case "Frequency:":
@@ -79,7 +51,7 @@ public class SearchResult {
                     default:
                         break;
                 }
-            } //*/
+            }
 
             //Assigning the frequency
             tempArgs = values.get(freqIndex).text().split(" ");
@@ -135,7 +107,7 @@ public class SearchResult {
             Elements titles = doc.getElementsByTag("dt");
             Elements values = doc.getElementsByTag("dd");
 
-            //*
+
             for(int i = 0; i < titles.size(); i++) {
                 switch (titles.get(i).text().trim()) {
                     case "Base Clock":
@@ -153,7 +125,7 @@ public class SearchResult {
                     default:
                         break;
                 }
-            } //*/
+            }
 
             //Assigning the frequency
             if(baseIndex != -1) {

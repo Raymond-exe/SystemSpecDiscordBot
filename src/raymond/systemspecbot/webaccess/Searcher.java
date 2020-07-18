@@ -159,32 +159,6 @@ public class Searcher {
 
     }
 
-    /*
-    //Used for searching for GPUs
-    public static ArrayList<Gpu> searchGpu(String query, int size) {
-        ArrayList<SearchResult> results = searchSpecs("GPU", query.toLowerCase());
-        ArrayList<Gpu> output = new ArrayList<>();
-
-        for (int i = 0; i < results.size() && i < size; i++) {
-            output.add((results.get(i).getGpu()));
-        }
-
-        return output;
-    } //*/
-
-    /*
-    //Used for searching for CPUs
-    public static ArrayList<Cpu> searchCpu(String query, int size) {
-        ArrayList<SearchResult> results = searchSpecs("CPU", query.toLowerCase());
-        ArrayList<Cpu> output = new ArrayList<>();
-
-        for (int i = 0; i < results.size() && i < size; i++) {
-            output.add((results.get(i).getCpu()));
-        }
-
-        return output;
-    } //*/
-
     public static String getGameSiteLink(String query, String site) {
         query = query.trim();
 

@@ -86,7 +86,7 @@ public class SteamGame {
 
     //**********SPECS**********\\
 
-    //*
+
     public ArrayList<String> getSpecs (int requirements) throws NullPointerException {
         HashMap<String, String> specMap = getSpecMap(requirements);
         ArrayList<String> output = new ArrayList<>();
@@ -205,7 +205,7 @@ public class SteamGame {
 
     public Cpu getCpu() {
         return getCpu(0);
-    } //*/
+    }
 
 
 
