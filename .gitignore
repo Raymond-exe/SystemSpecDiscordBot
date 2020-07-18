@@ -120,8 +120,10 @@ fabric.properties
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# lib folder
+lib/*
+
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -134,7 +136,6 @@ hs_err_pid*
 
 ### Gradle ###
 .gradle
-build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -148,7 +149,5 @@ gradle-app.setting
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
-### Gradle Patch ###
-**/build/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,gradle,firebase
