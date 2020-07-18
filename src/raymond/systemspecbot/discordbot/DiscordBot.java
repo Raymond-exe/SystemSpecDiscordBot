@@ -16,7 +16,9 @@ public class DiscordBot {
 
 
     public static void main(String[] args) throws LoginException {
-        String discordToken = Recordkeeper.readFile("C:\\Users\\Raymond\\Documents\\discordBotToken-CanIPlay.txt").trim();
+        EnvironmentManager.instantiate();
+
+        String discordToken = EnvironmentManager.get("SPECBOT_DISCORD_TOKEN");
         jda = new JDABuilder(AccountType.BOT).setToken(discordToken).build();
 
         FirebaseController.connect();

@@ -15,11 +15,11 @@ import raymond.systemspecbot.webaccess.SearchResult;
 import raymond.systemspecbot.webaccess.Searcher;
 import raymond.systemspecbot.webaccess.StringTools;
 
-import java.awt.*;
+
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

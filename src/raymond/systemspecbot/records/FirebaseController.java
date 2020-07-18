@@ -7,17 +7,20 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import raymond.systemspecbot.discordbot.DiscordBot;
+import raymond.systemspecbot.discordbot.EnvironmentManager;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 import raymond.systemspecbot.pcparts.UserSpecs;
 
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseController {
 
-    private static String serviceAccountFile = "C:\\Users\\Raymond\\Downloads\\specbot-serviceAccount.json";
+
     private static Firestore db;
 
     //*
@@ -26,12 +29,30 @@ public class FirebaseController {
         if (DiscordBot.debugPrintouts)
             System.out.println("[DEBUG - FirebaseController] Connecting to Firestore Database...");
 
+        GoogleCredentials googleCredentials;
+
+        //try block will try to connect to Firebase
         try {
-            FileInputStream serviceAccount =
-                    new FileInputStream(serviceAccountFile);
+
+            //try block will try to locate credentials
+            try {
+
+                googleCredentials = GoogleCredentials.fromStream(
+                        new ByteArrayInputStream(
+                                EnvironmentManager.get("SPECBOT_GOOGLE_CREDENTIALS")
+                                        .getBytes(StandardCharsets.UTF_8)
+                        ));
+
+            } catch (Exception e) {
+
+                if(DiscordBot.debugPrintouts)
+                    System.out.println("[DBEUG - FirebaseController] Unable to locate Environment Variable \"SPECBOT_GOOGLE_CREDENTIALS\", using application default");
+
+                googleCredentials = GoogleCredentials.getApplicationDefault();
+            }
 
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setCredentials(googleCredentials)
                     .setDatabaseUrl("https://discord-specbot.firebaseio.com")
                     .build();
 
