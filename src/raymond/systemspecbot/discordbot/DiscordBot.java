@@ -14,11 +14,17 @@ public class DiscordBot {
     public static boolean debugPrintouts = true;
 
 
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) {
         EnvironmentManager.instantiate();
 
         String discordToken = EnvironmentManager.get("SPECBOT_DISCORD_TOKEN");
-        jda = new JDABuilder(AccountType.BOT).setToken(discordToken).build();
+
+        try {
+            jda = new JDABuilder(AccountType.BOT).setToken(discordToken).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         FirebaseController.connect();
 
