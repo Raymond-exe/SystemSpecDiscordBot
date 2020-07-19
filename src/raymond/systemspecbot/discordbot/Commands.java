@@ -404,7 +404,7 @@ public class Commands extends ListenerAdapter {
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle(DiscordBot.getJda().getSelfUser().getName() + " commands")
                 .setThumbnail(DiscordBot.getJda().getSelfUser().getAvatarUrl())
-                .addField("@" + DiscordBot.getJda().getSelfUser().getName() + " [game]", "Ask me if you can play a game!", false)
+                .addField("@__" + DiscordBot.getJda().getSelfUser().getName() + "__ [game]", "Ask me if you can play a game!", false)
                 .addField(prefix + "help", "Displays this dialog box.", false)
                 .addField(prefix + "search [query]", "Runs a search for any PC games.", false)
                 .addField(prefix + "search [CPU/GPU] [query]", "Runs a search for any specified hardware.", false)

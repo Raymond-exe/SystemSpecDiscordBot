@@ -1,4 +1,6 @@
-package raymond.systemspecbot.discordbot;
+package raymond.systemspecbot.records;
+
+import raymond.systemspecbot.discordbot.DiscordBot;
 
 import java.util.Map;
 

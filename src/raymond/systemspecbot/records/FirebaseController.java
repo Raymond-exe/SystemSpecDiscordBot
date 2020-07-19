@@ -7,13 +7,11 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import raymond.systemspecbot.discordbot.DiscordBot;
-import raymond.systemspecbot.discordbot.EnvironmentManager;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 import raymond.systemspecbot.pcparts.UserSpecs;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;

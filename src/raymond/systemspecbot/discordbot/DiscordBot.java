@@ -3,10 +3,8 @@ package raymond.systemspecbot.discordbot;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import raymond.systemspecbot.records.EnvironmentManager;
 import raymond.systemspecbot.records.FirebaseController;
-import raymond.systemspecbot.records.Recordkeeper;
-
-import javax.security.auth.login.LoginException;
 
 public class DiscordBot {
 
@@ -15,10 +13,18 @@ public class DiscordBot {
 
 
     public static void main(String[] args) {
+
+        if(debugPrintouts)
+            System.out.println("[DEBUG - DiscordBot] Instantiating EnvironmentManager class...");
         EnvironmentManager.instantiate();
 
+        if(debugPrintouts)
+            System.out.println("[DEBUG - DiscordBot] Retrieving SPECBOT_DISCORD_TOKEN...");
         String discordToken = EnvironmentManager.get("SPECBOT_DISCORD_TOKEN");
 
+
+        if(debugPrintouts)
+            System.out.println("[DEBUG - DiscordBot] Logging in JDA...");
         try {
             jda = new JDABuilder(AccountType.BOT).setToken(discordToken).build();
         } catch (Exception e) {
