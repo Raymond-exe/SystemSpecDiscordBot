@@ -52,11 +52,26 @@ public class Gpu {
         }
     }
 
-    public String getName() { return name; }
-    public double getBaseClock() { return baseClock; }
-    public double getBoostClock() { return boostClock; }
-    public double getMemClock() { return memClock; }
-    public int getDxVersion() { return  dxVersion; }
+    public String getName() {
+        return name;
+    }
+
+    public double getBaseClock() {
+        return baseClock;
+    }
+
+    public double getBoostClock() {
+        return boostClock;
+    }
+
+    public double getMemClock() {
+        return memClock;
+    }
+
+    public int getDxVersion() {
+        return  dxVersion;
+    }
+
 
     public boolean isBetterThan(Gpu other) {
         int counter = 0;
