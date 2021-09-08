@@ -110,7 +110,6 @@ public class UserSpecs {
     }
 
     public void setPrivacy(boolean bool) {
-        System.out.println("Privacy updated to " + bool);
         specsPrivacy = bool;
     }
 

@@ -12,15 +12,15 @@ import raymond.systemspecbot.discordbot.DiscordBot;
 public class WebFetch {
 
     public static Document fetch(String site) {
-        if (DiscordBot.debugPrintouts) { System.out.print("[DEBUG - WebFetch] Connection request sent to " + site + "..."); }
+        DiscordBot.debugPrintln("Connection request sent to " + site + "...", WebFetch.class);
 
         try {
             Document doc = Jsoup.connect(site).userAgent("Mozilla/5.0").get();
-            if (DiscordBot.debugPrintouts) { System.out.println(" Connection successful!"); }
+            DiscordBot.debugPrintln("Connection successful!", WebFetch.class);
             return doc;
 
         } catch (Exception e) {
-            if (DiscordBot.debugPrintouts) { System.out.println(" Connection failed."); }
+            DiscordBot.debugPrintln("Connection failed.", WebFetch.class);
             e.printStackTrace();
         }
 

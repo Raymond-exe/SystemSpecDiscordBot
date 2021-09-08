@@ -1,5 +1,7 @@
 package raymond.systemspecbot.pcparts;
 
+import raymond.systemspecbot.discordbot.DiscordBot;
+
 public class Cpu {
 
     private String name;
@@ -35,7 +37,7 @@ public class Cpu {
             coreCount = 0;
             threadCount = 0;
         } else {
-            System.out.println("[DEBUG - Cpu] Unaccepted parameter: " + rawText);
+            DiscordBot.debugPrintln("Unaccepted parameter: " + rawText, Cpu.class);
         }
 
     }

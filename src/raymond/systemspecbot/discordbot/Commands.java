@@ -69,7 +69,7 @@ public class Commands extends ListenerAdapter {
 
             //Checks if message starts with prefix
             if (message.startsWith(prefix)) {
-                message = message.substring(prefix.length(), endOfFirstArg);
+                message = message.substring(prefix.length(), endOfFirstArg).trim();
 
                 if (!betaServers.contains(event.getGuild().getId())) {
                     event.getChannel().sendMessage("Sorry! " + DiscordBot.getJda().getSelfUser().getAsMention() + " is currently in beta and *not available in public servers*. Please message **@Ramen.exe#8147** to add your server to the beta testing list, thank you!").queue();
@@ -855,9 +855,9 @@ public class Commands extends ListenerAdapter {
         event.getChannel().sendMessage("`THIS FEATURE IS STILL IN BETA. PLEASE ALLOW ~5 SECONDS FOR A RESPONSE, SOME REPORTED GAME SPECS PRESENTED MAYBE INCORRECT.`").queue();
 
         SteamGame game = new SteamGame(Searcher.getSearchResult(message));
-        if (DiscordBot.debugPrintouts) {
-            System.out.println("[DEBUG - Commands] Can User Play: " + game.getTitle());
-        }
+
+        DiscordBot.debugPrintln("Can User Play: " + game.getTitle(), Commands.class);
+
         UserSpecs user = Recordkeeper.getSpecsByUserId(event.getAuthor().getId()); //gets the user's specs from the database
         boolean[] specsMeetReqs = compareSpecs(game, user); //returns which of the users specs meet the requirements to play the game
         boolean temp = true;
@@ -877,9 +877,7 @@ public class Commands extends ListenerAdapter {
                 .addField("GPU - Graphics Processing Unit", "Your GPU " + (specsMeetReqs[GPU_INDEX] ? "meets" : "**does not** meet") + " the minimum requirement **(__" + user.getUserGpu().getName() + "__ vs. __" + game.getGpu().getName() + "__)**", false)
                 .addField("RAM - Random Access Memory", "Your RAM " + (specsMeetReqs[RAM_INDEX] ? "meets" : "**does not** meet") + " the minimum requirement (**" + user.getUserRam() + "** GB vs. **" + (game.getRamInGb() == -1 ? "<1" : game.getRamInGb()) + "** GB)", false);
 
-        if (DiscordBot.debugPrintouts) {
-            System.out.println("[DEBUG - Commands] Message sent: " + (System.currentTimeMillis() - deltaTime) + " MS");
-        }
+        DiscordBot.debugPrintln("Message sent: " + (System.currentTimeMillis() - deltaTime) + " MS", Commands.class);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 

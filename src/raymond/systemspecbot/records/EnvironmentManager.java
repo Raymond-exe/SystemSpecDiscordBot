@@ -11,10 +11,7 @@ public class EnvironmentManager {
     public static void instantiate() {
         envVars = System.getenv();
 
-
-        if(DiscordBot.debugPrintouts) {
-            System.out.println("[DEBUG - ENVIRONMENTMANAGER] Retrieved the following variables: " + envVars);
-        }
+        DiscordBot.debugPrintln("Retrieved the following variables: " + envVars, EnvironmentManager.class);
     }
 
     public static String get(String key) {

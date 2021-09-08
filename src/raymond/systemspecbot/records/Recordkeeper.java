@@ -85,7 +85,7 @@ public class Recordkeeper {
             }
 
         } catch (Exception e) {
-            System.out.println("Unable to find file \"" + filename + "\"");
+            DiscordBot.debugPrintln("Unable to find requested file \"" + filename + "\"!", Recordkeeper.class);
         }
 
         return output.toString();

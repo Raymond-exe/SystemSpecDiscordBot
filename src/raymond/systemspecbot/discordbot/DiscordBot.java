@@ -1,6 +1,5 @@
 package raymond.systemspecbot.discordbot;
 
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import raymond.systemspecbot.records.EnvironmentManager;
@@ -9,24 +8,20 @@ import raymond.systemspecbot.records.FirebaseController;
 public class DiscordBot {
 
     private static JDA jda;
-    public static boolean debugPrintouts = true;
+    private static final boolean debugPrintouts = true;
 
 
     public static void main(String[] args) {
 
-        if(debugPrintouts)
-            System.out.println("[DEBUG - DiscordBot] Instantiating EnvironmentManager class...");
+        debugPrintln("Instantiating EnvironmentManager class...", DiscordBot.class);
         EnvironmentManager.instantiate();
 
-        if(debugPrintouts)
-            System.out.println("[DEBUG - DiscordBot] Retrieving SPECBOT_DISCORD_TOKEN...");
-        String discordToken = EnvironmentManager.get("SPECBOT_DISCORD_TOKEN");
+        debugPrintln("Retrieving SPECBOT_CANARY_DISCORD_TOKEN...", DiscordBot.class);
+        String discordToken = EnvironmentManager.get("SPECBOT_CANARY_DISCORD_TOKEN");
 
-
-        if(debugPrintouts)
-            System.out.println("[DEBUG - DiscordBot] Logging in JDA...");
         try {
-            jda = new JDABuilder(AccountType.BOT).setToken(discordToken).build();
+            debugPrintln("Logging in JDA...", DiscordBot.class);
+            jda = JDABuilder.createDefault(discordToken).build();
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -41,6 +36,13 @@ public class DiscordBot {
 
     public static JDA getJda() {
         return jda;
+    }
+
+    public static void debugPrintln(String debugMessage, Class source) {
+        if(!debugPrintouts)
+            return;
+
+        System.out.println("[DEBUG - " + source.getSimpleName() + "] " + debugMessage);
     }
 
 }

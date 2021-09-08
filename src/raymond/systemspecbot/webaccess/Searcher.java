@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 public class Searcher {
 
+    // TODO switch gamesSearchURL to "https://www.pcgamebenchmark.com/api/games?name=" + query instead (spaces = "%20")
     private static String gamesSearchURL = "https://store.steampowered.com/"; //search?q=
     private static String steamURL = "https://store.steampowered.com/"; //search?q=
     private static String specSearchURL = "https://www.google.com/search?&q=";
@@ -44,7 +45,7 @@ public class Searcher {
         doc = WebFetch.fetch(specSearchURL + query + searchModifier);
 
         if (doc.outerHtml().contains("It looks like there aren't any great matches for your search</div>")) {
-            System.out.println("No results for " + query + " found.");
+            DiscordBot.debugPrintln("No results for \"" + query + "\" were found!", Searcher.class);
             return new ArrayList<>();
         }
         //System.out.println("Search entries found!");
@@ -64,7 +65,7 @@ public class Searcher {
             } catch (Exception e) {
                 link = linkElements.get(i).attr("href");
                 link = link.substring(link.indexOf("https://"), link.indexOf("&", link.indexOf("https://")));
-                System.out.println("[DEBUG - Searcher] Failed to add the following link: " + link);
+                DiscordBot.debugPrintln("Failed to add the following link: " + link, Searcher.class);
             }
         }
 
@@ -98,7 +99,7 @@ public class Searcher {
                 spec = "gpu";
                 break;
             default:
-                System.out.println("Rejected argument: \"" + spec + "\" was not recognized as cpu/gpu.");
+                DiscordBot.debugPrintln("Rejected argument: \"" + spec + "\" was not recognized as cpu/gpu.", Searcher.class);
                 return null;
         }
 
@@ -128,8 +129,8 @@ public class Searcher {
         }
 
         //if index was never changed, then cpuArgs DID NOT contain any matches with cpuIndicators
-        if (index == -1 && DiscordBot.debugPrintouts) {
-            System.out.println("[DEBUG - Searcher] No indicators found in " + query);
+        if (index == -1) {
+            DiscordBot.debugPrintln("No indicators found in " + query, Searcher.class);
             return new ArrayList<>(); //returns an empty arraylist
         }
 
@@ -154,7 +155,7 @@ public class Searcher {
             return searchResults;
         }
 
-        System.out.println("Could not find any GPUs for " + query);
+        DiscordBot.debugPrintln("No GPUs found for query \"" + query + "\"!", Searcher.class);
         return new ArrayList<>(); //returns an empty arraylist
 
     }
@@ -179,6 +180,7 @@ public class Searcher {
     public static ArrayList<String> searchFor(String originalQuery) {
         ArrayList<String> output = new ArrayList<>();
         String query = originalQuery.trim();
+        String queryUrl;
         Document doc;
 
         //replaces all spaces with '+'
@@ -186,10 +188,11 @@ public class Searcher {
             query = query.substring(0, query.indexOf(" ")) + "+" + query.substring(query.indexOf(" ")).trim();
         }
 
+        queryUrl = steamURL + "search/?term=" + query + "&category1=998";
         try {
-            doc = WebFetch.fetch(steamURL + "search/?term=" + query + "&category1=998");
+            doc = WebFetch.fetch(queryUrl);
         } catch (Exception ex) {
-            System.out.println("Unable to connect to " + steamURL + "search/?term=" + query + "&category1=998");
+            DiscordBot.debugPrintln("Unable to connect to " + queryUrl, Searcher.class);
             ex.printStackTrace();
             return null;
         }

@@ -3,6 +3,7 @@ package raymond.systemspecbot.webaccess;
 import com.google.common.collect.Lists;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import raymond.systemspecbot.discordbot.DiscordBot;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 
@@ -115,7 +116,6 @@ public class SteamGame {
             divider = "div.game_area_sys_req.sysreq_content.active";
         }
 
-        String temp;
         String detailsStr = doc.select(divider).first().toString();
         String[] detailsArray = detailsStr.split("\n");
         String hashMapKey;
@@ -165,7 +165,7 @@ public class SteamGame {
                 ramToOutput = Integer.parseInt(word.trim());
                 break;
             } catch (Exception ex) {
-                System.out.println("Failed to parse " + word + " to Integer.");
+                DiscordBot.debugPrintln("Failed to parse " + word + " to an Integer!", SteamGame.class);
             }
         }
 

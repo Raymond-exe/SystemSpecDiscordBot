@@ -1,5 +1,7 @@
 package raymond.systemspecbot.pcparts;
 
+import raymond.systemspecbot.discordbot.DiscordBot;
+
 public class Gpu {
 
     private String name;
@@ -48,7 +50,7 @@ public class Gpu {
             memClock = 0;
             dxVersion = 0;
         } else {
-            System.out.println("[DEBUG - Gpu] Unaccepted parameter: " + rawText);
+            DiscordBot.debugPrintln("Unaccepted parameter: " + rawText, Gpu.class);
         }
     }
 
