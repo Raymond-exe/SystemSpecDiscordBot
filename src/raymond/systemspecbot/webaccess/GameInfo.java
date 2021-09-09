@@ -6,52 +6,63 @@ import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-//NOTE: Deprecated, may be re-implemented in the future
 public class GameInfo {
 
     public static final int MIN_SYS_REQS = 0, REC_SYS_REQS = 1;
-    private String website, html;
-    private Document doc;
+    private final String website;
+    private final Document doc;
 
     public GameInfo(String site) {
         website = site;
         doc = WebFetch.fetch(site);
-        html = doc.outerHtml();
     }
 
-    public String getWebsite() {
-        return website;
-    }
+    public String getWebsite() { return website; }
+
+    public String html() { return doc.outerHtml(); }
 
     public String getTitle() {
-        String title;
-
-        title = html.substring(html.indexOf("<title>") + 7, html.indexOf("System Requirements"));
-
-        title = StringTools.fixString(title);
-
-        return title;
+        String title = content().child(0).child(0).text();
+        return title.substring(0, title.indexOf(" System Requirements"));
     }
 
-    public ArrayList<String> getInfo() {
-        ArrayList<String> output = new ArrayList<>();
-
-        output.add(doc.getElementsByClass("game_head_title").text().trim()); //adds title to output ArrayList
-
-        for(Element element : doc.getElementsByClass("game_head_details_row")) {
-            output.add(element.text().trim());
-        }
-
-        return output;
+    public HashMap getInfo() {
+        return null;
     }
 
     public String getImageUrl() {
-        String output;
+        return info().child(0).attr("src");
+    }
 
-        output = html.substring(html.indexOf("<img src=", html.indexOf("game_head_cover")) + 10, html.indexOf("alt=", html.indexOf("game_head_cover")) - 2);
+    private Element content() {
+        return doc.child(0).child(1).child(3).child(7);
+    }
 
-        return output;
+    // 1 for recommended specs
+    // 3 for minimum specs
+    private Element requirements(int index) {
+        if(index < 0 || index > 3) {
+            return content().child(0).child(2);
+        } else {
+            return content().child(0).child(2).child(index);
+        }
+    }
+
+    private Element requirements() {
+        return requirements(-1);
+    }
+
+    private Element info() {
+        return content().child(1).child(1);
+    }
+
+    // FOR DEBUGGING ONLY
+    private static void printChildren(Element elem) {
+        for(int i = 0; i < elem.childrenSize(); i++) {
+            System.out.println("\n\n" + i + ":\n" + elem.child(i));
+        }
     }
 
     /**********SPECS**********/
@@ -66,6 +77,7 @@ public class GameInfo {
         //Returns minimum system requirements
         if (requirements == MIN_SYS_REQS) {
             //for loop parsing through html to find CPU, RAM, GPU, OS, Storage, and Network requirements
+            String html = html();
             for (int i = 0; i < headers.length + (html.contains("<b>Store:</b>") ? 0 : -1); i++) {
                 startIndex = html.indexOf("table-cell\">", html.indexOf("<b>" + headers[i] + "</b>", lastIndex) + 12) + 17;
                 endIndex = html.indexOf("<", startIndex + 15);
@@ -190,5 +202,10 @@ public class GameInfo {
     public Cpu getCpu() {
         return getCpu(0);
     } //*/
+
+    public static void main(String[] args) {
+        GameInfo info = new GameInfo("https://www.pcgamebenchmark.com/grand-theft-auto-v-system-requirements");
+        printChildren(info.info());
+    }
 
 }
