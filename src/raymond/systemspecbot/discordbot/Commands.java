@@ -209,7 +209,7 @@ public class Commands extends ListenerAdapter {
                 .setDescription("To set your cpu, type `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "setspecs cpu [YOUR CPU]`")
                 .setColor(Color.WHITE);
 
-        if (results.isEmpty()) {
+        if (results == null || results.isEmpty()) {
             embed.setTitle(":warning: No CPUs found for `" + query + "`.");
             embed.setDescription("Maybe try another search term?");
             embed.setColor(Color.ORANGE);
@@ -238,7 +238,7 @@ public class Commands extends ListenerAdapter {
                 .setDescription("To set your gpu, type `" + Recordkeeper.getGuildPrefix(event.getGuild().getId()) + "setspecs gpu [YOUR GPU]`")
                 .setColor(Color.WHITE);
 
-        if (results.isEmpty()) {
+        if (results == null || results.isEmpty()) {
             embed.setTitle(":warning: No GPUs found for `" + query + "`.");
             embed.setDescription("Maybe try another search term?");
             embed.setColor(Color.ORANGE);

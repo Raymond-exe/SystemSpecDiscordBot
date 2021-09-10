@@ -1,6 +1,5 @@
 package raymond.systemspecbot.webaccess;
 
-import com.google.common.collect.Lists;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import raymond.systemspecbot.discordbot.DiscordBot;
@@ -8,14 +7,13 @@ import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 //A re-write of the GameInfo class to work with the Steam platform
 public class SteamGame {
 
-    private String website;
-    private Document doc;
+    private final String website;
+    private final Document doc;
 
     public SteamGame(String site) {
         website = site;
@@ -182,7 +180,7 @@ public class SteamGame {
 
         ArrayList<SearchResult> gpusFound = Searcher.looseSearch("gpu", gpuSearchTerm);
 
-        if(gpusFound.size() > 0)
+        if(gpusFound != null && gpusFound.size() > 0)
             return gpusFound.get(0).getGpu();
         else
             return null;
@@ -197,7 +195,7 @@ public class SteamGame {
 
         ArrayList<SearchResult> cpusFound = Searcher.looseSearch("CPU", cpuSearchTerm);
 
-        if(cpusFound.size() > 0)
+        if(cpusFound != null && cpusFound.size() > 0)
             return cpusFound.get(0).getCpu();
         else
             return null;
