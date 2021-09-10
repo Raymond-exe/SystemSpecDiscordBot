@@ -80,4 +80,13 @@ public class StringTools {
         return sw.toString();
     } //some more mystic voodoo shit I found online
 
+    public static String combineString(String[] array, String regex) {
+        StringBuilder output = new StringBuilder();
+        for(String str : array) {
+            output.append(str).append(regex);
+        }
+
+        return output.toString().trim();
+    }
+
 }

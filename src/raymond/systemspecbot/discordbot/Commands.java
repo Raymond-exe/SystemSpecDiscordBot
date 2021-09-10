@@ -86,7 +86,25 @@ public class Commands extends ListenerAdapter {
                     rules(event);
                     break;
                 case "search":
+                case "games":
+                case "searchgames":
+                case "gamessearch":
+                case "gamesearch":
                     search(event);
+                    break;
+                case "searchgpu":
+                case "searchgpus":
+                case "gpusearch":
+                case "gpus":
+                case "gpu":
+                    gpuSearch(event);
+                    break;
+                case "searchcpu":
+                case "searchcpus":
+                case "cpusearch":
+                case "cpus":
+                case "cpu":
+                    cpuSearch(event);
                     break;
                 case "gamespecs":
                     gamespecs(event);
@@ -143,7 +161,7 @@ public class Commands extends ListenerAdapter {
 
 
             //Logging error in console
-            sendToConsole("Error occured after a user ran the command `" + event.getMessage().getContentRaw() + "`, check #caniplay-error-log for more info.");
+//            sendToConsole("Error occured after a usser ran the command `" + event.getMessage().getContentRaw() + "`, check #caniplay-error-log for more info.");
 
             /*/Logging error in error log channel
             DiscordBot.getJda().getTextChannelById(errorLogChannelId)
@@ -176,8 +194,12 @@ public class Commands extends ListenerAdapter {
     }
 
     private void cpuSearch(GuildMessageReceivedEvent event) {
-        String message = event.getMessage().getContentRaw();
-        String query = message.substring(message.toLowerCase().indexOf("cpu") + 3).trim();
+        String[] messageArgs = event.getMessage().getContentRaw().trim().split(" ");
+        messageArgs[0] = ""; // removes the command from the search query
+        if(messageArgs[1].equalsIgnoreCase("cpu")) {
+            messageArgs[1] = "";
+        }
+        String query = StringTools.combineString(messageArgs, " ");
 
         ArrayList<SearchResult> results = Searcher.searchSpecs("CPU", query);
 
@@ -201,8 +223,12 @@ public class Commands extends ListenerAdapter {
     }
 
     private void gpuSearch(GuildMessageReceivedEvent event) {
-        String message = event.getMessage().getContentRaw();
-        String query = message.substring(message.toLowerCase().indexOf("gpu") + 3).trim();
+        String[] messageArgs = event.getMessage().getContentRaw().trim().split(" ");
+        messageArgs[0] = ""; // removes the command from the search query
+        if(messageArgs[1].equalsIgnoreCase("gpu")) {
+            messageArgs[1] = "";
+        }
+        String query = StringTools.combineString(messageArgs, " ");
 
         ArrayList<SearchResult> results = Searcher.searchSpecs("GPU", query);
 
@@ -797,7 +823,7 @@ public class Commands extends ListenerAdapter {
     private void feedback(GuildMessageReceivedEvent event) {
         String[] messageArgs = event.getMessage().getContentRaw().split(" ");
 
-        sendToConsole("New feedback, check the #caniplay-feedback channel.");
+//        sendToConsole("New feedback, check the #caniplay-feedback channel.");
         DiscordBot.getJda().getTextChannelById(feedbackChannelId).sendMessage(event.getAuthor().getAsTag() + "'s feedback: ```" + getArgsAfter(0, messageArgs, false) + "```").queue();
 
         event.getChannel().sendMessage("Thank you! Your feedback has been recorded.").queue();
@@ -872,7 +898,7 @@ public class Commands extends ListenerAdapter {
                 .setImage(game.getImageUrl())
                 .setColor((temp ? Color.GREEN : Color.RED))
                 .setTitle((temp ? "Yes, you *can* play " + game.getTitle().trim() + "!" : "No, you *can't* play " + game.getTitle()), game.getWebsite())
-                .setDescription("because...")
+                .setDescription("because...") // TODO change to "Your PC does/doesn't meet the minimum/recommended specs for <game title>"
                 .addField("CPU - Central Processing Unit", "Your CPU " + (specsMeetReqs[CPU_INDEX] ? "meets" : "**does not** meet") + " the minimum requirement **(__" + user.getUserCpu().getName() + "__ vs. __" + game.getCpu().getName() + "__)**", false)
                 .addField("GPU - Graphics Processing Unit", "Your GPU " + (specsMeetReqs[GPU_INDEX] ? "meets" : "**does not** meet") + " the minimum requirement **(__" + user.getUserGpu().getName() + "__ vs. __" + game.getGpu().getName() + "__)**", false)
                 .addField("RAM - Random Access Memory", "Your RAM " + (specsMeetReqs[RAM_INDEX] ? "meets" : "**does not** meet") + " the minimum requirement (**" + user.getUserRam() + "** GB vs. **" + (game.getRamInGb() == -1 ? "<1" : game.getRamInGb()) + "** GB)", false);
