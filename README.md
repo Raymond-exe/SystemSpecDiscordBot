@@ -1,5 +1,3 @@
-**As of November 2020, this repository is no longer being updated. See the [rewrite](https://github.com/Raymond-exe/SystemSpecDiscordBotRewrite) of this discord bot for any future updates. Last updated July 2020.**
-
 # System Specs Discord Bot
 A bot designed to determine whether or not users can play any game, given their PC specs.
 
