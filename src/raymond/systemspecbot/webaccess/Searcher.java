@@ -201,18 +201,7 @@ public class Searcher {
             }
         }
 
-        System.out.println(output);
-
         return output;
-    }
-
-    public static String getSearchResult(String query, int resultNum) {
-        ArrayList<String> searchResults = null;//searchFor(query);
-
-        resultNum = Math.max(resultNum, searchResults.size());
-
-        String requestedResult = searchResults.get(resultNum - 1);
-        return requestedResult.substring(requestedResult.lastIndexOf("(") + 1, requestedResult.lastIndexOf(")"));
     }
 
     public static void main(String[] args) {

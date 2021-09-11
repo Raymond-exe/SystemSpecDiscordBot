@@ -1,5 +1,7 @@
 package raymond.systemspecbot.webaccess;
 
+import com.google.gson.JsonObject;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -87,6 +89,27 @@ public class StringTools {
         }
 
         return output.toString().trim();
+    }
+
+    public static String steamLink(String steamAppId) {
+        return "https://store.steampowered.com/app/" + steamAppId + "/";
+    }
+
+    public static String jsonToString(JsonObject json) {
+        StringBuilder output = new StringBuilder("{");
+
+        String propertyValue;
+        for(String key : json.keySet()) {
+            if(json.get(key).isJsonObject()) {
+                propertyValue = jsonToString(json.get(key).getAsJsonObject());
+            } else {
+                propertyValue = json.get(key).getAsString();
+            }
+
+            output.append("\"").append(key).append("\": ").append(propertyValue);
+        }
+
+        return output.toString();
     }
 
 }

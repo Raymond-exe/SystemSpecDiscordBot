@@ -1,6 +1,9 @@
 package raymond.systemspecbot.pcparts;
 
-import raymond.systemspecbot.discordbot.DiscordBot;
+import com.google.gson.JsonObject;
+import raymond.systemspecbot.webaccess.StringTools;
+
+import java.util.HashMap;
 
 public class Cpu {
 
@@ -22,24 +25,18 @@ public class Cpu {
         threadCount = threads;
     }
 
-    public Cpu(String rawText) {
-
-        if (rawText.contains("{") && rawText.contains("}")) {
-            name = rawText.substring(rawText.indexOf("name=") + 5, rawText.indexOf(", ", rawText.indexOf("name="))).trim();
-            freqInGHz = Double.parseDouble(rawText.substring(rawText.indexOf("freqInGHz=") + 10, rawText.indexOf(", ", rawText.indexOf("freqInGHz="))).trim());
-            turboClock = Double.parseDouble(rawText.substring(rawText.indexOf("turboClock=") + 11, rawText.indexOf(", ", rawText.indexOf("turboClock="))).trim());
-            coreCount = Integer.parseInt(rawText.substring(rawText.indexOf("coreCount=") + 10, rawText.indexOf("}", rawText.indexOf("coreCount="))).trim());
-            threadCount = Integer.parseInt(rawText.substring(rawText.indexOf("threadCount=") + 12, rawText.indexOf(", ", rawText.indexOf("threadCount="))).trim());
-        } else if (rawText.equalsIgnoreCase("[No Cpu: 0]")) {
-            name = "null";
-            freqInGHz = 0;
-            turboClock = 0;
-            coreCount = 0;
-            threadCount = 0;
-        } else {
-            DiscordBot.debugPrintln("Unaccepted parameter: " + rawText, Cpu.class);
+    public Cpu(String rawString) {
+        rawString = rawString.substring(1, rawString.length()-1);
+        HashMap<String, String> propertiesMap = new HashMap<>();
+        for(String str : rawString.split(",")) {
+            propertiesMap.put(str.substring(0, str.indexOf("=")).trim(), str.substring(str.indexOf("=")+1).trim());
         }
 
+        name = propertiesMap.get("name");
+        freqInGHz = Double.parseDouble(propertiesMap.get("freqInGHz"));
+        turboClock = Double.parseDouble(propertiesMap.get("turboClock"));
+        coreCount = Integer.parseInt(propertiesMap.get("coreCount"));
+        threadCount = Integer.parseInt(propertiesMap.get("threadCount"));
     }
 
     public String getName() { return name; }
@@ -64,12 +61,19 @@ public class Cpu {
     }
 
     public String toString() {
-        return "{name=" + name
-                + ", freqInGHz=" + freqInGHz
-                + ", turboClock=" + turboClock
-                + ", coreCount=" + coreCount
-                + ", threadCount=" + threadCount
-                + "}";
+        return StringTools.jsonToString(toJson());
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+
+        json.addProperty("name", name);
+        json.addProperty("freqInGHz", freqInGHz);
+        json.addProperty("turboClock", turboClock);
+        json.addProperty("coreCount", coreCount);
+        json.addProperty("threadCount", threadCount);
+
+        return json;
     }
 
 }

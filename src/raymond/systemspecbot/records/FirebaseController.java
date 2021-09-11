@@ -6,6 +6,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.gson.JsonObject;
 import raymond.systemspecbot.discordbot.DiscordBot;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
@@ -112,18 +113,14 @@ public class FirebaseController {
             //If user alrady has existing specs in database
             if (docRef.get().get().exists()) {
                 Map<String, Object> specsMap = docRef.get().get().getData();
-                String parseToUserSpecs = "<specs>";
 
-                parseToUserSpecs += "<user>" + userId + "</user>";
-                parseToUserSpecs += "<cpu>" + specsMap.get("cpu") + "</cpu>";
-                parseToUserSpecs += "<gpu>" + specsMap.get("gpu") + "</gpu>";
-                parseToUserSpecs += "<ram>" + specsMap.get("ram") + "</ram>";
-                parseToUserSpecs += "<privacy>" + specsMap.get("privacy") + "</privacy>";
-                parseToUserSpecs += "<description>" + specsMap.get("description") + "</description>";
-                parseToUserSpecs += "</specs>";
+                JsonObject json = new JsonObject();
+                for(String key : specsMap.keySet()) {
+                    json.addProperty(key, specsMap.get(key) == null ? null : specsMap.get(key).toString());
+                }
 
                 DiscordBot.debugPrintln("User <@!" + userId + ">'s UserSpecs were found!", FirebaseController.class);
-                return new UserSpecs(parseToUserSpecs);
+                return new UserSpecs(json);
             } else {
                 //UserSpecs for the userId weren't found
                 DiscordBot.debugPrintln("No UserSpecs found for <@!" + userId + ">!", FirebaseController.class);
