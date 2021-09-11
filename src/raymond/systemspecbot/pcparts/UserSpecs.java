@@ -1,9 +1,11 @@
 package raymond.systemspecbot.pcparts;
 
 
+import com.google.gson.JsonObject;
+
 public class UserSpecs {
 
-    private String userId;
+    private final String userId;
     private Cpu userCpu;
     private Gpu userGpu;
     private int userRam;
@@ -39,27 +41,13 @@ public class UserSpecs {
     }
 
     //for converting info from file back to ArrayList<UserSpecs>
-    public UserSpecs(String rawText) {
-        //System.out.println(rawText);
-
-        userId = rawText.substring(rawText.indexOf("<user>") + 6, rawText.indexOf("</user>")).trim();
-
-        userCpu = new Cpu(rawText.substring(rawText.indexOf("<cpu>") + 5, rawText.indexOf("</cpu>")).trim());
-
-        userGpu = new Gpu(rawText.substring(rawText.indexOf("<gpu>") + 5, rawText.indexOf("</gpu>")).trim());
-
-        userRam = Integer.parseInt(rawText.substring(rawText.indexOf("<ram>") + 5, rawText.indexOf("</ram>")));
-
-        //0 = public, 1 = private
-        if (rawText.contains("<private>")) {
-            specsPrivacy = (rawText.charAt(rawText.indexOf("<private>") + 9) != '0');
-        } else {
-            specsPrivacy = true;
-        }
-
-        if (rawText.contains("<description>") && rawText.contains("</description>")) {
-            pcDescription = rawText.substring(rawText.indexOf("<description>") + 13, rawText.indexOf("</description>")).trim();
-        }
+    public UserSpecs(JsonObject json) {
+        userId = json.get("userId").getAsString();
+        userCpu = new Cpu(json.get("cpu").getAsString());
+        userGpu = new Gpu(json.get("gpu").getAsString());
+        userRam = json.get("ram").getAsInt();
+        specsPrivacy = json.get("privacy").getAsBoolean();
+        pcDescription = json.get("description").getAsString();
     }
 
     //"GETTER" METHODS
@@ -110,7 +98,6 @@ public class UserSpecs {
     }
 
     public void setPrivacy(boolean bool) {
-        System.out.println("Privacy updated to " + bool);
         specsPrivacy = bool;
     }
 
@@ -129,19 +116,21 @@ public class UserSpecs {
     }
 
     //toString looks like this:
-    // <specs><user>USERID</user><cpu>CPU</cpu><gpu>GPU</gpu><ram>RAM</ram></specs>
+    // {userId: "", description: "", cpu: {CPU}, gpu: {GPU}, ram: 0, privacy: true}
     public String toString() {
-        String output = "<specs>";
+        return toJson().toString();
+    }
 
-        output += "<user>" + getUserId() + "</user>"; //adds userId to output
-        output += "<description>" + getPcDescription() + "</description>"; //adds pcName to output
-        output += "<cpu>" + getUserCpu() + "</cpu>"; //adds user's CPU to output
-        output += "<gpu>" + getUserGpu() + "</gpu>"; //adds user's GPU to output
-        output += "<ram>" + getUserRam() + "</ram>"; //adds user's RAM to output
-        output += "<privacy>" + (getPrivacy() ? 1 : 0) + "</privacy>"; //defines whether or not these specs are private
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
 
-        output += "</specs>";
+        json.addProperty("userId", userId);
+        json.addProperty("cpu", userCpu.toString());
+        json.addProperty("gpu", userGpu.toString());
+        json.addProperty("ram", userRam);
+        json.addProperty("privacy", specsPrivacy);
+        json.addProperty("description", pcDescription);
 
-        return output;
+        return json;
     }
 }

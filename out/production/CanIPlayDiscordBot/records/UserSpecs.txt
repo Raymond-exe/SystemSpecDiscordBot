@@ -1,5 +1,0 @@
-<specs><user>277972593619763200</user><description>null</description><cpu>[No CPU: 0] </cpu><gpu>[No GPU: 0] </gpu><ram>2</ram><privacy>1</privacy></specs>
-<specs><user>231214118449840128</user><description>null</description><cpu>[Intel Core i7-6950X Processor: 10150] </cpu><gpu>[NVIDIA GeForce GTX 1070 Ti: 6852] </gpu><ram>16</ram><privacy>1</privacy></specs>
-<specs><user>168376512272269313</user><description>null</description><cpu>[AMD Ryzen 7 3700X: 9710] </cpu><gpu>[NVIDIA GeForce RTX 2060 SUPER: 8908] </gpu><ram>32</ram><privacy>1</privacy></specs>
-<specs><user>637070920749416488</user><description>null</description><cpu>[No CPU: 0] </cpu><gpu>[No GPU: 0] </gpu><ram>2</ram><privacy>1</privacy></specs>
-<specs><user>226113023775997952</user><description>null</description><cpu>[AMD Ryzen 3 1300X: 3079] </cpu><gpu>[NVIDIA GeForce GTX 1050: 1729] </gpu><ram>8</ram><privacy>0</privacy></specs>

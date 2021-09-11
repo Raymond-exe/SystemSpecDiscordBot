@@ -1,6 +1,8 @@
 package raymond.systemspecbot.records;
 
 import raymond.systemspecbot.discordbot.DiscordBot;
+import raymond.systemspecbot.pcparts.Cpu;
+import raymond.systemspecbot.pcparts.Gpu;
 import raymond.systemspecbot.pcparts.UserSpecs;
 
 import java.io.BufferedReader;
@@ -18,8 +20,8 @@ public class Recordkeeper {
         HashMap<String, Object> output = new HashMap<>();
 
         output.put("userId", userId);
-        output.put("cpu", "[No Cpu: 0]");
-        output.put("gpu", "[No Gpu: 0]");
+        output.put("cpu", Cpu.getCpuDefault());
+        output.put("gpu", Gpu.getGpuDefault());
         output.put("ram", 2);
         output.put("description", "null");
         output.put("privacy", false);
@@ -85,7 +87,7 @@ public class Recordkeeper {
             }
 
         } catch (Exception e) {
-            System.out.println("Unable to find file \"" + filename + "\"");
+            DiscordBot.debugPrintln("Unable to find requested file \"" + filename + "\"!", Recordkeeper.class);
         }
 
         return output.toString();

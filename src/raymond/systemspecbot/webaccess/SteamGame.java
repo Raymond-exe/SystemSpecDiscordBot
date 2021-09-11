@@ -1,20 +1,19 @@
 package raymond.systemspecbot.webaccess;
 
-import com.google.common.collect.Lists;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import raymond.systemspecbot.discordbot.DiscordBot;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 //A re-write of the GameInfo class to work with the Steam platform
 public class SteamGame {
 
-    private String website;
-    private Document doc;
+    private final String website;
+    private final Document doc;
 
     public SteamGame(String site) {
         website = site;
@@ -115,7 +114,6 @@ public class SteamGame {
             divider = "div.game_area_sys_req.sysreq_content.active";
         }
 
-        String temp;
         String detailsStr = doc.select(divider).first().toString();
         String[] detailsArray = detailsStr.split("\n");
         String hashMapKey;
@@ -165,7 +163,7 @@ public class SteamGame {
                 ramToOutput = Integer.parseInt(word.trim());
                 break;
             } catch (Exception ex) {
-                System.out.println("Failed to parse " + word + " to Integer.");
+                DiscordBot.debugPrintln("Failed to parse " + word + " to an Integer!", SteamGame.class);
             }
         }
 
@@ -182,7 +180,7 @@ public class SteamGame {
 
         ArrayList<SearchResult> gpusFound = Searcher.looseSearch("gpu", gpuSearchTerm);
 
-        if(gpusFound.size() > 0)
+        if(gpusFound != null && gpusFound.size() > 0)
             return gpusFound.get(0).getGpu();
         else
             return null;
@@ -197,7 +195,7 @@ public class SteamGame {
 
         ArrayList<SearchResult> cpusFound = Searcher.looseSearch("CPU", cpuSearchTerm);
 
-        if(cpusFound.size() > 0)
+        if(cpusFound != null && cpusFound.size() > 0)
             return cpusFound.get(0).getCpu();
         else
             return null;

@@ -2,193 +2,194 @@ package raymond.systemspecbot.webaccess;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import raymond.systemspecbot.discordbot.DiscordBot;
 import raymond.systemspecbot.pcparts.Cpu;
 import raymond.systemspecbot.pcparts.Gpu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
-//NOTE: Deprecated, may be re-implemented in the future
 public class GameInfo {
 
     public static final int MIN_SYS_REQS = 0, REC_SYS_REQS = 1;
-    private String website, html;
-    private Document doc;
+    private final String website;
+    private final Document doc;
 
     public GameInfo(String site) {
         website = site;
         doc = WebFetch.fetch(site);
-        html = doc.outerHtml();
     }
 
-    public String getWebsite() {
-        return website;
-    }
+    public String getWebsite() { return website; }
+
+    public String html() { return doc.outerHtml(); }
 
     public String getTitle() {
-        String title;
-
-        title = html.substring(html.indexOf("<title>") + 7, html.indexOf("System Requirements"));
-
-        title = StringTools.fixString(title);
-
-        return title;
+        String title = content().child(0).child(0).text();
+        return title.substring(0, title.indexOf(" System Requirements"));
     }
 
-    public ArrayList<String> getInfo() {
-        ArrayList<String> output = new ArrayList<>();
-
-        output.add(doc.getElementsByClass("game_head_title").text().trim()); //adds title to output ArrayList
-
-        for(Element element : doc.getElementsByClass("game_head_details_row")) {
-            output.add(element.text().trim());
+    public HashMap<String, String> getInfo() {
+        HashMap<String, String> output = new HashMap<>();
+        Elements elems = content().getElementsByClass("metabox");
+        Element elem = null;
+        for(Element possibleMatch : elems) {
+            if(possibleMatch.hasAttr("id") && possibleMatch.attr("id").equals("details-meta")) {
+                elem = possibleMatch;
+                break;
+            }
         }
+        if(elem == null) {
+            DiscordBot.debugPrintln("Could not find a matching element!", GameInfo.class);
+            return null;
+        }
+        String text;
+        for(Element entry : elem.child(1).child(0).children()) {
+            text = entry.text();
+            if(text.toLowerCase().startsWith("download")) {
+                continue;
+            }
+            output.put(text.substring(0, text.indexOf(":")), text.substring(text.indexOf(":")+1).trim());
+        }
+        output.put("Description", elem.getElementsByClass("description").get(0).child(1).text());
 
         return output;
     }
 
     public String getImageUrl() {
-        String output;
+        return info().child(0).attr("src");
+    }
 
-        output = html.substring(html.indexOf("<img src=", html.indexOf("game_head_cover")) + 10, html.indexOf("alt=", html.indexOf("game_head_cover")) - 2);
+    private Element content() {
+        return doc.child(0).child(1).child(3).child(7);
+    }
 
-        return output;
+    private Element minimumRequirements() {
+        return content().getElementsByClass("requirements").get(0).child(1);
+    }
+
+    public boolean hasRecommendedRequirements() {
+        return content().getElementsByClass("requirements").get(0).childrenSize() == 4;
+    }
+
+    private Element recommendedRequirements() {
+        Element elem = content().getElementsByClass("requirements").get(0);
+        if(elem.childrenSize() == 4) {
+            return elem.child(3);
+        }
+
+        return null;
+    }
+
+    private Element info() {
+        return content().child(1).child(1);
+    }
+
+    // FOR DEBUGGING ONLY
+    private static void printChildren(Element elem) {
+        for(int i = 0; i < elem.childrenSize(); i++) {
+            System.out.println("\n\n" + i + ":\n" + elem.child(i));
+        }
     }
 
     /**********SPECS**********/
 
-    public ArrayList<String> getSpecs(int requirements) {
-        String[] headers = {"CPU:", "RAM:", "GPU:", "OS:", "Store:"};
-        ArrayList<String> output = new ArrayList<>();
-        String tempInfo;
-        int startIndex, endIndex, lastIndex = 0;
-
-        //*
-        //Returns minimum system requirements
-        if (requirements == MIN_SYS_REQS) {
-            //for loop parsing through html to find CPU, RAM, GPU, OS, Storage, and Network requirements
-            for (int i = 0; i < headers.length + (html.contains("<b>Store:</b>") ? 0 : -1); i++) {
-                startIndex = html.indexOf("table-cell\">", html.indexOf("<b>" + headers[i] + "</b>", lastIndex) + 12) + 17;
-                endIndex = html.indexOf("<", startIndex + 15);
-                lastIndex = endIndex;
-                tempInfo = html.substring(startIndex, endIndex);
-                output.add(tempInfo.substring(tempInfo.indexOf(">") + 1).trim());
-            }
-
-
-        } else if (requirements == REC_SYS_REQS) {
-
-
-        } else {
-            return null;
-        } //*/
-
-        return output;
+    public ArrayList<String> getRecommendedSpecs() {
+        return specs(recommendedRequirements());
     }
 
-    public int getRamInGb(int requirements) {
-        String str = getSpecs(requirements).get(1).toLowerCase();
+    public String getRecommendedSpecsFormatted() {
+        return "**CPU:** " + cpuName(recommendedRequirements())
+                + "\n**GPU:** " + gpuName(recommendedRequirements())
+                + "\n**RAM:** " + getRecommendedRamInGb() + " GB";
+    }
 
-        if (!str.contains("gb") && !str.contains("gigabyte")) {
-            return -1;
+    public ArrayList<String> getMinimumSpecs() {
+        return specs(minimumRequirements());
+    }
+
+    public String getMinimumSpecsFormatted() {
+        return "**CPU:** " + cpuName(minimumRequirements())
+                + "\n**GPU:** " + gpuName(minimumRequirements())
+                + "\n**RAM:** " + getMinimumRamInGb() + " GB";
+    }
+
+    private ArrayList<String> specs(Element requirements) {
+        return new ArrayList<String>(
+                Arrays.asList(
+                        "CPU: " + cpu(requirements).toString(),
+                        "GPU: " + gpu(requirements).toString(),
+                        "RAM: " + getRamInGb(requirements) + " GB"));
+    }
+
+    public int getRecommendedRamInGb() {
+        return getRamInGb(recommendedRequirements());
+    }
+
+    public int getMinimumRamInGb() {
+        return getRamInGb(minimumRequirements());
+    }
+
+    private int getRamInGb(Element requirements) {
+        final Element elem = requirements.child(0);
+        String[] possibleNumbers = elem.ownText().trim().split(" ");
+        for(String str : possibleNumbers) {
+            try {
+                return Integer.parseInt(str);
+            } catch (Exception e) {
+                // TODO idfk put something here
+            }
         }
+        return -1;
+    }
 
-        int endPoint = 0;
-        if (str.contains("gb") && str.contains("gigabyte")) {
-            endPoint = Math.min(str.indexOf("gb"), str.indexOf("gigabyte"));
-        } else if (str.contains("gb")) {
-            endPoint = str.indexOf("gb");
-        } else if (str.contains("gigabyte")) {
-            endPoint = str.indexOf("gigabyte");
-        }
+    public Gpu getRecommendedGpu() {
+        return gpu(recommendedRequirements());
+    }
 
-        str = str.substring(0, endPoint).trim();
+    public Gpu getMinimumGpu() {
+        return gpu(minimumRequirements());
+    }
 
-        if (str.lastIndexOf(" ") != -1)
-            str = str.substring(str.lastIndexOf(" ")).trim();
+    private Gpu gpu(Element requirements) {
         try {
-            return Integer.parseInt(str);
+            return Searcher.searchSpecs("GPU", gpuName(requirements)).get(0).getGpu();
         } catch (Exception e) {
-            return -1;
+            // no search results came up
+            return new Gpu("Unknown", 0, 0, 0);
         }
     }
 
-    public int getRamInGb() {
-        return getRamInGb(0);
+    private String gpuName(Element requirements) {
+        return requirements.child(1).ownText();
     }
 
-    public Gpu getGpu(int requirements) {
-        String gpu = StringTools.cleanString(getSpecs(requirements).get(2).trim().toLowerCase());
-        ArrayList<Gpu> searchResults;
+    public Cpu getRecommendedCpu() {
+        return cpu(recommendedRequirements());
+    }
 
-        //check for any references to directX
-        /*
-        if(gpu.contains("directx")) {
-            int dxVersion = 0;
-            if (gpu.contains("directx 9")) {
-                dxVersion = 9;
-            } else if (gpu.contains("directx 10")) {
-                dxVersion = 10;
-            } else if (gpu.contains("directx 11")) {
-                dxVersion = 11;
-            } else if (gpu.contains("directx 12")) {
-                dxVersion = 12;
-            }
+    public Cpu getMinimumCpu() {
+        return cpu(minimumRequirements());
+    }
 
-            return new Gpu("DirectX version", dxVersion);
-        } //*/
-
-        if (gpu.contains("gtx") && gpu.indexOf(" ", gpu.indexOf("gtx")) != -1) {
-            gpu = gpu.substring(gpu.indexOf("gtx"), gpu.indexOf(" ", gpu.indexOf("gtx") + 4));
-        } else if (gpu.contains("rtx")) {
-            gpu = gpu.substring(gpu.indexOf("rtx"), gpu.indexOf(" ", gpu.indexOf("rtx") + 4));
-        } else if (gpu.contains("radeon") && gpu.indexOf(" ", gpu.indexOf("radeon")) != -1) {
-            System.out.println(gpu);
-            gpu = gpu.substring(gpu.indexOf("radeon"), gpu.indexOf(" ", gpu.indexOf("radeon") + 7));
+    private Cpu cpu(Element requirements) {
+        try {
+            return Searcher.searchSpecs("CPU", cpuName(requirements)).get(0).getCpu();
+        } catch (Exception e) {
+            // no search results came up
+            return new Cpu("Unknown", 0, 0, 0, 0);
         }
-
-        //System.out.println("\n gameInfo background: " + gpu);
-
-        gpu = " " + gpu;
-        /*
-        while (!gpu.isEmpty() && gpu.contains(" ")) {
-            searchResults = Searcher.searchGpu(gpu, 1);
-
-            if (searchResults.isEmpty()) {
-                gpu = gpu.substring(0, gpu.lastIndexOf(" "));
-            } else
-                return searchResults.get(0); //(int)Math.round(searchResults.size()/2.0)
-        } //*/
-
-        return new Gpu("Unknown", 0, 0, 0);
     }
 
-    public Gpu getGpu() {
-        return getGpu(0);
+    private String cpuName(Element requirements) {
+        return requirements.child(2).ownText();
     }
 
-    public Cpu getCpu(int requirements) {
-        String str = getSpecs(requirements).get(0).trim().toLowerCase();
-        String[] intelCpus = {"i9", "i7", "i5", "i3", "core 2", "pentium", "xeon"};
-
-        /*
-        for (String cpus : intelCpus) {
-            if (str.contains(cpus)) {
-                if (str.charAt(str.indexOf(cpus) + cpus.length()) == '-')
-                    return Searcher.searchCpu(str.substring(str.indexOf(cpus), str.indexOf(" ", str.indexOf(cpus))), 1).get(0);
-
-
-                return Searcher.searchCpu(cpus, 1).get(0);
-            } //*/
-
-        //reaching this point means a matching intel cpu could not be found, resorting to amd
-        String[] amdCpus = {"ryzen 9", "ryzen 7", "ryzen 5", "ryzen 3"};
-        String[] amdIndicators = {"threadripper", "fx"}; // possible implementation? not specific enough BUT is the most specific if modifiers are added
-
-        return new Cpu("Unknown", 0, 0, 0, 0);
+    public static void main(String[] args) {
+        GameInfo info = new GameInfo("https://www.pcgamebenchmark.com/valorant-system-requirements");
+        System.out.println(info.getMinimumSpecs());
     }
-
-    public Cpu getCpu() {
-        return getCpu(0);
-    } //*/
 
 }

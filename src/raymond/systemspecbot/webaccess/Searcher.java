@@ -1,22 +1,24 @@
 package raymond.systemspecbot.webaccess;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import raymond.systemspecbot.discordbot.DiscordBot;
-import raymond.systemspecbot.pcparts.Cpu;
-import raymond.systemspecbot.pcparts.Gpu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Searcher {
 
-    private static String gamesSearchURL = "https://store.steampowered.com/"; //search?q=
-    private static String steamURL = "https://store.steampowered.com/"; //search?q=
-    private static String specSearchURL = "https://www.google.com/search?&q=";
-    private static String gpuSearch = "+%2Bsite%3Atechpowerup.com%2Fgpu-specs%2F";
-    private static String cpuSearch = "+%2Bsite%3Atechpowerup.com%2Fcpu-specs%2F";
+    private static final String gamesSearchURL = "https://www.pcgamebenchmark.com/api/games?name=";
+    private static final String specSearchURL = "https://www.google.com/search?&q=";
+    private static final String gpuSearch = "+%2Bsite%3Atechpowerup.com%2Fgpu-specs%2F";
+    private static final String cpuSearch = "+%2Bsite%3Atechpowerup.com%2Fcpu-specs%2F";
 
     //Used for searching for both GPUs and CPUs
     public static ArrayList<SearchResult> searchSpecs(String spec, String query) {
@@ -44,7 +46,7 @@ public class Searcher {
         doc = WebFetch.fetch(specSearchURL + query + searchModifier);
 
         if (doc.outerHtml().contains("It looks like there aren't any great matches for your search</div>")) {
-            System.out.println("No results for " + query + " found.");
+            DiscordBot.debugPrintln("No results for \"" + query + "\" were found!", Searcher.class);
             return new ArrayList<>();
         }
         //System.out.println("Search entries found!");
@@ -64,7 +66,7 @@ public class Searcher {
             } catch (Exception e) {
                 link = linkElements.get(i).attr("href");
                 link = link.substring(link.indexOf("https://"), link.indexOf("&", link.indexOf("https://")));
-                System.out.println("[DEBUG - Searcher] Failed to add the following link: " + link);
+                DiscordBot.debugPrintln("Failed to add the following link: " + link, Searcher.class);
             }
         }
 
@@ -98,7 +100,7 @@ public class Searcher {
                 spec = "gpu";
                 break;
             default:
-                System.out.println("Rejected argument: \"" + spec + "\" was not recognized as cpu/gpu.");
+                DiscordBot.debugPrintln("Rejected argument: \"" + spec + "\" was not recognized as cpu/gpu.", Searcher.class);
                 return null;
         }
 
@@ -128,8 +130,8 @@ public class Searcher {
         }
 
         //if index was never changed, then cpuArgs DID NOT contain any matches with cpuIndicators
-        if (index == -1 && DiscordBot.debugPrintouts) {
-            System.out.println("[DEBUG - Searcher] No indicators found in " + query);
+        if (index == -1) {
+            DiscordBot.debugPrintln("No indicators found in " + query, Searcher.class);
             return new ArrayList<>(); //returns an empty arraylist
         }
 
@@ -154,73 +156,56 @@ public class Searcher {
             return searchResults;
         }
 
-        System.out.println("Could not find any GPUs for " + query);
+        DiscordBot.debugPrintln("No GPUs found for query \"" + query + "\"!", Searcher.class);
         return new ArrayList<>(); //returns an empty arraylist
 
     }
 
+    public static String getGameSiteLink(String query) {
+        return getGameSiteLink(query, "");
+    }
+
     public static String getGameSiteLink(String query, String site) {
-        query = query.trim();
-
-        for (int i = 0; i < query.length(); i++) {
-            if (query.charAt(i) == ' ')
-                query = query.substring(0, i) + "+" + query.substring(i + 1);
+        ArrayList<HashMap<String, String>> results = searchFor(query);
+        if(results.isEmpty()) {
+            return null;
         }
+        HashMap<String, String> game = results.get(0);
 
-        switch (site.toLowerCase()) {
-            case "steam":
-                return steamURL + "search?q=" + query;
-            default:
-                return gamesSearchURL + "search?q=" + query;
+        if(site != null && site.equalsIgnoreCase("steam") && game.containsKey("steamAppID") && game.get("steamAppID") != null) {
+            return "https://store.steampowered.com/app/" + game.get("steamAppID") + "/";
+        } else {
+            return "https://www.pcgamebenchmark.com/" + game.get("slug") + "-system-requirements";
         }
     }
 
     //Used for games search
-    public static ArrayList<String> searchFor(String originalQuery) {
-        ArrayList<String> output = new ArrayList<>();
-        String query = originalQuery.trim();
-        Document doc;
+    public static ArrayList<HashMap<String, String>> searchFor(String originalQuery) {
+        ArrayList<HashMap<String, String>> output = new ArrayList<>();
+        String queryURL = gamesSearchURL + originalQuery.trim().replaceAll(" ", "%20");
+        Element body = WebFetch.fetch(queryURL, true).child(0);
+        JsonArray resultsArray = JsonParser.parseString(body.text()).getAsJsonArray();
 
-        //replaces all spaces with '+'
-        while(query.contains(" ")) {
-            query = query.substring(0, query.indexOf(" ")) + "+" + query.substring(query.indexOf(" ")).trim();
-        }
-
-        try {
-            doc = WebFetch.fetch(steamURL + "search/?term=" + query + "&category1=998");
-        } catch (Exception ex) {
-            System.out.println("Unable to connect to " + steamURL + "search/?term=" + query + "&category1=998");
-            ex.printStackTrace();
-            return null;
-        }
-
-        String title, link;
-        for (Element element : doc.getElementsByAttributeValueContaining("class", "search_result_row ds_collapse_flag")) {
-            title = element.select("span.title").first().text();
-            link = element.attr("href");
-            output.add(title + "[!(" + link + ")!]");
+        JsonObject json;
+        HashMap<String, String> queryResult;
+        for(JsonElement elem : resultsArray) {
+            json = elem.getAsJsonObject();
+            queryResult = new HashMap<>();
+            for(String key : json.keySet()) {
+                queryResult.put(key, (json.get(key).isJsonNull()? null : json.get(key).getAsString()));
+            }
+            if(queryResult.get("name").equalsIgnoreCase(originalQuery)) {
+                output.add(0, (HashMap<String, String>)queryResult.clone());
+            } else {
+                output.add((HashMap<String, String>)queryResult.clone());
+            }
         }
 
         return output;
     }
 
-    public static String getSearchResult(String query, int resultNum) {
-        ArrayList<String> searchResults = searchFor(query);
-
-        if (resultNum > searchResults.size())
-            resultNum = searchResults.size();
-
-        String requestedResult = searchResults.get(resultNum - 1);
-        return requestedResult.substring(requestedResult.lastIndexOf("(") + 1, requestedResult.lastIndexOf(")"));
-    }
-
-    public static String getSearchResult(String query) {
-        return getSearchResult(query, 1);
-    }
-
     public static void main(String[] args) {
-
-        searchFor("Halo Master Chief Collection");
+        System.out.println(getGameSiteLink("beatsaber", "steam"));
     }
 
 }

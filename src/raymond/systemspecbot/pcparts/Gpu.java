@@ -1,5 +1,10 @@
 package raymond.systemspecbot.pcparts;
 
+import com.google.gson.JsonObject;
+import raymond.systemspecbot.webaccess.StringTools;
+
+import java.util.HashMap;
+
 public class Gpu {
 
     private String name;
@@ -33,30 +38,40 @@ public class Gpu {
 
     }
 
-    public Gpu(String rawText) {
-
-        if (rawText.contains("{") && rawText.contains("}")) {
-            name = rawText.substring(rawText.indexOf("name=") + 5, rawText.indexOf("}")).trim();
-            baseClock = Double.parseDouble(rawText.substring(rawText.indexOf("baseClock=") + 10, rawText.indexOf(", ", rawText.indexOf("baseClock="))).trim());
-            boostClock = Double.parseDouble(rawText.substring(rawText.indexOf("boostClock=") + 11, rawText.indexOf(", ", rawText.indexOf("boostClock="))).trim());
-            memClock = Double.parseDouble(rawText.substring(rawText.indexOf("memClock=") + 9, rawText.indexOf(", ", rawText.indexOf("memClock="))).trim());
-            dxVersion = Integer.parseInt(rawText.substring(rawText.indexOf("dxVersion=") + 10, rawText.indexOf(", ", rawText.indexOf("dxVersion="))).trim());
-        } else if (rawText.equalsIgnoreCase("[No Gpu: 0]")) {
-            name = "null";
-            baseClock = 0;
-            boostClock = 0;
-            memClock = 0;
-            dxVersion = 0;
-        } else {
-            System.out.println("[DEBUG - Gpu] Unaccepted parameter: " + rawText);
+    public Gpu(String rawString) {
+        rawString = rawString.substring(1, rawString.length()-1);
+        HashMap<String, String> propertiesMap = new HashMap<>();
+        for(String str : rawString.split(",")) {
+            propertiesMap.put(str.substring(0, str.indexOf("=")).trim(), str.substring(str.indexOf("=")+1).trim());
         }
+
+        name = propertiesMap.get("name");
+        baseClock = Double.parseDouble(propertiesMap.get("baseClock"));
+        boostClock = Double.parseDouble(propertiesMap.get("boostClock"));
+        memClock = Double.parseDouble(propertiesMap.get("memClock"));
+        dxVersion = Integer.parseInt(propertiesMap.get("dxVersion"));
     }
 
-    public String getName() { return name; }
-    public double getBaseClock() { return baseClock; }
-    public double getBoostClock() { return boostClock; }
-    public double getMemClock() { return memClock; }
-    public int getDxVersion() { return  dxVersion; }
+    public String getName() {
+        return name;
+    }
+
+    public double getBaseClock() {
+        return baseClock;
+    }
+
+    public double getBoostClock() {
+        return boostClock;
+    }
+
+    public double getMemClock() {
+        return memClock;
+    }
+
+    public int getDxVersion() {
+        return  dxVersion;
+    }
+
 
     public boolean isBetterThan(Gpu other) {
         int counter = 0;
@@ -72,10 +87,18 @@ public class Gpu {
     }
 
     public String toString() {
-        return "{name=" + name
-                + ", baseClock=" + baseClock
-                + ", boostClock=" + boostClock
-                + ", memClock=" + memClock
-                + "}";
+        return StringTools.jsonToString(toJson());
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+
+        json.addProperty("name", name);
+        json.addProperty("baseClock", baseClock);
+        json.addProperty("boostClock", boostClock);
+        json.addProperty("memClock", memClock);
+        json.addProperty("dxVersion", dxVersion);
+
+        return json;
     }
 }
