@@ -37,21 +37,3 @@ build.mustRunAfter clean
 application {
     mainClassName = 'DiscordBot'
 }
-
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'DiscordBot'
-        )
-    }
-    from {
-        configurations
-                .compile
-                .findAll {
-                    !it.name.endsWith('pom')
-                }
-                .collect {
-                    it.isDirectory() ? it : zipTree(it)
-                }
-    }
-}
