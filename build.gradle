@@ -13,6 +13,20 @@ repositories {
     jcenter()
 }
 
+// downloads jar via url
+def urlFile = { url, name ->
+    File file = new File("$buildDir/download/${name}.jar")
+    file.parentFile.mkdirs()
+    if (!file.exists()) {
+        new URL(url).withInputStream { downloadStream ->
+            file.withOutputStream { fileOut ->
+                fileOut << downloadStream
+            }
+        }
+    }
+    files(file.absolutePath)
+}
+
 dependencies {
     // Logging for JDA
     compile "org.slf4j:slf4j-api:2.0.0-alpha1"
@@ -20,7 +34,7 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-api:2.13.3"
 
     // JDA
-    implementation("net.dv8tion:JDA:4.3.0")
+    compile urlFile('https://ci.dv8tion.net/job/JDA/lastSuccessfulBuild/artifact/build/libs/JDA-4.3.0_324-withDependencies.jar', 'jda-4.3.0_324.jar)
 
     // JSoup
     compile 'org.jsoup:jsoup:1.13.1'
