@@ -20,7 +20,7 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-api:2.13.3"
 
     // JDA
-    compile "net.dv8tion:JDA:4.3.0_324"
+    implementation("net.dv8tion:JDA:4.3.0")
 
     // JSoup
     compile 'org.jsoup:jsoup:1.13.1'
