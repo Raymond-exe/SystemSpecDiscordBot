@@ -16,8 +16,8 @@ public class DiscordBot {
         debugPrintln("Instantiating EnvironmentManager class...", DiscordBot.class);
         EnvironmentManager.instantiate();
 
-        debugPrintln("Retrieving SPECBOT_CANARY_DISCORD_TOKEN...", DiscordBot.class);
-        String discordToken = EnvironmentManager.get("SPECBOT_CANARY_DISCORD_TOKEN");
+        debugPrintln("Retrieving SPECBOT_DISCORD_TOKEN...", DiscordBot.class);
+        String discordToken = EnvironmentManager.get("SPECBOT_DISCORD_TOKEN");
 
         try {
             debugPrintln("Logging in JDA...", DiscordBot.class);
