@@ -9,6 +9,10 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
     mavenCentral()
     jcenter()
 }
@@ -34,7 +38,7 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-api:2.13.3"
 
     // JDA
-    compile urlFile('https://ci.dv8tion.net/job/JDA/lastSuccessfulBuild/artifact/build/libs/JDA-4.3.0_324-withDependencies.jar', 'JDA-4.3.0_324-withDependencies')
+    implementation 'net.dv8tion:JDA:4.3.0_324'
 
     // JSoup
     compile 'org.jsoup:jsoup:1.13.1'
